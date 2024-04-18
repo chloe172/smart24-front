@@ -1,0 +1,5 @@
+<input type="text" name="question" id="question" placeholder="Saisir une question" #questionInput>
+<button (click)="uploadQuestion(questionInput.value)">Démarrer la question</button>
+<div>
+    <p *ngFor="let answer of answers">{{answer}}</p>
+</div>
