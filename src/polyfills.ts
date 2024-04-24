@@ -1,0 +1,1 @@
+(window as any).global = window; // Fix a bug in sockjs-client

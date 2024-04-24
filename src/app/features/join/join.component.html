@@ -1,0 +1,5 @@
+<div>
+    <p>Question : {{ question }}</p>
+    <input type="text" name="answer" id="answer" placeholder="Saisir une réponse" #answerInput>
+    <button (click)="uploadAnswer(answerInput.value)">Valider</button>
+</div>
