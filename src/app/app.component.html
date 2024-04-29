@@ -1,7 +1,10 @@
 <main class="main">
-  <a [routerLink]="['/']">Retour</a>
-  <h1>Bienvenue sur Play IT</h1>
+  <img src="../assets/logo-playit.png" alt="Play IT">
   <div class="content">
+    <access-session></access-session>
     <router-outlet />
   </div>
+  <p>Vous voulez être maître du jeu pour une partie PlayIT ?
+    <span id="connexion">Connectez-vous</span> pour commencer
+  </p>
 </main>
