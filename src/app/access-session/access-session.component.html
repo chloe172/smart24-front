@@ -1,6 +1,11 @@
 
 
 <div class="access-session-container">
-    <input placeholder="Entrez le Code PIN de la Session">
-    <button onclick="valider()">Valider</button>
+    <form [formGroup]="pinForm" (ngSubmit)="valider()">
+        <input type="text" formControlName="pin" placeholder="Entrez le Code PIN de la Session">
+        <!-- Display validation errors -->
+        <div *ngIf="pinForm.controls['pin'].invalid">Le code Pin doit faire 6 lettres</div>
+        <button type="submit" [disabled]="pinForm.invalid">Valider</button>
+      </form>
+      
 </div>
