@@ -9,11 +9,11 @@
                     <mat-error>{{errorMessage}}</mat-error>
                 }
             </mat-form-field>
-            <button mat-flat-button color="primary" [disabled]="pin.invalid" (click)="valider()">Valider</button>           
+            <button mat-flat-button color="primary" [disabled]="pin.invalid" (click)="valider()">Accéder à la session</button>           
         </mat-card-content>
     </mat-card>
     <p>Vous voulez être maître du jeu pour une partie PlayIT ?
-        <span id="connexion">Connectez-vous</span> pour commencer
+        <a id="connexion" [routerLink]="['/login']">Connectez-vous</a> pour commencer
     </p>
 </div>
 
