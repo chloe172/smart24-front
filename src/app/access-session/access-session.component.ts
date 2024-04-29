@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './access-session.component.scss'
 })
 export class AccessSessionComponent {
-
+  
 }
