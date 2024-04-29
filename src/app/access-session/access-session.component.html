@@ -1,11 +1,19 @@
-
-
 <div class="access-session-container">
-    <form [formGroup]="pinForm" (ngSubmit)="valider()">
-        <input type="text" formControlName="pin" placeholder="Entrez le Code PIN de la Session">
-        <!-- Display validation errors -->
-        <div *ngIf="pinForm.controls['pin'].invalid">Le code Pin doit faire 6 lettres</div>
-        <button type="submit" [disabled]="pinForm.invalid">Valider</button>
-      </form>
-      
+    <img src="../assets/P-2.svg" alt="Play IT" width="300" height="200" >
+    <mat-card>
+        <mat-card-content class="center">
+            <mat-form-field>
+                <mat-label>Code PIN</mat-label>
+                <input matInput [formControl]="pin" (blur)="updateErrorMessage()" oninput="this.value = this.value.toUpperCase()">
+                @if (pin.invalid) {
+                    <mat-error>{{errorMessage}}</mat-error>
+                }
+            </mat-form-field>
+            <button mat-flat-button color="primary" [disabled]="pin.invalid" (click)="valider()">Valider</button>           
+        </mat-card-content>
+    </mat-card>
+    <p>Vous voulez être maître du jeu pour une partie PlayIT ?
+        <span id="connexion">Connectez-vous</span> pour commencer
+    </p>
 </div>
+

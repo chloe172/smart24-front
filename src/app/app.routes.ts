@@ -1,15 +1,14 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/home/home.component';
 import { HostComponent } from './features/host/host.component';
 import { JoinComponent } from './features/join/join.component';
 import { DesignTypeComponent } from './shared/design-type/design-type.component';
-import { AppComponent } from './app.component';
+import { AccessSessionComponent } from './access-session/access-session.component';
 
 export const routes: Routes = [
     {
         path: '',
-        component: AppComponent,
-        title: 'App'
+        component: AccessSessionComponent,
+        title: 'Access'
 
     },
     {
