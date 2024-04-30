@@ -1,6 +1,6 @@
-<div class="access-session-container">
+<div class="center">
     <img src="../assets/P-2.svg" alt="Play IT" width="300" height="200" >
-    <mat-card>
+    <mat-card class="space">
         <mat-card-content class="center">
             <mat-form-field>
                 <mat-label>Code PIN</mat-label>
@@ -12,7 +12,7 @@
             <button mat-flat-button color="primary" [disabled]="pin.invalid" (click)="valider()">Accéder à la session</button>           
         </mat-card-content>
     </mat-card>
-    <p>Vous voulez être maître du jeu pour une partie PlayIT ?
+    <p class="space">Vous voulez être maître du jeu pour une partie PlayIT ?
         <a id="connexion" [routerLink]="['/login']">Connectez-vous</a> pour commencer
     </p>
 </div>
