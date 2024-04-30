@@ -3,9 +3,10 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NgIf } from '@angular/common';
 import { merge } from 'rxjs';
 
 @Component({
@@ -13,7 +14,7 @@ import { merge } from 'rxjs';
   selector: 'access-session',
   templateUrl: './access-session.component.html',
   styleUrl: './access-session.component.scss',
-  imports: [FormsModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterModule]
+  imports: [FormsModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterModule, NgIf]
 })
 export class AccessSessionComponent {
   router: Router = new Router;

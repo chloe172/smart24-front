@@ -4,6 +4,7 @@ import { JoinComponent } from './features/join/join.component';
 import { DesignTypeComponent } from './shared/design-type/design-type.component';
 import { AccessSessionComponent } from './access-session/access-session.component';
 import { ConnexionComponent } from './connexion/connexion.component';
+import { QuestionPageComponent } from './question-page/question-page.component';
 
 export const routes: Routes = [
     {
@@ -30,5 +31,9 @@ export const routes: Routes = [
         path: 'login',
         component: ConnexionComponent,
         title: 'Login'
+    },
+    {
+        path: 'question',
+        component: QuestionPageComponent
     }
 ];
