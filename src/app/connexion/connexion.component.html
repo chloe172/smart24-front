@@ -1,0 +1,22 @@
+<mat-card>
+    <img src="../assets/P-2.svg" alt="Play IT" width="100" height="100" >
+    <mat-form-field>
+        <mat-label>Enter your email</mat-label>
+        <input matInput
+            placeholder="pat@example.com"
+            [formControl]="email"
+            (blur)="updateErrorMessage()"
+            required>
+        @if (email.invalid) {
+        <mat-error>{{errorMessage}}</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+    <button mat-flat-button color="primary" [disabled]="email.invalid">Se connecter</button>
+</mat-card>

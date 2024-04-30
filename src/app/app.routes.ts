@@ -1,14 +1,15 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/home/home.component';
 import { HostComponent } from './features/host/host.component';
 import { JoinComponent } from './features/join/join.component';
 import { DesignTypeComponent } from './shared/design-type/design-type.component';
+import { AccessSessionComponent } from './access-session/access-session.component';
+import { ConnexionComponent } from './connexion/connexion.component';
 
 export const routes: Routes = [
     {
         path: '',
-        component: HomeComponent,
-        title: 'Home'
+        component: AccessSessionComponent,
+        title: 'Access'
 
     },
     {
@@ -24,5 +25,10 @@ export const routes: Routes = [
     {
         path: 'design',
         component: DesignTypeComponent
+    },
+    {
+        path: 'login',
+        component: ConnexionComponent,
+        title: 'Login'
     }
 ];
