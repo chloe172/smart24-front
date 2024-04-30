@@ -41,14 +41,17 @@ export class ConnexionComponent {
 
   connect(){
     if (this.email.valid && this.email.value != null && this.password.valid && this.password.value != null) {
-      console.log('Email is valid:', this.email.value);
-      this.service.authentify(this.email.value,this.password.value);
-      try {
-        this.service.getAuthentication();
-      } catch (error) {
-        console.log(error);
-        this.errorMessage = error as string;
-      }
+		console.log("Envoi");
+		this.service.authentify(this.email.value,this.password.value);
+		this.service.getAuthentication((message) => {
+			console.log("json reçu",message);
+			if (!message.succes){
+				console.log(message.messageErreur);
+				this.errorMessage = message.messageErreur as string;
+			}else{
+				console.log("Connexion réussie");
+			}
+		});
       
     }
   }

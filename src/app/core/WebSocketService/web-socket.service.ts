@@ -30,11 +30,11 @@ export class WebSocketService {
     }
   }
 
-  SendToType(type: string, message: any) {
+  SendToType(type: string, data: any) {
     this.socket.send(
       JSON.stringify({
         type: type,
-        message
+        data : data
       })
     );
   }

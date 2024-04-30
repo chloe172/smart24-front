@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    webSocketUrl: 'ws://localhost:8080/socket-classic',
+    webSocketUrl: 'ws://192.168.43.154:8080/socket'
 };
