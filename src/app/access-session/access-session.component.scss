@@ -1,15 +1,13 @@
-.access-session-container {
+.center {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.space {
+    padding: 1em;
+    margin: 1em;
 }
 
 p {
@@ -21,16 +19,4 @@ p {
 #connexion {
     color : #C521E0;
     justify-content: center;
-}
-
-.center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-
-#connexion{
-    color : #C521E0;
 }
