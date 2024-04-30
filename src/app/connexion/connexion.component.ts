@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule, FormControl, Validators } from '@angu
 import {MatIconModule} from '@angular/material/icon';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {merge} from 'rxjs';
+import { ConnexionService } from './connexion.service';
 
 @Component({
   selector: 'app-connexion',
@@ -19,10 +20,10 @@ import {merge} from 'rxjs';
 export class ConnexionComponent {
   email = new FormControl('', [Validators.required, Validators.email]);
   hide = true;
-
+  password = new FormControl('', [Validators.required]);
   errorMessage = '';
 
-  constructor() {
+  constructor(private service : ConnexionService) {
     merge(this.email.statusChanges, this.email.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
@@ -35,6 +36,20 @@ export class ConnexionComponent {
       this.errorMessage = 'Not a valid email';
     } else {
       this.errorMessage = '';
+    }
+  }
+
+  connect(){
+    if (this.email.valid && this.email.value != null && this.password.valid && this.password.value != null) {
+      console.log('Email is valid:', this.email.value);
+      this.service.authentify(this.email.value,this.password.value);
+      try {
+        this.service.getAuthentication();
+      } catch (error) {
+        console.log(error);
+        this.errorMessage = error as string;
+      }
+      
     }
   }
 }
