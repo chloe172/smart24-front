@@ -1,22 +1,4 @@
-.center {
+.mat-card-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.space {
-    padding: 1em;
-    margin: 1em;
-}
-
-p {
-    color : white;
-    font-weight: bold;
-    margin-top: auto;
-}
-
-#connexion {
-    color : #C521E0;
     justify-content: center;
 }
