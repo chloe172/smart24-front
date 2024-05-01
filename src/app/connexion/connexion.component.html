@@ -9,18 +9,20 @@
                 placeholder="pat@example.com"
                 [formControl]="email"
                 (blur)="updateErrorMessage()"
-                required>
+                required
+                (keyup.enter)="connect()">
             @if (email.invalid) {
             <mat-error>{{errorMessage}}</mat-error>
             }
         </mat-form-field>
         <mat-form-field>
             <mat-label>Enter your password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'">
+            <input matInput [type]="hide ? 'password' : 'text'" [formControl]="password" (keyup.enter)="connect()">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
         </mat-form-field>
-        <button mat-flat-button color="primary" [disabled]="email.invalid">Se connecter</button>
+        <button mat-flat-button color="primary" [disabled]="email.invalid || password.invalid" (click)="connect()">Se connecter</button>
+        <mat-error *ngIf="loginError">{{loginErrorMessage}}</mat-error>
     </mat-card>
 </div>

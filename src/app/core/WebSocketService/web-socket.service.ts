@@ -21,6 +21,24 @@ export class WebSocketService {
     );
   }
 
+  subscribeToType(type: string, callback: (message: any) => any) {
+    this.socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.type === type) {
+        callback(message);
+      }
+    }
+  }
+
+  SendToType(type: string, data: any) {
+    this.socket.send(
+      JSON.stringify({
+        type: type,
+        data : data
+      })
+    );
+  }
+
   subscribeToQuestions(callback: (question: string) => void) {
     // wait for the connection to be established
     setTimeout(() => {

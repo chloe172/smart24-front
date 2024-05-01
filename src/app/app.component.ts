@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { AccessSessionComponent } from './access-session/access-session.component';
+import { WebSocketService } from './core/WebSocketService/web-socket.service';
 
 @Component({
   selector: 'app-root',
@@ -14,5 +15,6 @@ import { AccessSessionComponent } from './access-session/access-session.componen
   ]
 })
 export class AppComponent {
-  title = "app";
+  constructor(private service : WebSocketService) {
+  } 
 }
