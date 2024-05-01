@@ -7,6 +7,7 @@ import { ConnexionComponent } from './connexion/connexion.component';
 import { QuestionPageComponent } from './question-page/question-page.component';
 import { OngoingGamesComponent } from './ongoing-games/ongoing-games.component';
 import { SelectionPlateauxComponent } from './selection-plateaux/selection-plateaux.component';
+import { MenuJoueurComponent } from './menu-joueur/menu-joueur.component';
 
 export const routes: Routes = [
     {
@@ -46,5 +47,9 @@ export const routes: Routes = [
     {
         path: 'selection',
         component: SelectionPlateauxComponent,
+    },
+    {
+        path: 'menuJoueur',
+        component: MenuJoueurComponent,
     }
 ];
