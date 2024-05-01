@@ -8,6 +8,7 @@ import { Router, RouterModule } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgIf } from '@angular/common';
 import { merge } from 'rxjs';
+import { AccessSessionService } from './access-session.service';
 
 @Component({
   standalone: true,
@@ -22,7 +23,7 @@ export class AccessSessionComponent {
   pin = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]);
   errorMessage = '';
 
-  constructor() {
+  constructor(private service : AccessSessionService) {
     merge(this.pin.statusChanges, this.pin.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
