@@ -12,8 +12,8 @@ import { NgFor } from '@angular/common';
 export class BadgeJoueurComponent {
 
     badges: any[] = [
-      { etat: 'pasCommence' },
-      { etat: 'pasCommence' },
-      { etat: 'pasCommence' },
+      { etat: 'disabled' },
+      { etat: 'disabled' },
+      { etat: 'disabled' },
     ];
 }

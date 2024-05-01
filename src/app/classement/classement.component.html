@@ -1,8 +1,8 @@
 <div class="row" *ngFor="let equipe of equipes">
     <mat-card class="card-panel" [ngStyle]="{'background-color': equipe.color}">
-    <h4 class="center-align white-text">{{equipe.points}}</h4>
-    <hr style="border: 1px solid white; width: 200px">
-    <h5 class="center-align white-text">{{equipe.classement}}</h5>
-    <img src="../assets/avatar.png" width="20px" height="20px">
+        <h5 class="center-align white-text">{{equipe.points}}</h5>
+        <hr style="border: 1px solid white; width: 200px">
+        <h6 class="center-align white-text">{{equipe.classement}}</h6>
+        <img src="../assets/avatar.png" width="20px" height="20px">
     </mat-card>
 </div>

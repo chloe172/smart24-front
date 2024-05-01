@@ -14,7 +14,8 @@ export class ClassementComponent {
 
   equipes : any[] = [
     { nomEquipe : 'equipe1', color : '#5ce1e6', points : 63, avatar : '', classement : '1er'}, 
-    { nomEquipe : 'equipe2', color : '#ca5fe8', points : 54, avatar : '', classement : '2eme'} 
+    { nomEquipe : 'equipe2', color : '#ca5fe8', points : 54, avatar : '', classement : '2eme'},
+    { nomEquipe : 'equipe3', color : '#fbcd40', points : 50, avatar : '', classement : '3eme'},
   ]
 
 }
