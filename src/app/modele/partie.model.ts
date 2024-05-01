@@ -7,9 +7,9 @@ export interface Partie {
     nombreEquipe: number;
     codePin: string;
     nom: string;
-    date: Date;
+    date: string;
     etat: string;
-    plateau: Plateau;
+    dernierPlateau: Plateau;
     indiceActivite: number;
     listePlateaux: Plateau[];
     listeEquipes: Equipe[];
