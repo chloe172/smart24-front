@@ -6,12 +6,13 @@ import { NgFor } from '@angular/common';
 import { OngoingGamesService } from './ongoing-games.service';
 import { Partie } from '../modele/partie.model';
 import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-ongoing-games',
   standalone: true,
-  imports: [OngoingGameCardComponent, NgFor, MatButtonModule],
+  imports: [OngoingGameCardComponent, NgFor, MatButtonModule,RouterModule],
   templateUrl: './ongoing-games.component.html',
   styleUrl: './ongoing-games.component.scss'
 })

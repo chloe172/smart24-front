@@ -9,6 +9,7 @@ import { OngoingGamesComponent } from './ongoing-games/ongoing-games.component';
 import { SelectionPlateauxComponent } from './selection-plateaux/selection-plateaux.component';
 import { MenuJoueurComponent } from './menu-joueur/menu-joueur.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { WaitingForPlayersComponent } from './waiting-for-players/waiting-for-players.component';
 
 export const routes: Routes = [
     {
@@ -56,5 +57,9 @@ export const routes: Routes = [
     { 
         path: 'error/:code/:message', 
         component: ErrorPageComponent, 
+    },
+    {
+        path: 'waiting',
+        component: WaitingForPlayersComponent
     }
 ];
