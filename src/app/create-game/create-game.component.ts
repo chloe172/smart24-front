@@ -6,6 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { CreateGameService } from './create-game.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,15 +20,22 @@ import { MatCardModule } from '@angular/material/card';
 
 export class CreateGameComponent {
   nomPartie: string = '';
-  plateau1: Plateau = { id: 1, nom: 'Plateau 1', activites: [] };
-  plateau2: Plateau = { id: 2, nom: 'Plateau 2', activites: [] };
-  plateau3: Plateau = { id: 3, nom: 'Plateau 3', activites: [] };
+  constructor(private service : CreateGameService,private router : Router) { }
   plateaux: any[] = [
-    { plateau: this.plateau1, selected: false },
-    { plateau: this.plateau2, selected: false },
-    { plateau: this.plateau3, selected: false }
-    // Ajoutez d'autres plateaux selon vos besoins
+    //{ plateau: this.plateau1, selected: false },
   ];
+  ngOnInit(){
+    this.service.listerPlateaux((message) => {
+       console.log("json reçu",message);
+       if(!message.succes){
+          console.log(message.messageErreur);
+          this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+       }else{
+          let listePlateaux = message.data.listePlateaux as Plateau[];
+          this.plateaux = this.initializePlateaux(listePlateaux);
+       }
+    });
+  }
 
   selectAll() {
     for (const plateau of this.plateaux) {
@@ -38,11 +47,15 @@ export class CreateGameComponent {
     return this.plateaux.some(plateau => plateau.selected);
   }
 
-  demarrerPartie() {
+  creerPartie() {
     // Logique pour démarrer la partie avec les plateaux sélectionnés
-    const plateauxSelectionnes = this.plateaux.filter(plateau => plateau.selected);
+    const plateauxSelectionnes = this.plateaux.filter(plateau => plateau.selected).map(plateau => plateau.plateau);
+    this.service.creerPartie(this.nomPartie, plateauxSelectionnes);
     console.log('Nom de la partie:', this.nomPartie);
     console.log('Plateaux sélectionnés:', plateauxSelectionnes);
     // Ajoutez ici la logique pour démarrer la partie
+  }
+  initializePlateaux(plateaux: Plateau[]): any[] {
+    return plateaux.map(plateau => ({ plateau, selected: false }));
   }
 }
