@@ -15,8 +15,11 @@
         <div class="col s6 offset-s3">
             <mat-card class="card-panel hoverable center-align text-align" style="max-width: 1000px;">
                 <h4 color="primary">Choisir les Plateaux:</h4>
-                <div *ngFor="let plateau of plateaux">
-                    <mat-checkbox color="primary" [(ngModel)]="plateau.selected"><p color="primary">{{plateau.plateau.nom}}</p></mat-checkbox>
+                <div class="row">
+                    <div class="col s3" *ngFor="let plateau of plateaux">
+                        <mat-checkbox color="primary" [(ngModel)]="plateau.selected"><p color="primary">{{plateau.plateau.nom}}</p></mat-checkbox>
+                    </div>
+
                 </div>
                 <div class="center-align">
                     <button mat-flat-button color="primary"  (click)="selectAll()" style="max-width: 200px;">Sélectionner Tout</button>

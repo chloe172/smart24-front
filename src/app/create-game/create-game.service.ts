@@ -3,6 +3,7 @@ import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { ConnexionService } from '../connexion/connexion.service';
 import { Router } from '@angular/router';
 import { IdPartieService } from '../general-services/id-partie.service';
+import { Plateau } from '../modele/plateau.model';
 
 
 @Injectable({
@@ -31,8 +32,9 @@ export class CreateGameService {
         }
     }
 
-    creerPartie(nomPartie: string, plateaux: any[]){
+    creerPartie(nomPartie: string, listePlateaux: Plateau[]){
         if(this.connexionService.getUserAuthentication()){
+            const plateaux = listePlateaux.map(plateau => plateau.id);
             this.webSocketService.SendToType('creerPartie', {nomPartie, plateaux});
             this.webSocketService.subscribeToType('reponseCreerPartie', (message) => {
                 console.log('Partie créée', message);
