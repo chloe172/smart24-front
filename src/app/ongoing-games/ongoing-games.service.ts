@@ -18,9 +18,7 @@ export class OngoingGamesService {
     InitOngoingGames(callback: (message: any) => any){
         if (this.connexionService.getUserAuthentication()) {
             this.webservice.SendToType('listerParties', {});
-            console.log("envoyé");
             this.webservice.subscribeToType('reponseListerParties', (message): any => {
-                console.log("reçu avant cb");
                 callback(message);
             });
 

@@ -5,6 +5,7 @@ import { NgFor } from '@angular/common';
 
 import { OngoingGamesService } from './ongoing-games.service';
 import { Partie } from '../modele/partie.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,13 +17,14 @@ import { Partie } from '../modele/partie.model';
 })
 export class OngoingGamesComponent implements OnInit{
    onGoingGames : Partie[] = [];
+   router : Router = new Router;
    constructor(private service : OngoingGamesService) { }
    ngOnInit(){
       this.service.InitOngoingGames((message) => {
          console.log("json reçu",message);
          if(!message.succes){
             console.log(message.messageErreur);
-            //TODO : afficher un composant erreur
+            this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
          }else{
             this.onGoingGames = message.data.listeParties as Partie[];
          }
