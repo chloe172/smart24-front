@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { CartePlateauComponent } from '../carte-plateau/carte-plateau.component';
+import { Plateau } from '../modele/plateau.model';
+import { Router } from '@angular/router';
+import { SelectionPlateauxService } from './selection-plateaux.service';
 
 @Component({
     selector: 'app-selectionPlateaux',
@@ -10,11 +13,19 @@ import { CartePlateauComponent } from '../carte-plateau/carte-plateau.component'
 })
 
   export class SelectionPlateauxComponent {
-    cartes: any[] = [
-      { titre: 'Carte 1', contenu: 'Contenu de la carte 1' },
-      { titre: 'Carte 2', contenu: 'Contenu de la carte 2' },
-      { titre: 'Carte 3', contenu: 'Contenu de la carte 3' },
-    ];
-  }
+    plateaux: Plateau[] = [];
+    router : Router = new Router;
+    constructor(private service : SelectionPlateauxService) { }
+    ngOnInit(){
+      this.service.InitSelectionPlateau((message) => {
+         console.log("json reçu",message);
+         if(!message.succes){
+            console.log(message.messageErreur);
+            this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+         }else{
+            this.plateaux = message.data.plateaux as Plateau[];
+         }
+      });
+    }
   
-  
+}
