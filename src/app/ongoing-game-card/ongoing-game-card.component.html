@@ -1,0 +1,9 @@
+<mat-card class="card-panel hoverable center-align">
+    <h6>Partie en pause ( {{game.date | date:'dd/MM/yyyy'}} )</h6>
+    <h6>{{game.name}}</h6>
+    <h6>{{game.lastWorld}}</h6>
+    <div class="options">
+        <button mat-flat-button color="warn">Terminer</button>
+        <button mat-flat-button color="primary">Reprendre</button>
+    </div>
+</mat-card>

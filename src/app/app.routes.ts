@@ -4,6 +4,9 @@ import { JoinComponent } from './features/join/join.component';
 import { DesignTypeComponent } from './shared/design-type/design-type.component';
 import { AccessSessionComponent } from './access-session/access-session.component';
 import { ConnexionComponent } from './connexion/connexion.component';
+import { QuestionPageComponent } from './question-page/question-page.component';
+import { OngoingGamesComponent } from './ongoing-games/ongoing-games.component';
+import { SelectionPlateauxComponent } from './selection-plateaux/selection-plateaux.component';
 
 export const routes: Routes = [
     {
@@ -30,5 +33,18 @@ export const routes: Routes = [
         path: 'login',
         component: ConnexionComponent,
         title: 'Login'
+    },
+    {
+        path: 'question',
+        component: QuestionPageComponent
+    },
+    {
+        path : 'ongoing-games',
+        component : OngoingGamesComponent,
+        title : 'Ongoing Games'
+    },
+    {
+        path: 'selection',
+        component: SelectionPlateauxComponent,
     }
 ];
