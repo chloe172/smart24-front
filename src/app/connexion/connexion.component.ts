@@ -35,9 +35,9 @@ export class ConnexionComponent {
 
   updateErrorMessage() {
     if (this.email.hasError('required')) {
-      this.errorMessage = 'You must enter a value';
+      this.errorMessage = 'Vous devez entrer une valeur';
     } else if (this.email.hasError('email')) {
-      this.errorMessage = 'Not a valid email';
+      this.errorMessage = 'L\'adresse email est invalide';
     } else {
       this.errorMessage = '';
     }
