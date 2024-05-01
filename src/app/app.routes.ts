@@ -8,6 +8,7 @@ import { QuestionPageComponent } from './question-page/question-page.component';
 import { OngoingGamesComponent } from './ongoing-games/ongoing-games.component';
 import { SelectionPlateauxComponent } from './selection-plateaux/selection-plateaux.component';
 import { MenuJoueurComponent } from './menu-joueur/menu-joueur.component';
+import { CreateGameComponent } from './create-game/create-game.component';
 
 export const routes: Routes = [
     {
@@ -51,5 +52,9 @@ export const routes: Routes = [
     {
         path: 'menuJoueur',
         component: MenuJoueurComponent,
+    },
+    {
+        path: 'create-game',
+        component: CreateGameComponent, 
     }
 ];
