@@ -6,6 +6,7 @@ import { filter } from 'rxjs/operators'; // Add this import statement
     providedIn: 'root'
 })
 export class AccessSessionService {
+   
 
     constructor(private webservice : WebSocketService) { 
         this.getCodePin();

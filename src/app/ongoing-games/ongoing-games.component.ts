@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { OngoingGameCardComponent } from '../ongoing-game-card/ongoing-game-card.component';
 import { NgFor } from '@angular/common';
-import { Game } from '../ongoing-game-card/game.model';
+
+import { OngoingGamesService } from './ongoing-games.service';
+import { Partie } from '../modele/partie.model';
+
 
 @Component({
   selector: 'app-ongoing-games',
@@ -11,16 +14,20 @@ import { Game } from '../ongoing-game-card/game.model';
   templateUrl: './ongoing-games.component.html',
   styleUrl: './ongoing-games.component.scss'
 })
-export class OngoingGamesComponent {
-   OngoingGames : Game[] = [
-      {  name : "partie1",
-         lastWorld : 1,
-         date : new Date(2024, 1, 12),
-      },
-      {  name : "partie2",
-         lastWorld : 2,
-         date : new Date(2024, 1, 12),
-      }
-   ]
+export class OngoingGamesComponent implements OnInit{
+   onGoingGames : Partie[] = [];
+   constructor(private service : OngoingGamesService) { }
+   ngOnInit(){
+      this.service.InitOngoingGames((message) => {
+         console.log("json reçu",message);
+         if(!message.succes){
+            console.log(message.messageErreur);
+            //TODO : afficher un composant erreur
+         }else{
+            this.onGoingGames = message.data.listeParties as Partie[];
+         }
+      });
+   }
+   
    
 }

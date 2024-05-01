@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { Game } from './game.model';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { DatePipe } from '@angular/common';
+import { Partie } from '../modele/partie.model';
 
 @Component({
   selector: 'app-ongoing-game-card',
@@ -13,6 +13,6 @@ import { DatePipe } from '@angular/common';
 })
 
 export class OngoingGameCardComponent { 
-  @Input() game!: Game;
+  @Input() partie!: Partie;
 
 }

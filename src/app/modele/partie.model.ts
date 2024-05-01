@@ -1,4 +1,8 @@
-interface Partie {
+import { Equipe } from "./equipe.model";
+import { MaitreDuJeu } from "./maitreDuJeu.model";
+import { Plateau } from "./plateau.model";
+
+export interface Partie {
     id: number;
     nombreEquipe: number;
     codePin: string;

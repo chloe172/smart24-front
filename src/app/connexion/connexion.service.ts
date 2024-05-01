@@ -6,9 +6,9 @@ import { filter } from 'rxjs/operators'; // Add this import statement
     providedIn: 'root'
 })
 export class ConnexionService {
-
+    userConnected : boolean;
     constructor(private webservice : WebSocketService) {     
-        
+        this.userConnected = false;
     }
 
     authentify(user: string, password: string) {
@@ -19,5 +19,12 @@ export class ConnexionService {
         this.webservice.subscribeToType('reponseAuthentifierUtilisateur', (message): any => {
             callback(message);
         });  
-    }  
+    }
+    
+    setUserAuthenticated(){
+        this.userConnected = true;
+    }
+    getUserAuthentication (){
+        return this.userConnected;
+    }
 }

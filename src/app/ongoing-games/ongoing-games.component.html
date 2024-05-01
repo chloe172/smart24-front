@@ -1,7 +1,7 @@
 <h4 class="center-align white-text">Reprendre une partie</h4>
 <div class="row">
-    <div *ngFor="let game of OngoingGames" class="col s6 m4">
-        <app-ongoing-game-card [game]="game"></app-ongoing-game-card>
+    <div *ngFor="let partie of onGoingGames" class="col s6 m4">
+        <app-ongoing-game-card [partie]="partie"></app-ongoing-game-card>
     </div>
 </div>
 <div class="center-align">
