@@ -1,1 +1,15 @@
-<p>team-enroll works!</p>
+<div class="create-game-container text-align center-align">
+    <h3 class="white-text">Créer une Nouvelle Equipe</h3>
+    <div class="col s6 offset-s3">
+        <mat-card class="card-panel hoverable center-align">
+            <mat-form-field>
+                <mat-label >Entrez le nom de votre équipe</mat-label>
+                <input matInput
+                    placeholder="Nom de mon équipe"
+                    [(ngModel)]="nomEquipe"
+                    required/>
+            </mat-form-field>
+        </mat-card>
+    </div>
+    <button mat-flat-button color="warn" style="max-width: 200px;" (click)="inscrireEquipe()" [disabled]="!nomEquipe">Inscrire l'équipe</button>
+</div>

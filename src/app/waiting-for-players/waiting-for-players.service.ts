@@ -3,6 +3,7 @@ import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { ConnexionService } from '../connexion/connexion.service';
 import { Router } from '@angular/router';
 import { IdPartieService } from '../general-services/id-partie.service';
+import { AccessSessionService } from '../access-session/access-session.service';
 
 
 @Injectable({
@@ -10,28 +11,51 @@ import { IdPartieService } from '../general-services/id-partie.service';
 })
 export class WaitingForPlayersService {
     constructor(private webSocketService: WebSocketService,
-                private connexionService: ConnexionService,
-                private partieService: IdPartieService,
-                private router: Router
+        private connexionService: ConnexionService,
+        private accessSessionService: AccessSessionService,
+        private partieService: IdPartieService,
+        private router: Router
     ) {
-       
+        
     }
-
+    
     getCodePin(){
         return this.partieService.getCodePin();
     }
 
+    getEquipes(callback: (message: any) => any){
+        if(this.connexionService.getUserAuthentication() || this.accessSessionService.getUserAccessed()){
+            this.webSocketService.subscribeToType('listerEquipes', (message) => {
+                console.log('Equipes reçues', message);
+                callback(message);
+            });
+            
+        } 
+        else{
+            this.router.navigate(['/']);
+        }
+    }
+    
     ajouterEquipe(callback: (message: any) => any){
-        if(this.connexionService.getUserAuthentication()){
+        console.log("passé dans ajouter équipe", this.accessSessionService.getUserAccessed());
+        if(this.connexionService.getUserAuthentication() || this.accessSessionService.getUserAccessed()){
+            console.log("passé dans ajouter équipe");
             this.webSocketService.subscribeToType('notificationInscrireEquipe', (message) => {
                 console.log('Equipe reçue', message);
                 callback(message);
             });
-
-        }
+            
+        } 
         else{
-            this.router.navigate(['/login']);
+            this.router.navigate(['/']);
         }
+    }
+    
+    attendreDebutPartie(callback: (message: any) => void) {
+        this.webSocketService.subscribeToType('notificationChoisirPlateau', (message) => {
+            console.log("choix du plateau effectué, démarrage partie...");
+            callback(message);
+        });  
     }
 
     demarrerPartie(){
@@ -59,6 +83,14 @@ export class WaitingForPlayersService {
         else{
             this.router.navigate(['/login']);
         }
+    }
+
+    isHost(): boolean {
+        return this.connexionService.getUserAuthentication();
+    }
+
+    isPlayer(): boolean {
+        return this.accessSessionService.getUserAccessed();
     }
 
 }
