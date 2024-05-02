@@ -24,12 +24,12 @@ export class AccessSessionService {
     }
 
     navigate(id : number,etatPartie: string){
-        if(etatPartie === 'ATTENTE_RECCONEXION'){
+        if(etatPartie === 'ATTENTE_EQUIPE_RECONNEXION'){
             this.idPartieService.setId(id);
             this.setUserAccessed();
             this.router.navigate(['/team-choice']);
         }
-        else if(etatPartie === 'ATTENTE-INSCRIPTION'){
+        else if(etatPartie === 'ATTENTE_EQUIPE_INSCRIPTION'){
             this.idPartieService.setId(id);
             this.setUserAccessed();
             this.router.navigate(['/team-enroll']);

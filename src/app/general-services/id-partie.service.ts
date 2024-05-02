@@ -9,10 +9,18 @@ import { AccessSessionService } from '../access-session/access-session.service';
     providedIn: 'root'
 })
 export class IdPartieService {
-    idPartie: number;
-    constructor(private webservice : WebSocketService,private router: Router, private connectionsService : ConnexionService,private accessSessionService : AccessSessionService) {     
+    idPartie : number;
+    codePin : string;
+    constructor() {
         this.idPartie = -1;
+        this.codePin = "";
+    }
         
+    setCodePin(code : string){
+        this.codePin = code;
+    }
+    getCodePin () {
+        return this.codePin;
     }
 
     
