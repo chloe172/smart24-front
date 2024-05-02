@@ -3,6 +3,9 @@
     <div *ngFor="let partie of onGoingGames" class="col s6 m4">
         <app-ongoing-game-card [partie]="partie"></app-ongoing-game-card>
     </div>
+    <div *ngIf="onGoingGames.length === 0">
+        <h5 class="center-align white-text">Pas de partie en cours</h5>
+    </div>
 </div>
 <div class="center-align">
     <a mat-flat-button class="btn-floating btn-large" color="accent" [routerLink]="['/create-game']"><i class="material-icons">add</i></a>
