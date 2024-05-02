@@ -4,12 +4,17 @@ import { ConnexionService } from '../connexion/connexion.service';
 import { Router } from '@angular/router';
 import { AccessSessionService } from '../access-session/access-session.service';
 import { IdPartieService } from '../general-services/id-partie.service';
-
+import { Proposition } from "../modele/proposition.model";
+import { ActiviteEnCours } from "../modele/activiteEnCours.model";
 
 @Injectable({
     providedIn: 'root'
 })
 export class QuestionPageService {
+    idBonneProposition!: number;
+    explication!: string;
+    bonneProposition!: Proposition;
+
     constructor(
         private webservice: WebSocketService,
         private connexionService: ConnexionService,
@@ -19,20 +24,59 @@ export class QuestionPageService {
     ) {
     }
 
-    InitQuestionPage(callback: (message: any) => any){
+    InitQuestionPage(callbackLancementActivite: (message: any) => any,
+        callbackReponseActivite: (message: any) => any) {
+        // Maitre du jeu
         if (this.connexionService.getUserAuthentication()) {
             let idPartie = this.partieService.getId();
-            this.webservice.SendToType("lancerActivite", {idPartie});
+            this.webservice.SendToType("lancerActivite", { idPartie });
+
             this.webservice.subscribeToType('reponseLancerActivite', (message): any => {
-                callback(message);
+                callbackLancementActivite(message);
+            });
+
+            this.webservice.subscribeToType('notificationSoumettreReponse', (message): any => {
+                if (!message.succes) {
+                    console.log(message.messageErreur);
+                    this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+                } else {
+                    console.log("Soumission reponse d'une equipe", message);
+                }
             });
 
             this.webservice.subscribeToType('notificationReponseActivite', (message): any => {
-                callback(message);
+                if (!message.succes) {
+                    console.log(message.messageErreur);
+                    this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+                } else {
+                    callbackReponseActivite(message);
+                }
             });
-        }
-        else {
-            this.router.navigate(['/login']);            
+        
+        // Equipe
+        } else if (this.accessSessionService.getUserAccessed()) {
+
+            this.webservice.subscribeToType('notificationLancerActivite', (message): any => {
+                if (!message.succes) {
+                    console.log(message.messageErreur);
+                    this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+                } else {
+                    callbackLancementActivite(message);
+                }
+            });
+
+            this.webservice.subscribeToType('notificationReponseActivite', (message): any => {
+                if (!message.succes) {
+                    console.log(message.messageErreur);
+                    this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+                } else {
+                    callbackReponseActivite(message);
+                    this.bonneProposition = message.data.bonneProposition as Proposition;
+                }
+            });
+        } else {
+            this.router.navigate(['/login']);
         }
     }
+
 }

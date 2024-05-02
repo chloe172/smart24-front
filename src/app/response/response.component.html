@@ -1,3 +1,5 @@
-<mat-card class="card-panel hoverable" [ngStyle]="{'background-color': getColor()}">
-    <h6>{{index+1}}. {{propostion.intitule}}</h6>
+<mat-card class="card-panel hoverable" 
+    [ngStyle]="{'background-color': getColor(), 'border': isBonneReponse ? '1px solid black' : 'none'}" 
+    (click)="onClick()">
+    <h6>{{index+1}}. {{proposition.intitule}}</h6>    
 </mat-card>
