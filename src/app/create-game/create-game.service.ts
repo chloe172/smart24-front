@@ -43,8 +43,8 @@ export class CreateGameService {
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 }
                 else{
-                    this.partieService.setId(message.data.idPartie);
-                    this.partieService.setCodePin(message.data.codePin);
+                    this.partieService.setId(message.data.partie.id);
+                    this.partieService.setCodePin(message.data.partie.codePin);
                     this.router.navigate(['/waiting']);
                 }    
             });

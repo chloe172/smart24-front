@@ -39,7 +39,7 @@ export class WaitingForPlayersComponent {
           console.log(message.messageErreur);
           this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
        }else{
-          let equipe = message.data as Equipe;
+          let equipe = message.data.equipe as Equipe;
           this.listeEquipes.push(equipe);
        }
     });

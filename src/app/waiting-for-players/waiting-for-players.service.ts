@@ -24,7 +24,7 @@ export class WaitingForPlayersService {
     }
 
     getEquipes(callback: (message: any) => any){
-        if(this.connexionService.getUserAuthentication() || this.accessSessionService.getUserAccessed()){
+        if(this.accessSessionService.getUserAccessed()){
             let idPartie = this.partieService.getId();
             this.webSocketService.SendToType('listerEquipes', {idPartie});
             this.webSocketService.subscribeToType('reponseListerEquipes', (message) => {
@@ -33,9 +33,6 @@ export class WaitingForPlayersService {
             });
             
         } 
-        else{
-            this.router.navigate(['/']);
-        }
     }
     
     ajouterEquipe(callback: (message: any) => any){
