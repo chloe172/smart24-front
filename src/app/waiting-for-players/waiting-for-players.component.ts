@@ -30,7 +30,10 @@ export class WaitingForPlayersComponent {
     }
     
   ]
-  constructor(private service : WaitingForPlayersService, private router : Router) { }
+  codePin : string ;
+  constructor(private service : WaitingForPlayersService, private router : Router) { 
+    this.codePin = service.getCodePin();
+  }
 
 
   ngOnInit(){

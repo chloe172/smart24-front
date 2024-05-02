@@ -17,6 +17,10 @@ export class WaitingForPlayersService {
        
     }
 
+    getCodePin(){
+        return this.partieService.getCodePin();
+    }
+
     ajouterEquipe(callback: (message: any) => any){
         if(this.connexionService.getUserAuthentication()){
             this.webSocketService.subscribeToType('notificationInscrireEquipe', (message) => {
