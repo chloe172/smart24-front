@@ -15,6 +15,6 @@ $my-warn : mat.define-palette(mat.$pink-palette);
 
 $my-theme: mat.define-light-theme((color: (primary: $my-primary,
                 accent: $my-accent,
-                warn: $my-warn )));
+                warn: $my-warn)));
 
 @include mat.all-component-themes($my-theme);
