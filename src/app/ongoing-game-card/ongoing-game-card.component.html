@@ -3,7 +3,7 @@
     <h6>Partie en pause du {{partie.date | date:'dd/MM/yyyy à HH:mm'}}</h6>
     <h6>Dernier plateau : {{partie.dernierPlateau}}</h6>
     <div class="options">
-        <button mat-flat-button color="warn">Terminer</button>
+        <button mat-flat-button color="warn" id="show-projects-button" (click)="openModal()">Terminer</button>
         <button mat-flat-button color="primary">Reprendre</button>
     </div>
-</mat-card>
+</mat-card>        
