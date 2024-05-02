@@ -40,7 +40,7 @@ export class AccessSessionComponent {
         }
         else{
           console.log('Connexion réussie');
-          this.service.navigate(message.data.idPartie,message.data.etatPartie);
+          this.service.navigate(message.data.partie.id,message.data.partie.etat);
         }
       });
       

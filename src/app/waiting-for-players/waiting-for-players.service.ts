@@ -24,16 +24,15 @@ export class WaitingForPlayersService {
     }
 
     getEquipes(callback: (message: any) => any){
-        if(this.connexionService.getUserAuthentication() || this.accessSessionService.getUserAccessed()){
-            this.webSocketService.subscribeToType('listerEquipes', (message) => {
+        if(this.accessSessionService.getUserAccessed()){
+            let idPartie = this.partieService.getId();
+            this.webSocketService.SendToType('listerEquipes', {idPartie});
+            this.webSocketService.subscribeToType('reponseListerEquipes', (message) => {
                 console.log('Equipes reçues', message);
                 callback(message);
             });
             
         } 
-        else{
-            this.router.navigate(['/']);
-        }
     }
     
     ajouterEquipe(callback: (message: any) => any){

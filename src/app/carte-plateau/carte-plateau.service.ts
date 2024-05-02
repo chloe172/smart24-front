@@ -29,7 +29,7 @@ export class CartePlateauService {
                         this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                     }
                     else{
-                        this.router.navigate(['/question-host']);
+                        this.router.navigate(['/question']);
                     }    
                 });
             }
