@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { Partie } from '../modele/partie.model';
 import { Router } from '@angular/router';
 import { IdPartieService } from '../general-services/id-partie.service';
+import { OngoingGameCardService } from './ongoing-game-card.service';
 
 @Component({
   selector: 'app-ongoing-game-card',
@@ -15,10 +16,10 @@ import { IdPartieService } from '../general-services/id-partie.service';
 })
 
 export class OngoingGameCardComponent { 
-  constructor (private idService : IdPartieService){}
+  constructor (private service : OngoingGameCardService){}
   @Input() partie!: Partie;
   router : Router = new Router;
   reprendre(){
-    this.idService.setId(this.partie.id);
+    this.service.reprendre(this.partie.id);
   }
 }
