@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { Plateau } from '../modele/plateau.model';
 
 @Component({
   selector: 'app-carte-plateau',
@@ -10,5 +11,9 @@ import { MatCardModule } from '@angular/material/card';
 })
 
 export class CartePlateauComponent {
+  @Input() plateau!:Plateau;
 
+  select(idPlateau: number) {
+    
+  }
 }

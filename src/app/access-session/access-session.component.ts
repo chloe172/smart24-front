@@ -30,9 +30,20 @@ export class AccessSessionComponent {
   }
 
   valider() {
-    if (this.pin.valid) {
+    if (this.pin.valid && this.pin.value != null) {
       console.log('PIN is valid:', this.pin.value);
-      this.router.navigate(['/join']);
+      this.service.validerCodePin(this.pin.value,(message) => {
+        console.log('json reçu',message);
+        if (!message.succes){
+          console.log(message.messageErreur);
+          this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+        }
+        else{
+          console.log('Connexion réussie');
+          this.service.navigate(message.data.idPartie,message.data.etatPartie);
+        }
+      });
+      
     } else {
       this.pin.markAllAsTouched();
     }

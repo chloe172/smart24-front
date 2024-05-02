@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { IdPartieService } from '../general-services/id-partie.service';
 import { ModalComponent } from '../modal/modal.component';
 
+import { OngoingGameCardService } from './ongoing-game-card.service';
 
 @Component({
   selector: 'app-ongoing-game-card',
@@ -21,11 +22,11 @@ import { ModalComponent } from '../modal/modal.component';
 })
 
 export class OngoingGameCardComponent { 
-  constructor (private idService : IdPartieService, public matDialog: MatDialog){}
+  constructor (private service : OngoingGameCardService){}
   @Input() partie!: Partie;
   router : Router = new Router;
   reprendre(){
-    this.idService.setId(this.partie.id);
+    this.service.reprendre(this.partie.id);
   }
   
   dialogConfig = new MatDialogConfig();
