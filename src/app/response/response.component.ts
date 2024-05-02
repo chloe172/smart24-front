@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { NgStyle } from '@angular/common';
+import { Proposition } from '../modele/proposition.model';
 
 @Component({
   selector: 'app-response',
@@ -10,7 +11,7 @@ import { NgStyle } from '@angular/common';
   styleUrl: './response.component.scss'
 })
 export class ResponseComponent {
-  @Input() response!: string;
+  @Input() propostion!: Proposition;
   @Input() index!: number;
 
   getColor() : string {
