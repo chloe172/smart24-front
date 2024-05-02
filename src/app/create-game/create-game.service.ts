@@ -44,6 +44,7 @@ export class CreateGameService {
                 }
                 else{
                     this.partieService.setId(message.data.idPartie);
+                    this.router.navigate(['/waiting']);
                 }    
             });
         }

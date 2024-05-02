@@ -9,6 +9,8 @@ import { MenuJoueurComponent } from './menu-joueur/menu-joueur.component';
 import { CreateGameComponent } from './create-game/create-game.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { WaitingForPlayersComponent } from './waiting-for-players/waiting-for-players.component';
+import { TeamEnrollComponent } from './team-enroll/team-enroll.component';
+import { TeamChoiceComponent } from './team-choice/team-choice.component';
 
 
 export const routes: Routes = [
@@ -57,6 +59,14 @@ export const routes: Routes = [
         path: 'waiting',
         component: WaitingForPlayersComponent
 
+    },
+    {
+        path: 'team-enroll',
+        component: TeamEnrollComponent
+    },
+    {
+        path: 'team-choice',
+        component: TeamChoiceComponent
     },
     {
         path: '**',

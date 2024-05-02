@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { Router } from '@angular/router';
+import { ConnexionService } from '../connexion/connexion.service';
+import { AccessSessionService } from '../access-session/access-session.service';
 
 
 @Injectable({
@@ -8,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class IdPartieService {
     idPartie: number;
-    constructor(private webservice : WebSocketService,private router: Router) {     
+    constructor(private webservice : WebSocketService,private router: Router, private connectionsService : ConnexionService,private accessSessionService : AccessSessionService) {     
         this.idPartie = -1;
         
     }
@@ -16,7 +18,6 @@ export class IdPartieService {
     
     setId(id : number){
         this.idPartie = id;
-        this.router.navigate(["/waiting"])
     }
     getId () {
         return this.idPartie;

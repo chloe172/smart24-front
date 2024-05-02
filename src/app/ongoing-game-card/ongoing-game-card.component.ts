@@ -20,5 +20,6 @@ export class OngoingGameCardComponent {
   router : Router = new Router;
   reprendre(){
     this.idService.setId(this.partie.id);
+    this.router.navigate(['/waiting']);
   }
 }
