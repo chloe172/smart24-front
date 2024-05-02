@@ -16,21 +16,7 @@ import { Router } from '@angular/router';
   styleUrl: './waiting-for-players.component.scss'
 })
 export class WaitingForPlayersComponent {
-  listeEquipes: Equipe[] = [
-    {
-      id: 1, nom: "equipe1", score: 0,
-      partie: undefined
-    },
-    {
-      id: 2, nom: "equipe2", score: 0,
-      partie: undefined
-    },
-    {
-      id: 3, nom: "equipe3", score: 0,
-      partie: undefined
-    }
-    
-  ]
+  listeEquipes: Equipe[] = []
   codePin : string ;
   constructor(private service : WaitingForPlayersService, private router : Router) { 
     this.codePin = service.getCodePin();

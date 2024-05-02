@@ -25,7 +25,9 @@ export class WaitingForPlayersService {
 
     getEquipes(callback: (message: any) => any){
         if(this.connexionService.getUserAuthentication() || this.accessSessionService.getUserAccessed()){
-            this.webSocketService.subscribeToType('listerEquipes', (message) => {
+            let idPartie = this.partieService.getId();
+            this.webSocketService.SendToType('listerEquipes', {idPartie});
+            this.webSocketService.subscribeToType('reponseListerEquipes', (message) => {
                 console.log('Equipes reçues', message);
                 callback(message);
             });
