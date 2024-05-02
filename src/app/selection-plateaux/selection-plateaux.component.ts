@@ -25,7 +25,7 @@ import { SelectionPlateauxService } from './selection-plateaux.service';
             console.log(message.messageErreur);
             this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
          }else{
-            this.plateaux = message.data.listePlateaux as Plateau[];
+            this.plateaux = message.data.partie.listePlateaux as Plateau[];
          }
       });
     }

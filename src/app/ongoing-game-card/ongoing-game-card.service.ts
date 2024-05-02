@@ -18,7 +18,7 @@ export class OngoingGameCardService {
             console.log('Reponse attendre equipe', message);
             this.partieIdService.setId(idPartie);
             if(message.succes){
-                this.partieIdService.setCodePin(message.data.codePin);
+                this.partieIdService.setCodePin(message.data.partie.codePin);
                 this.router.navigate(['/waiting']);
             }
             else{

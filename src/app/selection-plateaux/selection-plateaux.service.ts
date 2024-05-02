@@ -20,7 +20,7 @@ export class SelectionPlateauxService{
         if (this.connexionService.getUserAuthentication()) {
             let idPartie = this.partieService.getId();
             if(idPartie !== -1){
-                this.webservice.SendToType('listerPlateauxPartie', idPartie);
+                this.webservice.SendToType('listerPlateauxPartie', {idPartie});
                 this.webservice.subscribeToType('reponseListerPlateauxPartie', (message): any => {
                     callback(message);
                 });
