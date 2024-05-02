@@ -22,7 +22,7 @@ import { OngoingGameCardService } from './ongoing-game-card.service';
 })
 
 export class OngoingGameCardComponent { 
-  constructor (private service : OngoingGameCardService){}
+  constructor (private service : OngoingGameCardService, public matDialog : MatDialog){}
   @Input() partie!: Partie;
   router : Router = new Router;
   reprendre(){
@@ -31,7 +31,7 @@ export class OngoingGameCardComponent {
   
   dialogConfig = new MatDialogConfig();
   modalDialog: MatDialogRef<ModalComponent, any> | undefined;
-  
+   
   
   ngAfterViewInit(): void {
     document.onclick = (args: any) : void => {
