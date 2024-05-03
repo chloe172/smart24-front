@@ -48,15 +48,3 @@ mat-dialog-container#app-modal-component {
     height: 250px;
     width: 500px;
 }
-
-@include mat.core();
-
-$my-primary : mat.define-palette(mat.$indigo-palette);
-$my-accent : mat.define-palette(mat.$cyan-palette);
-$my-warn : mat.define-palette(mat.$pink-palette);
-
-$my-theme: mat.define-light-theme((color: (primary: $my-primary,
-                accent: $my-accent,
-                warn: $my-warn )));
-
-@include mat.all-component-themes($my-theme);

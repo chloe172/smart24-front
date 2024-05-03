@@ -10,10 +10,18 @@ import { NgFor } from '@angular/common';
   styleUrl: './badge-joueur.component.scss'
 })
 export class BadgeJoueurComponent {
+  badges: any[] = [
+    { nom: 'Accessibilite', etat: 'or' },
+    { nom: 'AI', etat: 'argent' },
+    { nom: 'Cybersecurite', etat: 'or' },
+    { nom: 'Developpement', etat: 'noir' },
+    { nom: 'General', etat: 'blanc' },
+    { nom: 'GestionProjet', etat: 'bronze' },
+    { nom: 'GreenIT', etat: 'blanc' },
+    { nom: 'IoT', etat: 'noir' }
+  ];
 
-    badges: any[] = [
-      { etat: 'disabled' },
-      { etat: 'disabled' },
-      { etat: 'disabled' },
-    ];
+  getBadgeImagePath(badge : any) : string {
+    return "../assets/"+badge.nom+"/"+badge.etat+".svg";
+  }
 }
