@@ -27,13 +27,17 @@ export class ModalComponent {
     @Input() partie!: Partie;
     router : Router = new Router;
 
-  terminer(){
+  supprimer(){
     
     this.service.finishGame(this.partie, (message) => {
       console.log("json reçu",message);
       if(!message.succes){
          console.log(message.messageErreur);
          this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+      }
+      else{
+        console.log("Partie terminée avec succès");
+        this.router.navigate(['/ongoing-games']);
       }
    });
     this.closeModal();
