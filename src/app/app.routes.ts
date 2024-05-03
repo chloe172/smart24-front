@@ -12,6 +12,7 @@ import { WaitingForPlayersComponent } from './waiting-for-players/waiting-for-pl
 import { TeamEnrollComponent } from './team-enroll/team-enroll.component';
 import { TeamChoiceComponent } from './team-choice/team-choice.component';
 import { CyberGameComponent } from './cyber-game/cyber-game.component';
+import { IAGameComponent } from './iagame/iagame.component';
 
 
 export const routes: Routes = [
@@ -51,6 +52,11 @@ export const routes: Routes = [
     {
         path: 'cyber-game',
         component: CyberGameComponent
+    },
+
+    {
+        path: 'ia-game',
+        component: IAGameComponent
     },
 
     {
