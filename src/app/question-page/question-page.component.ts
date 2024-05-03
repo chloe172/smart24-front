@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { ResponseComponent } from '../response/response.component';
 import { Proposition } from '../modele/proposition.model';
 import { Question } from '../modele/question.model';
+import { Equipe } from '../modele/equipe.model';
 import { QuestionPageService } from './question-page.service';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -10,12 +11,14 @@ import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { IdPartieService } from '../general-services/id-partie.service';
 import { TeamEnrollService } from '../team-enroll/team-enroll.service';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule, MatDialogRef  } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { ModalScoreComponent } from '../modal-score/modal-score.component';
 
 @Component({
   selector: 'app-question-page',
   standalone: true,
-  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule, MatDialogModule],
   templateUrl: './question-page.component.html',
   styleUrl: './question-page.component.scss'
 })
@@ -25,13 +28,15 @@ export class QuestionPageComponent implements OnInit {
   propositionSelectionnee: Proposition | null = null;
   idActiviteEnCours!: number;
   idBonneProposition!: number;
+  equipes: Equipe[] = [];
 
   constructor(
     private webservice: WebSocketService,
     protected service: QuestionPageService,
     private equipeService: TeamEnrollService,
     private partieService: IdPartieService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {
   }
 
@@ -52,9 +57,24 @@ export class QuestionPageComponent implements OnInit {
         const question = message.data.question;
         this.idBonneProposition = question.bonneProposition.id;
         this.service.explication = question.explication ?? "";
-
+        this.equipes = message.data.listeEquipes;
         this.service.etape = "explication";
-      });
+        this.openDialog();
+    },
+      (message: any) => {
+        console.log("json reçu", message);
+        const question = message.data.question;
+        this.idBonneProposition = question.bonneProposition.id;
+        this.service.explication = question.explication ?? "";
+        this.equipes = message.data.listeEquipes;
+        this.service.etape = "explication";
+    },
+    (message: any) => {
+      console.log("json reçu", message);
+      this.equipes = message.data.listeEquipes;
+      this.service.etape = "explication";
+      this.openDialog();
+    });
 
     //TODO : header pour indiquer : le monde, l'avancement, le score des joueurs...
   }
@@ -100,6 +120,16 @@ export class QuestionPageComponent implements OnInit {
     this.router.navigate(['/ongoing-games']);
     this.service.explication = "";
     this.service.etape = "click";
+  }
 
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ModalScoreComponent, {
+      data: this.equipes,
+      width: '70%'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

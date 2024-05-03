@@ -5,4 +5,5 @@ export interface Equipe {
     nom: string;
     score: number;
     partie?: Partie;
+    rang: string;
 }
