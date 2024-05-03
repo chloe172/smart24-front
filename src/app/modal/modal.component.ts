@@ -35,6 +35,10 @@ export class ModalComponent {
          console.log(message.messageErreur);
          this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
       }
+      else{
+        console.log("Partie terminée avec succès");
+        this.router.navigate(['/ongoing-games']);
+      }
    });
     this.closeModal();
   } 
