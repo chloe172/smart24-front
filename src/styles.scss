@@ -1,10 +1,40 @@
 @use '@angular/material' as mat;
 
+@include mat.core();
+
+$my-primary-color: #283593;
+$my-accent-color: #5ce1e6;
+$my-warn-color: #ca5fe8;
+
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: (
+      default: $my-primary-color,
+      lighter: lighten($my-primary-color, 20%),
+      darker: darken($my-primary-color, 20%),
+    ),
+    accent: (
+      default: $my-accent-color,
+      lighter: lighten($my-accent-color, 20%),
+      darker: darken($my-accent-color, 20%),
+    ),
+    warn: (
+      default: $my-warn-color,
+      lighter: lighten($my-warn-color, 20%),
+      darker: darken($my-warn-color, 20%),
+    ),
+  )
+));
+
+@include mat.all-component-themes($my-theme);
 
 body{
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    background-image: url("assets/Fond.svg");
+    background-attachment: fixed;
+    background-size: cover;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 mat-dialog-container#app-modal-component {

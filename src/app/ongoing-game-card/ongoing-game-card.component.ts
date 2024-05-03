@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import { Partie } from '../modele/partie.model';
 import { Router } from '@angular/router';
 import { IdPartieService } from '../general-services/id-partie.service';
+import { OngoingGameCardService } from './ongoing-game-card.service';
 import { ModalComponent } from '../modal/modal.component';
 
 
@@ -21,14 +22,14 @@ import { ModalComponent } from '../modal/modal.component';
 })
 
 export class OngoingGameCardComponent { 
-  constructor (private idService : IdPartieService, public matDialog: MatDialog){}
+  constructor (private service : OngoingGameCardService, private idService : IdPartieService, public matDialog: MatDialog){}
   @Input() partie!: Partie;
   router : Router = new Router;
   dialogConfig = new MatDialogConfig();
   modalDialog: MatDialogRef<ModalComponent, any> | undefined;
 
   reprendre(){
-    this.idService.setId(this.partie.id);
+    this.service.reprendre(this.partie.id);
   }
   ngAfterViewInit(): void {
     document.onclick = (args: any) : void => {

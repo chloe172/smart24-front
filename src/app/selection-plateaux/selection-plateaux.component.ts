@@ -15,7 +15,9 @@ import { SelectionPlateauxService } from './selection-plateaux.service';
   export class SelectionPlateauxComponent {
     plateaux: Plateau[] = [];
     router : Router = new Router;
+
     constructor(private service : SelectionPlateauxService) { }
+
     ngOnInit(){
       this.service.InitSelectionPlateau((message) => {
          console.log("json reçu",message);
@@ -23,9 +25,11 @@ import { SelectionPlateauxService } from './selection-plateaux.service';
             console.log(message.messageErreur);
             this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
          }else{
-            this.plateaux = message.data.plateaux as Plateau[];
+            this.plateaux = message.data.partie.listePlateaux as Plateau[];
          }
       });
     }
+
+
   
 }

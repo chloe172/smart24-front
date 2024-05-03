@@ -1,7 +1,7 @@
 
-<mat-card class="card-panel hoverable"> 
+<mat-card (click)="select(plateau.id)" class="card-panel hoverable"> 
         <div class="center-align">
                 <img src="../assets/ordi.png" width="100" height="100">
-                <h5 class="text-align">Titre du Plateau</h5>
+                <h5 class="text-align">{{plateau.nom}}</h5>
         </div>
 </mat-card>

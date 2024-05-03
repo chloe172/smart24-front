@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { OngoingGameCardComponent } from '../ongoing-game-card/ongoing-game-card.component';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
+
 import { OngoingGamesService } from './ongoing-games.service';
 import { Partie } from '../modele/partie.model';
 import { Router } from '@angular/router';
@@ -11,7 +12,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-ongoing-games',
   standalone: true,
-  imports: [OngoingGameCardComponent, NgFor, MatButtonModule,RouterModule],
+  imports: [OngoingGameCardComponent, NgFor, NgIf, MatButtonModule,RouterModule],
   templateUrl: './ongoing-games.component.html',
   styleUrl: './ongoing-games.component.scss'
 })

@@ -8,18 +8,26 @@ export class WebSocketService {
 
   private socket: WebSocket;
 
+  private callbacks: { [type: string]: ((message: any) => any)[] } = {};
+
   constructor() {
     this.socket = new WebSocket(environment.webSocketUrl);
+    this.socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (this.callbacks[message.type]) {
+        this.callbacks[message.type].forEach(callback => {
+          callback(message);
+        });
+      }
+    };
   }
 
 
   subscribeToType(type: string, callback: (message: any) => any) {
-    this.socket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      if (message.type === type) {
-        callback(message);
-      }
+    if (!this.callbacks[type]) {
+      this.callbacks[type] = [];
     }
+    this.callbacks[type].push(callback);
   }
 
   SendToType(type: string, data: any) {
