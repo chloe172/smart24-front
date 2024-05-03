@@ -30,7 +30,7 @@ export class WaitingForPlayersComponent {
             console.log(message.messageErreur);
             this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
         }else{
-            this.listeEquipes = message.data.listeEquipes as Equipe[];
+            this.listeEquipes = message.data.listeEquipesConnectees as Equipe[];
         }
       });
     this.service.ajouterEquipe((message) => {

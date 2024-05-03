@@ -1,1 +1,17 @@
-<p>team-choice works!</p>
+
+  
+  
+  <div class="create-game-container text-align center-align">
+    <h3 class="white-text">Choisissez votre équipe</h3>
+    <div class="col s6 offset-s3">
+        <mat-selection-list #equipes [multiple]="false" [(ngModel)]="selected">
+            @for (equipe of listeEquipes; track equipe) {
+              <mat-list-option [value]="equipe">{{equipe.nom}}</mat-list-option>
+            }
+          </mat-selection-list>
+        <p>
+            Option selected: {{equipes.selectedOptions.hasValue() ? equipes.selectedOptions.selected[0].value.nom : 'None'}}
+        </p>
+    </div>
+    <button mat-flat-button color="warn" style="max-width: 200px;" (click)="connecterEquipe()" [disabled]="!equipes.selectedOptions.hasValue()">Se connecter</button>
+</div>
