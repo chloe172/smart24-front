@@ -4,11 +4,15 @@ import { CartePlateauComponent } from '../carte-plateau/carte-plateau.component'
 import { Plateau } from '../modele/plateau.model';
 import { Router } from '@angular/router';
 import { SelectionPlateauxService } from './selection-plateaux.service';
+import { MatIcon } from '@angular/material/icon';
+import { WebSocketService } from '../core/WebSocketService/web-socket.service';
+import { IdPartieService } from '../general-services/id-partie.service';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-selectionPlateaux',
     standalone: true,
-    imports: [NgFor, CartePlateauComponent],
+    imports: [NgFor, CartePlateauComponent, MatIcon, MatButton],
     templateUrl: './selection-plateaux.component.html',
 })
 
@@ -16,7 +20,11 @@ import { SelectionPlateauxService } from './selection-plateaux.service';
     plateaux: Plateau[] = [];
     router : Router = new Router;
 
-    constructor(private service : SelectionPlateauxService) { }
+    constructor(
+      private service : SelectionPlateauxService, 
+      private webservice: WebSocketService,
+      private partieService: IdPartieService
+      ) { }
 
     ngOnInit(){
       this.service.InitSelectionPlateau((message) => {
@@ -28,6 +36,14 @@ import { SelectionPlateauxService } from './selection-plateaux.service';
             this.plateaux = message.data.partie.listePlateaux as Plateau[];
          }
       });
+    }
+
+    mettreEnPause() {
+      console.log("partie mise en pause");
+      const idPartie = this.partieService.idPartie;
+      this.webservice.SendToType("mettreEnPause", { idPartie });
+      this.router.navigate(['/ongoing-games']);
+  
     }
 
 
