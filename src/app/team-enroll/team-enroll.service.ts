@@ -8,13 +8,16 @@ import { IdPartieService } from '../general-services/id-partie.service';
     providedIn: 'root'
 })
 export class TeamEnrollService {
+    idEquipe: number;
     constructor(
         private webSocketService: WebSocketService,
         private accessSessionService: AccessSessionService,
         private idService : IdPartieService,
-        private router : Router
+        private router : Router,
+        
     ) {
         // Initialize your service here
+        this.idEquipe = 0
     }
 
     verifyUser() {
@@ -36,6 +39,7 @@ export class TeamEnrollService {
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 }
                 else{
+                    this.idEquipe = message.data.idEquipe;
                     console.log('Equipe inscrite', message);
                     this.router.navigate(['/waiting']);
                 }
@@ -46,6 +50,10 @@ export class TeamEnrollService {
             this.router.navigate(['/']);
 
         }
+    }
+
+    getIdEquipe() {
+        this.idEquipe;
     }
 
 }
