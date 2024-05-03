@@ -26,7 +26,7 @@ export class TeamChoiceComponent {
             this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
         }
         else{
-        this.listeEquipes = message.data.listeEquipes as Equipe[];
+        this.listeEquipes = message.data.listeEquipesNonConnectees as Equipe[];
         }
       }
     );
