@@ -24,14 +24,12 @@ export class OngoingGameCardComponent {
   constructor (private idService : IdPartieService, public matDialog: MatDialog){}
   @Input() partie!: Partie;
   router : Router = new Router;
+  dialogConfig = new MatDialogConfig();
+  modalDialog: MatDialogRef<ModalComponent, any> | undefined;
+
   reprendre(){
     this.idService.setId(this.partie.id);
   }
-  
-  dialogConfig = new MatDialogConfig();
-  modalDialog: MatDialogRef<ModalComponent, any> | undefined;
-  
-  
   ngAfterViewInit(): void {
     document.onclick = (args: any) : void => {
           if(args.target.tagName === 'BODY') {
@@ -45,5 +43,6 @@ export class OngoingGameCardComponent {
     this.dialogConfig.height = "500px";
     this.dialogConfig.width = "650px";
     this.modalDialog = this.matDialog.open(ModalComponent, this.dialogConfig);
+    this.modalDialog.componentInstance.partie = this.partie;
   }
 }
