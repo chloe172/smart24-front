@@ -1,5 +1,5 @@
 <div class="center-align" *ngFor="let equipe of equipes; index as i">
-    <div class="center-align">
+    <div class="mat-card-container">
         <mat-card class="card-panel" [ngStyle]="{'background-color': getColor(i)}" style="width: 60%;">
             <div class="center-align">
                 <h6 class="center-align white-text">{{equipe.rang}} - {{equipe.score}}</h6>
