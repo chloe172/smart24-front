@@ -60,7 +60,6 @@ export class QuestionPageService {
                 if (message.succes) {
                     const partie = message.data.partie;
                     if (partie.finPlateau) {
-                        // TODO : aller à la page de choix de plateau
                         this.explication = "";
                         this.router.navigate(['/selection']);
                     } else {
