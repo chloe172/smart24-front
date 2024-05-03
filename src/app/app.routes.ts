@@ -11,6 +11,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { WaitingForPlayersComponent } from './waiting-for-players/waiting-for-players.component';
 import { TeamEnrollComponent } from './team-enroll/team-enroll.component';
 import { TeamChoiceComponent } from './team-choice/team-choice.component';
+import { MjGestionProjetComponent } from './mj-gestion-projet/mj-gestion-projet.component';
 
 
 export const routes: Routes = [
@@ -67,6 +68,10 @@ export const routes: Routes = [
     {
         path: 'team-choice',
         component: TeamChoiceComponent
+    },
+    {
+        path: 'mj-gestion-projet',
+        component: MjGestionProjetComponent
     },
     {
         path: '**',
