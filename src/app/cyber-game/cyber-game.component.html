@@ -14,7 +14,7 @@
 
 <div class="container">
     <mat-form-field>
-        <input type="text" matInput [formControl]="password" (keyup)="validerMiniJeu()" placeholder="Entrez le mot de passe">
+        <input type="text" matInput [formControl]="password" (keypress)="validerMiniJeu()" placeholder="Entrez le mot de passe">
     </mat-form-field>
     <button mat-flat-button color="warn" (click)="validerMiniJeu()">Valider</button> 
 </div> 

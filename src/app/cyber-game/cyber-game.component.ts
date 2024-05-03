@@ -21,7 +21,7 @@ export class CyberGameComponent {
     if(this.password.value == "gribouille"){
       this.message = 'Félicitations ! Vous avez trouvé le bon mot de passe.';
     } else {
-      this.message = 'Mot de passe invalide. Veuillez réessayer.';
+      this.message = 'Mauvaise Réponse. Veuillez réessayer.';
     }
   }
   
