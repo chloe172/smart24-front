@@ -19,4 +19,8 @@ export class CartePlateauComponent {
     console.log("select id ", idPlateau)
     this.service.choisirPlateauPartie(idPlateau);
   }
+
+  getBadgeImagePath(): String {
+    return "../assets/"+this.plateau.nom+"/noir.svg";
+  }
 }
