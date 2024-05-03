@@ -36,3 +36,27 @@ body{
     background-size: cover;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
+mat-dialog-container#app-modal-component {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid #262626;
+    border-radius: 11px;
+    background-color: #e4d8d8;
+    height: 250px;
+    width: 500px;
+}
+
+@include mat.core();
+
+$my-primary : mat.define-palette(mat.$indigo-palette);
+$my-accent : mat.define-palette(mat.$cyan-palette);
+$my-warn : mat.define-palette(mat.$pink-palette);
+
+$my-theme: mat.define-light-theme((color: (primary: $my-primary,
+                accent: $my-accent,
+                warn: $my-warn )));
+
+@include mat.all-component-themes($my-theme);
