@@ -27,7 +27,7 @@ export class ModalComponent {
     @Input() partie!: Partie;
     router : Router = new Router;
 
-  terminer(){
+  supprimer(){
     
     this.service.finishGame(this.partie, (message) => {
       console.log("json reçu",message);
