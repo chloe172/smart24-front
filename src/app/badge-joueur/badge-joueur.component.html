@@ -1,7 +1,10 @@
-<mat-card class="card-panel indigo lighten-1">
+<mat-card class="card-panel indigo lighten-1 center-align">
+    <h6 class="white-text">Badges</h6>
     <div class="row">
-        <div class="col s6 m4 center-align" *ngFor="let badge of badges">
-            <img src="../assets/ordi.png" class={{badge.etat}} height="50px" width="50px">
+        <div class="col s6 m6 center-align" *ngFor="let badge of badges">
+            <div style="padding: 20px;">
+                <img [src]="getBadgeImagePath(badge)" height="50px" width="50px">
+            </div>
         </div>
     </div> 
 </mat-card>

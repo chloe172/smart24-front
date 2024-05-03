@@ -1,0 +1,21 @@
+<h5 class="center-align white-text">Mini-Jeu : Trouver le mot de passe de Julie</h5>
+
+<mat-card class="card-panel center-align custom-card">
+    <h6 class="center-align">En explorant les réseaux sociaux, vous découvrez trois postes de Julie. Aidez-vous de ces postes pour découvrir son mot de passe !</h6>
+    <div id="row">  
+        <div class="container">
+            <img class="images" src="../assets/santorin.png" width="200px"height="250px">
+            <img class="images" src="../assets/gribouille.png" width="200px"height="250px">
+            <img class="images" src="../assets/anniversaire.png" width="200px"height="250px">
+        </div>
+    </div>
+    <p>{{message}}</p>    
+</mat-card>
+
+<div class="container">
+    <mat-form-field>
+        <input type="text" matInput [formControl]="password" (keypress)="validerMiniJeu()" placeholder="Entrez le mot de passe">
+    </mat-form-field>
+    <button mat-flat-button color="warn" (click)="validerMiniJeu()">Valider</button> 
+</div> 
+

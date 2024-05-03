@@ -4,6 +4,7 @@ import { ConnexionService } from '../connexion/connexion.service';
 import { Router } from '@angular/router';
 import { IdPartieService } from '../general-services/id-partie.service';
 import { AccessSessionService } from '../access-session/access-session.service';
+import { EndPlayerService } from '../general-services/end-player.service';
 
 
 @Injectable({
@@ -14,6 +15,7 @@ export class WaitingForPlayersService {
         private connexionService: ConnexionService,
         private accessSessionService: AccessSessionService,
         private partieService: IdPartieService,
+        private endPlayer : EndPlayerService,
         private router: Router
     ) {
         

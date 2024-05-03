@@ -4,8 +4,12 @@
         <div class="col s6 offset-s3">
             <mat-card class="card-panel hoverable center-align">
                 <mat-form-field>
-                    <mat-label>Entrez le nom de votre partie</mat-label>
-                    <input matInput placeholder="Ma première partie" [(ngModel)]="nomPartie" required />
+                    <mat-label >Entrez le nom de votre partie</mat-label>
+                    <input matInput
+                        placeholder="Ma première partie"
+                        [(ngModel)]="nomPartie"
+                        required
+                        (keyup.enter)="creerPartie()"/>
                 </mat-form-field>
             </mat-card>
         </div>
