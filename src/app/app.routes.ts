@@ -12,6 +12,7 @@ import { WaitingForPlayersComponent } from './waiting-for-players/waiting-for-pl
 import { TeamEnrollComponent } from './team-enroll/team-enroll.component';
 import { TeamChoiceComponent } from './team-choice/team-choice.component';
 import { MjGestionProjetComponent } from './mj-gestion-projet/mj-gestion-projet.component';
+import { ActivityComponent } from './activity/activity.component';
 
 
 export const routes: Routes = [
@@ -32,7 +33,7 @@ export const routes: Routes = [
     },
     {
         path: 'question',
-        component: QuestionPageComponent
+        component: ActivityComponent,
     },
     {
         path : 'ongoing-games',
