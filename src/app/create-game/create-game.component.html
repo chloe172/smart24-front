@@ -8,7 +8,8 @@
                     <input matInput
                         placeholder="Ma première partie"
                         [(ngModel)]="nomPartie"
-                        required/>
+                        required
+                        (keyup.enter)="creerPartie()"/>
                 </mat-form-field>
             </mat-card>
         </div>
