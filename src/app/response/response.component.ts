@@ -30,7 +30,7 @@ export class ResponseComponent {
       return colors[this.index % 4];
     } else if (this.etape === "select") {
       if (this.estSelectionnee) {
-        return 'blue';
+        return '#4e5fff';
       } else {
         return 'gray';
       }
@@ -38,7 +38,7 @@ export class ResponseComponent {
       if (this.etatReponse === "bonne") {
         return 'green';
       } else if (this.etatReponse === "mauvaise") {
-        return 'red';
+        return '#ff5353';
       } else {
         return 'gray';
       }
