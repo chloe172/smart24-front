@@ -3,8 +3,8 @@ import { Plateau } from '../modele/plateau.model';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatButtonModule} from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CreateGameService } from './create-game.service';
 import { Router } from '@angular/router';
@@ -20,20 +20,20 @@ import { Router } from '@angular/router';
 
 export class CreateGameComponent {
   nomPartie: string = '';
-  constructor(private service : CreateGameService,private router : Router) { }
+  constructor(private service: CreateGameService, private router: Router) { }
   plateaux: any[] = [
     //{ plateau: this.plateau1, selected: false },
   ];
-  ngOnInit(){
+  ngOnInit() {
     this.service.listerPlateaux((message) => {
-       console.log("json reçu",message);
-       if(!message.succes){
-          console.log(message.messageErreur);
-          this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
-       }else{
-          let listePlateaux = message.data.listePlateaux as Plateau[];
-          this.plateaux = this.initializePlateaux(listePlateaux);
-       }
+      console.log("json reçu", message);
+      if (!message.succes) {
+        console.log(message.messageErreur);
+        this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+      } else {
+        let listePlateaux = message.data.listePlateaux as Plateau[];
+        this.plateaux = this.initializePlateaux(listePlateaux);
+      }
     });
   }
 
@@ -56,6 +56,6 @@ export class CreateGameComponent {
     // Ajoutez ici la logique pour démarrer la partie
   }
   initializePlateaux(plateaux: Plateau[]): any[] {
-    return plateaux.map(plateau => ({ plateau, selected: false }));
+    return plateaux.map(plateau => ({ plateau, selected: true }));
   }
 }
