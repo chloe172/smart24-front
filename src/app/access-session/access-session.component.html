@@ -4,7 +4,7 @@
         <mat-card class="card-panel hoverable" style="max-width: 400px;">
             <mat-form-field>
                 <mat-label>Code PIN</mat-label>
-                <input matInput [formControl]="pin" (blur)="updateErrorMessage()" oninput="this.value = this.value.toUpperCase()">
+                <input matInput [formControl]="pin" (blur)="updateErrorMessage()" oninput="this.value = this.value.toUpperCase()" (keyup.enter)="valider()">
                 <mat-error *ngIf="pin.invalid">{{errorMessage}}</mat-error>
             </mat-form-field>
             <button mat-flat-button color="primary" [disabled]="pin.invalid" (click)="valider()">Accéder à la session</button>           

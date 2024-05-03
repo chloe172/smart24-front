@@ -8,7 +8,8 @@
                     <input matInput
                         placeholder="Ma première partie"
                         [(ngModel)]="nomPartie"
-                        required/>
+                        required
+                        (keyup.enter)="creerPartie()"/>
                 </mat-form-field>
             </mat-card>
         </div>
@@ -17,20 +18,21 @@
                 <h5 color="primary">Choisir les Plateaux:</h5>
                 <div class="row">
                     <div class="col s3" *ngFor="let plateau of plateaux">
-                        <mat-checkbox color="primary" [(ngModel)]="plateau.selected"><p color="primary">{{plateau.plateau.nom}}</p></mat-checkbox>
+                        <mat-checkbox color="primary" [(ngModel)]="plateau.selected">
+                            <p color="primary">{{plateau.plateau.nom}}</p>
+                        </mat-checkbox>
                     </div>
 
                 </div>
                 <div class="center-align">
-                    <button mat-flat-button color="primary"  (click)="selectAll()" style="max-width: 200px;">Sélectionner Tout</button>
+                    <button mat-flat-button color="primary" (click)="selectAll()" style="max-width: 200px;">Sélectionner
+                        Tout</button>
                 </div>
 
             </mat-card>
         </div>
     </div>
-        
-    <button mat-flat-button color="warn" style="max-width: 200px;" (click)="creerPartie()" [disabled]="!nomPartie || !plateauxSelected()">Créer la Partie</button>
+
+    <button mat-flat-button color="warn" style="max-width: 200px;" (click)="creerPartie()"
+        [disabled]="!nomPartie || !plateauxSelected()">Créer la Partie</button>
 </div>
-  
-  
-  

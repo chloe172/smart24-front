@@ -22,7 +22,6 @@ export class WebSocketService {
     };
   }
 
-
   subscribeToType(type: string, callback: (message: any) => any) {
     if (!this.callbacks[type]) {
       this.callbacks[type] = [];
@@ -30,17 +29,21 @@ export class WebSocketService {
     this.callbacks[type].push(callback);
   }
 
+  removeAllSubscriptionsOfType(type: string) {
+    this.callbacks[type] = [];
+  }
+
   SendToType(type: string, data: any) {
     this.socket.send(
       JSON.stringify({
         type: type,
-        data : data
+        data: data
       })
     );
   }
 
-  
 
 
-  
+
+
 }
