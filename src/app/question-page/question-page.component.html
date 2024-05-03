@@ -10,12 +10,12 @@
 
 <mat-card class="card-panel" *ngIf="service.explication !== ''">
     <h6 class="center-align">{{service.explication}}</h6>
-    <div class="options">
-        <button mat-flat-button color="warn" style="max-width: 200px;" (click)="mettreEnPause()">
+    <div class="options" style=" display: flex; justify-content: space-between;">
+        <button mat-flat-button color="warn" (click)="mettreEnPause()">
             Pause
             <mat-icon fontIcon="pause"></mat-icon>
         </button>
-        <button mat-flat-button color="warn" style="max-width: 200px;" (click)="activiteSuivante()">
+        <button mat-flat-button color="warn" (click)="activiteSuivante()">
             Suivant
             <mat-icon fontIcon="arrow_forward"></mat-icon>
         </button>

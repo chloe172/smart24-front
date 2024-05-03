@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { AccessSessionService } from '../access-session/access-session.service';
 import { IdPartieService } from '../general-services/id-partie.service';
 import { Proposition } from "../modele/proposition.model";
-import { ActiviteEnCours } from "../modele/activiteEnCours.model";
 
 @Injectable({
     providedIn: 'root'
@@ -62,6 +61,7 @@ export class QuestionPageService {
                     const partie = message.data.partie;
                     if (partie.finPlateau) {
                         // TODO : aller à la page de choix de plateau
+                        this.explication = "";
                         this.router.navigate(['/selection']);
                     } else {
                         const idPartie = this.partieService.idPartie;

@@ -20,7 +20,6 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './question-page.component.scss'
 })
 export class QuestionPageComponent implements OnInit {
-  router: Router = new Router;
   question!: Question;
   propositions: Proposition[] = [];
   propositionSelectionnee: Proposition | null = null;
@@ -32,6 +31,7 @@ export class QuestionPageComponent implements OnInit {
     protected service: QuestionPageService,
     private equipeService: TeamEnrollService,
     private partieService: IdPartieService,
+    private router: Router
   ) {
   }
 
@@ -89,13 +89,17 @@ export class QuestionPageComponent implements OnInit {
   activiteSuivante() {
     console.log("activite suivante");
     const idPartie = this.partieService.idPartie;
+    this.service.explication = "";
     this.webservice.SendToType("terminerExplication", { idPartie });
   }
 
   mettreEnPause() {
     console.log("partie mise en pause");
     const idPartie = this.partieService.idPartie;
-    this.webservice.SendToType("terminerExplication", { idPartie });
     this.webservice.SendToType("mettreEnPause", { idPartie });
+    this.router.navigate(['/ongoing-games']);
+    this.service.explication = "";
+    this.service.etape = "click";
+
   }
 }
