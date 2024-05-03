@@ -26,12 +26,12 @@ export class AccessSessionService {
     navigate(id : number,etatPartie: string){
         if(etatPartie === 'ATTENTE_EQUIPE_RECONNEXION'){
             this.idPartieService.setId(id);
-            this.setUserAccessed();
+            this.setUserAccessed(true);
             this.router.navigate(['/team-choice']);
         }
         else if(etatPartie === 'ATTENTE_EQUIPE_INSCRIPTION'){
             this.idPartieService.setId(id);
-            this.setUserAccessed();
+            this.setUserAccessed(true);
             this.router.navigate(['/team-enroll']);
         }
         else {
@@ -40,8 +40,8 @@ export class AccessSessionService {
         
     }
 
-    setUserAccessed(){
-        this.userAccessed = true;
+    setUserAccessed(access : boolean){
+        this.userAccessed = access;
     }
 
     getUserAccessed (){
