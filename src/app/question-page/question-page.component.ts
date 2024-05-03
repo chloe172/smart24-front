@@ -66,9 +66,8 @@ export class QuestionPageComponent implements OnInit {
         const question = message.data.question;
         this.idBonneProposition = question.bonneProposition.id;
         this.service.explication = question.explication ?? "";
-        this.equipes = [this.equipeService.idEquipe];
+        this.equipes = message.data.listeEquipes;
         this.service.etape = "explication";
-        this.openDialog();
     },
     (message: any) => {
       console.log("json reçu", message);
