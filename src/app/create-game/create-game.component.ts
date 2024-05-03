@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Plateau } from '../modele/plateau.model';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   templateUrl: './create-game.component.html',
   styleUrls: ['./create-game.component.scss'],
   standalone: true,
-  imports: [NgFor, FormsModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatCardModule]
+  imports: [NgFor, FormsModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatCardModule, NgIf]
 })
 
 export class CreateGameComponent {
@@ -57,5 +57,13 @@ export class CreateGameComponent {
   }
   initializePlateaux(plateaux: Plateau[]): any[] {
     return plateaux.map(plateau => ({ plateau, selected: true }));
+  }
+
+  partyNameInvalid(): boolean{
+    return this.service.getPartyError();
+  }
+
+  getErrorMessage(): string{
+    return this.service.getPartyErrorMessage();
   }
 }
