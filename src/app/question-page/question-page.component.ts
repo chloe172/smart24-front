@@ -8,26 +8,30 @@ import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { IdPartieService } from '../general-services/id-partie.service';
+import { TeamEnrollService } from '../team-enroll/team-enroll.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-question-page',
   standalone: true,
-  imports: [NgFor, ResponseComponent, NgIf, MatCardModule],
+  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './question-page.component.html',
   styleUrl: './question-page.component.scss'
 })
 export class QuestionPageComponent implements OnInit {
   router: Router = new Router;
   question!: Question;
-  explication: string = "";
   propositions: Proposition[] = [];
+  propositionSelectionnee: Proposition | null = null;
   idActiviteEnCours!: number;
   idBonneProposition!: number;
 
   constructor(
     private webservice: WebSocketService,
-    private service: QuestionPageService,
-    private partieService: IdPartieService
+    protected service: QuestionPageService,
+    private equipeService: TeamEnrollService,
+    private partieService: IdPartieService,
   ) {
   }
 
@@ -47,32 +51,51 @@ export class QuestionPageComponent implements OnInit {
         console.log("json reçu", message);
         const question = message.data.question;
         this.idBonneProposition = question.bonneProposition.id;
-        this.explication = question.explication ?? "";
+        this.service.explication = question.explication ?? "";
+
+        this.service.etape = "explication";
       });
 
     //TODO : header pour indiquer : le monde, l'avancement, le score des joueurs...
+  }
+
+  onSelectionReponse = (proposition: Proposition) => {
+    this.propositionSelectionnee = proposition;
+    this.service.etape = "select";
+
+    let idEquipe = this.equipeService.getIdEquipe();
+    let idPartie = this.partieService.getId();
+    let idActiviteEnCours = this.idActiviteEnCours;
+
+    this.webservice.SendToType("soumettreReponse", {
+      idPartie,
+      "idProposition": proposition.id,
+      idEquipe,
+      idActiviteEnCours
+    });
+
+    this.webservice.removeAllSubscriptionsOfType('reponseSoumettreReponse');
+    this.webservice.subscribeToType('reponseSoumettreReponse', (message: any): any => {
+      console.log("Question soumise", message);
+      if (!message.succes) {
+        if (message.codeErreur === 422) {
+          console.log("Réponse déjà soumise");
+          // TODO : afficher l'erreur
+        }
+      }
+    });
   }
 
   activiteSuivante() {
     console.log("activite suivante");
     const idPartie = this.partieService.idPartie;
     this.webservice.SendToType("terminerExplication", { idPartie });
-    this.webservice.subscribeToType("reponseTerminerExplication", (message) => {
-      console.log("json reçu", message);
-      if (message.succes) {
-        const partie = message.data.partie;
-        if (partie.finPlateau) {
-            // TODO : aller à la page de choix de plateau
-        } else {
-            // TODO : aller à la page de question suivante
-            // Lancer activité ?
-            this.webservice.SendToType("lancerActivite", { idPartie });
-            this.explication = "";
-        }
-      } else {
-        console.log(message.messageErreur);
-        this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
-      }
-    });
+  }
+
+  mettreEnPause() {
+    console.log("partie mise en pause");
+    const idPartie = this.partieService.idPartie;
+    this.webservice.SendToType("terminerExplication", { idPartie });
+    this.webservice.SendToType("mettreEnPause", { idPartie });
   }
 }

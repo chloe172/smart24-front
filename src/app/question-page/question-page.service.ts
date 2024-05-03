@@ -12,8 +12,9 @@ import { ActiviteEnCours } from "../modele/activiteEnCours.model";
 })
 export class QuestionPageService {
     idBonneProposition!: number;
-    explication!: string;
+    explication: string = "";
     bonneProposition!: Proposition;
+    etape: "click" | "select" | "explication" = "click";
 
     constructor(
         private webservice: WebSocketService,
@@ -32,6 +33,7 @@ export class QuestionPageService {
             this.webservice.SendToType("lancerActivite", { idPartie });
 
             this.webservice.subscribeToType('reponseLancerActivite', (message): any => {
+                this.etape = "click";
                 callbackLancementActivite(message);
             });
 
@@ -49,11 +51,30 @@ export class QuestionPageService {
                     console.log(message.messageErreur);
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 } else {
+                    this.explication = message.data.explication;
                     callbackReponseActivite(message);
                 }
             });
-        
-        // Equipe
+
+            this.webservice.subscribeToType("reponseTerminerExplication", (message) => {
+                console.log("json reçu", message);
+                if (message.succes) {
+                    const partie = message.data.partie;
+                    if (partie.finPlateau) {
+                        // TODO : aller à la page de choix de plateau
+                        this.router.navigate(['/selection']);
+                    } else {
+                        const idPartie = this.partieService.idPartie;
+                        this.webservice.SendToType("lancerActivite", { idPartie });
+                        this.explication = "";
+                    }
+                } else {
+                    console.log(message.messageErreur);
+                    this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+                }
+            });
+
+            // Equipe
         } else if (this.accessSessionService.getUserAccessed()) {
 
             this.webservice.subscribeToType('notificationLancerActivite', (message): any => {
@@ -61,6 +82,7 @@ export class QuestionPageService {
                     console.log(message.messageErreur);
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 } else {
+                    this.etape = "click";
                     callbackLancementActivite(message);
                 }
             });
@@ -70,6 +92,7 @@ export class QuestionPageService {
                     console.log(message.messageErreur);
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 } else {
+                    this.explication = message.data.explication;
                     callbackReponseActivite(message);
                     this.bonneProposition = message.data.bonneProposition as Proposition;
                 }
