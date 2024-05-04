@@ -8,11 +8,13 @@ import { MatIcon } from '@angular/material/icon';
 import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { IdPartieService } from '../general-services/id-partie.service';
 import { MatButton } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+
 
 @Component({
     selector: 'app-selectionPlateaux',
     standalone: true,
-    imports: [NgFor, CartePlateauComponent, MatIcon, MatButton],
+    imports: [NgFor, CartePlateauComponent, MatIcon, MatButton, MatCardModule],
     templateUrl: './selection-plateaux.component.html',
 })
 
@@ -21,9 +23,7 @@ import { MatButton } from '@angular/material/button';
     router : Router = new Router;
 
     constructor(
-      private service : SelectionPlateauxService, 
-      private webservice: WebSocketService,
-      private partieService: IdPartieService
+      private service : SelectionPlateauxService
       ) { }
 
     ngOnInit(){
@@ -40,10 +40,7 @@ import { MatButton } from '@angular/material/button';
 
     mettreEnPause() {
       console.log("partie mise en pause");
-      const idPartie = this.partieService.idPartie;
-      this.webservice.SendToType("mettreEnPause", { idPartie });
-      this.router.navigate(['/ongoing-games']);
-  
+      this.service.mettreEnPause();
     }
 
 

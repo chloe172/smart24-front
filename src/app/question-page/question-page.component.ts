@@ -15,11 +15,13 @@ import { MatDialog, MatDialogModule, MatDialogRef  } from '@angular/material/dia
 import { MatIconModule } from '@angular/material/icon';
 import { ModalScoreComponent } from '../modal-score/modal-score.component';
 import { Classement } from '../modele/plateau.model';
+import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
+
 
 @Component({
   selector: 'app-question-page',
   standalone: true,
-  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule, MatDialogModule],
+  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule,ProgressBarComponent, MatDialogModule],
   templateUrl: './question-page.component.html',
   styleUrl: './question-page.component.scss'
 })
@@ -33,11 +35,8 @@ export class QuestionPageComponent implements OnInit {
   classements: Classement[] = [];
 
   constructor(
-    private webservice: WebSocketService,
     protected service: QuestionPageService,
-    private equipeService: TeamEnrollService,
-    private partieService: IdPartieService,
-    private router: Router,
+    private router : Router,
     public dialog: MatDialog
   ) {
   }
@@ -62,6 +61,7 @@ export class QuestionPageComponent implements OnInit {
         this.equipes = message.data.listeEquipes;
         this.service.etape = "explication";
         this.openDialogMaitreDuJeu();
+        this.openDialogMaitreDuJeu();
     },
       (message: any) => {
         console.log("json reçu", message);
@@ -83,49 +83,38 @@ export class QuestionPageComponent implements OnInit {
   }
 
   onSelectionReponse = (proposition: Proposition) => {
-    this.propositionSelectionnee = proposition;
     this.service.etape = "select";
-
-    let idEquipe = this.equipeService.getIdEquipe();
-    let idPartie = this.partieService.getId();
-    let idActiviteEnCours = this.idActiviteEnCours;
-
-    this.webservice.SendToType("soumettreReponse", {
-      idPartie,
-      "idProposition": proposition.id,
-      idEquipe,
-      idActiviteEnCours
-    });
-
-    this.webservice.removeAllSubscriptionsOfType('reponseSoumettreReponse');
-    this.webservice.subscribeToType('reponseSoumettreReponse', (message: any): any => {
-      console.log("Question soumise", message);
-      if (!message.succes) {
-        if (message.codeErreur === 422) {
-          console.log("Réponse déjà soumise");
-          // TODO : afficher l'erreur
-        }
-      }
-    });
+    this.propositionSelectionnee = proposition;
+    this.service.envoyerReponse(proposition.id, this.idActiviteEnCours);
+    this.service.recevoirSoumettreReponse();
   }
 
   activiteSuivante() {
     console.log("activite suivante");
-    const idPartie = this.partieService.idPartie;
-    this.service.explication = "";
-    this.webservice.SendToType("terminerExplication", { idPartie });
+    this.service.envoyerTerminerExplication();
   }
 
   mettreEnPause() {
     console.log("partie mise en pause");
-    const idPartie = this.partieService.idPartie;
-    this.webservice.SendToType("mettreEnPause", { idPartie });
-    this.router.navigate(['/ongoing-games']);
+    this.service.mettreEnPause(() => {
     this.service.explication = "";
     this.service.etape = "click";
+    this.router.navigate(['/ongoing-games']);
+    });
   }
 
   openDialogMaitreDuJeu(): void {
+    const dialogRef = this.dialog.open(ModalScoreComponent, {
+      data: this.equipes,
+      width: '70%'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  openDialogEquipe(): void {
     const dialogRef = this.dialog.open(ModalScoreComponent, {
       data: this.equipes,
       width: '70%'
