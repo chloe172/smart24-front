@@ -12,6 +12,7 @@ import { WaitingForPlayersComponent } from './waiting-for-players/waiting-for-pl
 import { TeamEnrollComponent } from './team-enroll/team-enroll.component';
 import { TeamChoiceComponent } from './team-choice/team-choice.component';
 import { CyberGameComponent } from './cyber-game/cyber-game.component';
+import { MjGestionProjetComponent } from './mj-gestion-projet/mj-gestion-projet.component';
 
 
 export const routes: Routes = [
@@ -32,7 +33,7 @@ export const routes: Routes = [
     },
     {
         path: 'question',
-        component: QuestionPageComponent
+        component: QuestionPageComponent,
     },
     {
         path : 'ongoing-games',
@@ -73,6 +74,10 @@ export const routes: Routes = [
     {
         path: 'team-choice',
         component: TeamChoiceComponent
+    },
+    {
+        path: 'mj-gestion-projet',
+        component: MjGestionProjetComponent
     },
     {
         path: '**',

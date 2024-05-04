@@ -33,4 +33,22 @@ export class SelectionPlateauxService{
             this.router.navigate(['/login']);            
         }
     }
+
+    mettreEnPause() {
+        console.log("partie mise en pause");
+        const idPartie = this.partieService.getId();
+        this.webservice.SendToType("mettreEnPause", { idPartie });
+        this.webservice.subscribeToType('reponseMettreEnPausePartie', (message): any => {
+            if (message.succes) {
+                console.log("service deco")
+                this.partieService.setId(-1);
+                this.router.navigate(['/ongoing-games']);
+            }
+            else{
+                console.log(message.messageErreur);
+                this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+            }
+        });
+       
+    }
 }
