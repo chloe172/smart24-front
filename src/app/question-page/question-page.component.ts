@@ -11,11 +11,13 @@ import { IdPartieService } from '../general-services/id-partie.service';
 import { TeamEnrollService } from '../team-enroll/team-enroll.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
+
 
 @Component({
   selector: 'app-question-page',
   standalone: true,
-  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule,ProgressBarComponent],
   templateUrl: './question-page.component.html',
   styleUrl: './question-page.component.scss'
 })

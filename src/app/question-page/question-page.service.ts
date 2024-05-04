@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AccessSessionService } from '../access-session/access-session.service';
 import { IdPartieService } from '../general-services/id-partie.service';
 import { Proposition } from "../modele/proposition.model";
+import { ProgressBarService } from '../progress-bar/progress-bar.service';
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +21,7 @@ export class QuestionPageService {
         private connexionService: ConnexionService,
         private accessSessionService: AccessSessionService,
         private partieService: IdPartieService,
+        private progressBarService: ProgressBarService,
         private router: Router
     ) {
     }

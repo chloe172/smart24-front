@@ -15,7 +15,7 @@ import { ProgressBarService } from './progress-bar.service';
 })
 export class ProgressBarComponent implements OnInit{
 
-  @Input() duree: number = 30; // Durée en secondes
+  duree: number = 30; // Durée en secondes
   valeurProgression: number = 0;
   tempsRestant : number = this.duree;
   intervallePourcent: any;

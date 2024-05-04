@@ -19,10 +19,6 @@ export class ProgressBarService {
     }
 
     initBar(callback : () => any){
-            this.webSocketService.subscribeToType('reponseLancerActivite', (message) => {
-                console.log("json reçu",message);
                 callback();
-            });
-        
     }
 }
