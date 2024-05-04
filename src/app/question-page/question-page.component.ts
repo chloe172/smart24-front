@@ -84,10 +84,10 @@ export class QuestionPageComponent implements OnInit {
   onSelectionReponse = (proposition: Proposition) => {
     this.propositionSelectionnee = proposition;
     this.service.etape = "select";
+    let idActiviteEnCours = this.idActiviteEnCours;
 
     let idEquipe = this.equipeService.getIdEquipe();
     let idPartie = this.partieService.getId();
-    let idActiviteEnCours = this.idActiviteEnCours;
 
     this.webservice.SendToType("soumettreReponse", {
       idPartie,

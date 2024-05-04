@@ -3,6 +3,7 @@ import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { IdPartieService } from '../general-services/id-partie.service';
 import { AccessSessionService } from '../access-session/access-session.service';
 import { Router } from '@angular/router';
+import { TeamEnrollService } from '../team-enroll/team-enroll.service';
 
 
 @Injectable({
@@ -13,7 +14,8 @@ export class TeamChoiceService {
         private webSocketService: WebSocketService,
         private idPartieService: IdPartieService,
         private router: Router,
-        private accessService: AccessSessionService
+        private accessService: AccessSessionService,
+        private teamService: TeamEnrollService
     ) {
         // Initialize your service here
     }
@@ -45,6 +47,7 @@ export class TeamChoiceService {
                 }
                 else{
                     console.log('Equipe inscrite', message);
+                    this.teamService.setIdEquipe(message.data.equipe.id);
                     this.router.navigate(['/waiting']);
                 }
 

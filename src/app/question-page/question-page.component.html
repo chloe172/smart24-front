@@ -9,12 +9,12 @@
     </div>
 </div>
 
-<mat-card class="card-panel" *ngIf="service.explication !== ''">
+<mat-card class="card-panel" *ngIf="service.explication !== ''" style="margin: 10px;">
     <h6 class="center-align">{{service.explication}}</h6>
     <div class="options" style=" display: flex; justify-content: space-between;">
         <button mat-flat-button color="warn" (click)="mettreEnPause()">
-            Pause
-            <mat-icon fontIcon="pause"></mat-icon>
+            Sauvegarder
+            <mat-icon fontIcon="save"></mat-icon>
         </button>
         <button mat-flat-button color="warn" (click)="activiteSuivante()">
             Suivant

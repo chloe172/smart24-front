@@ -6,6 +6,7 @@ import { AccessSessionService } from '../access-session/access-session.service';
 import { IdPartieService } from '../general-services/id-partie.service';
 import { Proposition } from "../modele/proposition.model";
 import { ProgressBarService } from '../progress-bar/progress-bar.service';
+import { TeamEnrollService } from '../team-enroll/team-enroll.service';
 
 @Injectable({
     providedIn: 'root'
@@ -22,6 +23,7 @@ export class QuestionPageService {
         private accessSessionService: AccessSessionService,
         private partieService: IdPartieService,
         private progressBarService: ProgressBarService,
+        private equipeService: TeamEnrollService,
         private router: Router
     ) {
     }
@@ -119,5 +121,21 @@ export class QuestionPageService {
             this.router.navigate(['/']);
         }
     }
+
+    envoyerReponse(idProposition: number, idActiviteEnCours : number) {
+        let idEquipe = this.equipeService.getIdEquipe();
+        let idPartie = this.partieService.getId();
+        
+
+        this.webservice.SendToType("soumettreReponse", {
+            idPartie,
+            idProposition,
+            idEquipe,
+            idActiviteEnCours
+        });
+    }
+
+
+
 
 }
