@@ -1,10 +1,11 @@
-<div class="row">
-    <div class="col s12" *ngFor="let equipe of equipes">
-        <mat-card class="card-panel" [ngStyle]="{'background-color': equipe.color}">
-            <h6 class="center-align white-text">{{equipe.points}}</h6>
-            <hr style="border: 1px solid white; width: 200px">
-            <h6 class="center-align white-text">{{equipe.classement}}</h6>
-            <img src="../assets/avatar.png" width="20px" height="20px">
+<div class="center-align" *ngFor="let equipe of equipes; index as i">
+    <div class="mat-card-container">
+        <mat-card class="card-panel" [ngStyle]="{'background-color': getColor(i)}" style="width: 60%;">
+            <div class="center-align">
+                <h6 class="center-align white-text">{{equipe.rang}} - {{equipe.score}}</h6>
+                <hr style="border: 1px solid white; width: 200px">
+                <h6 class="center-align white-text">{{equipe.nom}}</h6>
+            </div>
         </mat-card>
     </div>
 </div>

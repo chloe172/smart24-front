@@ -10,6 +10,8 @@ import { Plateau } from '../modele/plateau.model';
     providedIn: 'root'
 })
 export class CreateGameService {
+    partyNameError: boolean = false;
+    partyNameErrorMessage: string = "";
     constructor(private webSocketService: WebSocketService,
                 private connexionService: ConnexionService,
                 private router: Router,
@@ -40,7 +42,13 @@ export class CreateGameService {
                 console.log('Partie créée', message);
                 if(!message.succes){
                     console.log(message.messageErreur);
-                    this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+                    if(message.codeErreur === 422){
+                        this.partyNameError = true;
+                        this.partyNameErrorMessage = message.messageErreur;
+                    }
+                    else{
+                        this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+                    }
                 }
                 else{
                     this.partieService.setId(message.data.partie.id);
@@ -52,6 +60,13 @@ export class CreateGameService {
         else{
             this.router.navigate(['/login']);
         }
+    }
+
+    getPartyErrorMessage(): string {
+        return this.partyNameErrorMessage;
+    }
+    getPartyError(): boolean {
+        return this.partyNameError;
     }
 
 }

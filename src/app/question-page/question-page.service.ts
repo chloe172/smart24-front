@@ -27,7 +27,9 @@ export class QuestionPageService {
     }
 
     InitQuestionPage(callbackLancementActivite: (message: any) => any,
-        callbackReponseActivite: (message: any) => any) {
+        callbackReponseActiviteMaitreDuJeu: (message: any) => any,
+        callbackReponseActiviteEquipe: (message: any) => any,
+        callbackFinPlateau: (message: any) => any) {
         // Maitre du jeu
         if (this.connexionService.getUserAuthentication()) {
             let idPartie = this.partieService.getId();
@@ -53,7 +55,7 @@ export class QuestionPageService {
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 } else {
                     this.explication = message.data.explication;
-                    callbackReponseActivite(message);
+                    callbackReponseActiviteMaitreDuJeu(message);
                 }
             });
 
@@ -62,9 +64,9 @@ export class QuestionPageService {
                 if (message.succes) {
                     const partie = message.data.partie;
                     if (partie.finPlateau) {
-                        // TODO : aller à la page de choix de plateau
                         this.explication = "";
                         this.router.navigate(['/selection']);
+                        callbackFinPlateau(message);
                     } else {
                         const idPartie = this.partieService.idPartie;
                         this.webservice.SendToType("lancerActivite", { idPartie });
@@ -95,12 +97,26 @@ export class QuestionPageService {
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 } else {
                     this.explication = message.data.explication;
-                    callbackReponseActivite(message);
-                    this.bonneProposition = message.data.bonneProposition as Proposition;
+                    callbackReponseActiviteEquipe(message);
+                    // this.bonneProposition = message.data.bonneProposition as Proposition;
+                }
+            });
+
+            this.webservice.subscribeToType("notificationTerminerExplication", (message) => {
+                console.log("json reçu", message);
+                if (message.succes) {
+                    const partie = message.data.partie;
+                    if (partie.finPlateau) {
+                        // TODO : aller à la page de choix de plateau
+                        callbackFinPlateau(message);
+                    } 
+                } else {
+                    console.log(message.messageErreur);
+                    this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 }
             });
         } else {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/']);
         }
     }
 
