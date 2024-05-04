@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { BadgeJoueurComponent } from '../badge-joueur/badge-joueur.component';
 import { ClassementComponent } from '../classement/classement.component';
-import { Equipe } from '../modele/equipe.model';
+import { AvatarComponent } from '../avatar/avatar.component';
 
 @Component({
   selector: 'app-menu-joueur',
   standalone: true,
-  imports: [BadgeJoueurComponent, ClassementComponent],
+  imports: [BadgeJoueurComponent, ClassementComponent, AvatarComponent],
   templateUrl: './menu-joueur.component.html',
   styleUrl: './menu-joueur.component.scss'
 })

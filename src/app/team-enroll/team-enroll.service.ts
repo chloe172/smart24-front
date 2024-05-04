@@ -31,10 +31,10 @@ export class TeamEnrollService {
     }
     
     
-    inscrireEquipe(nomEquipe: string) {
+    inscrireEquipe(nomEquipe: string, avatar: string) {
         if (this.accessSessionService.getUserAccessed()) {
             let idPartie = this.idService.getId();
-            this.webSocketService.SendToType('inscrireEquipe', { nomEquipe,idPartie });
+            this.webSocketService.SendToType('inscrireEquipe', { nomEquipe, idPartie, avatar });
             this.webSocketService.subscribeToType('reponseInscrireEquipe', (message) => {
                 if(!message.succes){
                     console.log('Erreur inscription', message);
@@ -56,7 +56,6 @@ export class TeamEnrollService {
         } else {
             console.log('User doesn\'t have access to this service');
             this.router.navigate(['/']);
-            
         }
     }
     

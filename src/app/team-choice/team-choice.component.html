@@ -6,14 +6,14 @@
     </div>
     <mat-selection-list #equipes [multiple]="false" [(ngModel)]="selected" class="center-align text-align">
       @for (equipe of listeEquipes; track equipe) {                
-            <div class="mat-card-container">
-            <mat-card class="center-align text-align" style="margin: 10px; max-width: max-content; padding: 0px;">
-              <mat-card-content class="black-text"  style="font-weight: bold;">
-                <mat-list-option [value]="equipe">{{equipe.nom}}</mat-list-option>
-              </mat-card-content>
-            </mat-card>
-            </div>
-          }
-      </mat-selection-list>
+        <div class="mat-card-container">
+        <mat-card class="center-align text-align" style="margin: 10px; max-width: max-content; padding: 0px;">
+          <mat-card-content class="black-text"  style="font-weight: bold;">
+            <mat-list-option [value]="equipe">{{equipe.nom}}</mat-list-option>
+          </mat-card-content>
+        </mat-card>
+        </div>
+      }
+    </mat-selection-list>
     <button mat-flat-button color="warn" style="max-width: 200px;" (click)="connecterEquipe()" [disabled]="!equipes.selectedOptions.hasValue()">Se connecter</button>
 </div>
