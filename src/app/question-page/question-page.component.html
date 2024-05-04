@@ -8,6 +8,11 @@
         </app-response>
     </div>
 </div>
+<div *ngIf="typeActivite==='minijeu'">
+    <div *ngIf="codeMinijeu==='mot-de-passe-reseaux-sociaux'">
+        <app-cyber-game></app-cyber-game>
+    </div>
+</div>
 
 <mat-card class="card-panel" *ngIf="service.explication !== ''" style="margin: 10px;">
     <h6 class="center-align">{{service.explication}}</h6>

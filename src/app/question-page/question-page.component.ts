@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { ResponseComponent } from '../response/response.component';
 import { Proposition } from '../modele/proposition.model';
@@ -7,20 +7,17 @@ import { Equipe } from '../modele/equipe.model';
 import { QuestionPageService } from './question-page.service';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { WebSocketService } from '../core/WebSocketService/web-socket.service';
-import { IdPartieService } from '../general-services/id-partie.service';
-import { TeamEnrollService } from '../team-enroll/team-enroll.service';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule, MatDialogRef  } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ModalScoreComponent } from '../modal-score/modal-score.component';
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
-
+import { CyberGameComponent } from '../cyber-game/cyber-game.component';
 
 @Component({
   selector: 'app-question-page',
   standalone: true,
-  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule,ProgressBarComponent, MatDialogModule],
+  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule,ProgressBarComponent, MatDialogModule, ModalScoreComponent,CyberGameComponent],
   templateUrl: './question-page.component.html',
   styleUrl: './question-page.component.scss'
 })
@@ -33,6 +30,7 @@ export class QuestionPageComponent implements OnInit {
   equipes: Equipe[] = [];
   showProgressBar: boolean = false;
   typeActivite : string = "question";
+  codeMinijeu : string = "";
 
   constructor(
     protected service: QuestionPageService,
@@ -55,6 +53,11 @@ export class QuestionPageComponent implements OnInit {
           this.idActiviteEnCours = message.data.idActiviteEnCours;
           this.service.resetBar();
           this.showProgressBar = true;
+        }
+        else if(this.typeActivite === "minijeu"){
+          this.codeMinijeu = message.data.miniJeu.code;
+          this.service.etape = "click";
+          this.showProgressBar = false;
         }
       }
     },
