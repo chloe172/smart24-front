@@ -7,6 +7,7 @@ import { IdPartieService } from '../general-services/id-partie.service';
 import { Proposition } from "../modele/proposition.model";
 import { ProgressBarService } from '../progress-bar/progress-bar.service';
 import { TeamEnrollService } from '../team-enroll/team-enroll.service';
+import { Equipe } from '../modele/equipe.model'
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,10 @@ import { TeamEnrollService } from '../team-enroll/team-enroll.service';
 export class QuestionPageService {
     idBonneProposition!: number;
     explication: string = "";
+    score: string = "";
+    rang: string = "";
     bonneProposition!: Proposition;
+    equipes: Equipe[] = [];
     etape: "click" | "select" | "explication" = "click";
     
     constructor(
@@ -31,7 +35,9 @@ export class QuestionPageService {
     InitQuestionPage(callbackLancementActivite: (message: any) => any,
         callbackReponseActiviteMaitreDuJeu: (message: any) => any,
         callbackReponseActiviteEquipe: (message: any) => any,
-        callbackFinPlateau: (message: any) => any) {
+        callbackFinPlateauEquipe: (message: any) => any,
+        callbackFinPlateauMaitreDuJeu: (message: any) => any) {
+
         // Maitre du jeu
         if (this.connexionService.getUserAuthentication()) {
             let idPartie = this.partieService.getId();
@@ -65,10 +71,18 @@ export class QuestionPageService {
                 console.log("json reçu", message);
                 if (message.succes) {
                     const partie = message.data.partie;
+                    console.log(partie.finPlateau);
                     if (partie.finPlateau) {
                         this.explication = "";
+                        callbackFinPlateauMaitreDuJeu(message);
+                        this.webservice.removeAllSubscriptionsOfType('reponseLancerActivite');
+                        this.webservice.removeAllSubscriptionsOfType('notificationReponseActivite');
+                        this.webservice.removeAllSubscriptionsOfType('reponseTerminerExplication');
+                        this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
+                        this.webservice.removeAllSubscriptionsOfType('notificationSoumettreReponse');
+                        this.webservice.removeAllSubscriptionsOfType('reponseChoisirPlateau');
+                        this.webservice.removeAllSubscriptionsOfType('reponseListerPlateau');
                         this.router.navigate(['/selection']);
-                        callbackFinPlateau(message);
                     } else {
                         const idPartie = this.partieService.getId();
                         this.webservice.SendToType("lancerActivite", { idPartie });
@@ -89,6 +103,8 @@ export class QuestionPageService {
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 } else {
                     this.etape = "click";
+                    this.score = "";
+                    this.rang = "";
                     callbackLancementActivite(message);
                 }
             });
@@ -98,9 +114,11 @@ export class QuestionPageService {
                     console.log(message.messageErreur);
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 } else {
-                    this.explication = message.data.explication;
+                    console.log(message.equipe);
+                    //this.explication = message.data.explication;  
+                    this.score = message.data.equipe.score;
+                    //this.rang = message.data.equipe.rang;
                     callbackReponseActiviteEquipe(message);
-                    // this.bonneProposition = message.data.bonneProposition as Proposition;
                 }
             });
             
@@ -110,7 +128,7 @@ export class QuestionPageService {
                     const partie = message.data.partie;
                     if (partie.finPlateau) {
                         // TODO : aller à la page de choix de plateau
-                        callbackFinPlateau(message);
+                        callbackFinPlateauEquipe(message);
                     } 
                 } else {
                     console.log(message.messageErreur);
@@ -153,6 +171,8 @@ export class QuestionPageService {
         this.webservice.removeAllSubscriptionsOfType('reponseTerminerExplication');
         this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
         this.webservice.removeAllSubscriptionsOfType('notificationSoumettreReponse');
+        this.webservice.removeAllSubscriptionsOfType('reponseChoisirPlateau');
+        this.webservice.removeAllSubscriptionsOfType('reponseListerPlateau');
         
         this.webservice.subscribeToType('reponseMettreEnPausePartie', (message): any => {
             if (message.succes) {

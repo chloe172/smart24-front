@@ -1,17 +1,19 @@
 import { Component, Input } from '@angular/core';
 import { BadgeJoueurComponent } from '../badge-joueur/badge-joueur.component';
 import { ClassementComponent } from '../classement/classement.component';
+import { Badge } from '../modele/plateau.model';
 import { Equipe } from '../modele/equipe.model';
-import { Classement } from '../modele/plateau.model';
+import { MatCardModule } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-menu-joueur',
   standalone: true,
-  imports: [BadgeJoueurComponent, ClassementComponent],
+  imports: [BadgeJoueurComponent, ClassementComponent, MatCardModule, MatIcon],
   templateUrl: './menu-joueur.component.html',
   styleUrl: './menu-joueur.component.scss'
 })
 export class MenuJoueurComponent {
-  @Input() equipe!: Equipe;
-  @Input() classements!: Classement[];
+  @Input() badges!: Badge[];
+  @Input() equipes!: Equipe[];
 }

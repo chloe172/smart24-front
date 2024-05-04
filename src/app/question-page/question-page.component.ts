@@ -7,15 +7,13 @@ import { Equipe } from '../modele/equipe.model';
 import { QuestionPageService } from './question-page.service';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { WebSocketService } from '../core/WebSocketService/web-socket.service';
-import { IdPartieService } from '../general-services/id-partie.service';
-import { TeamEnrollService } from '../team-enroll/team-enroll.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef  } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ModalScoreComponent } from '../modal-score/modal-score.component';
-import { Classement } from '../modele/plateau.model';
+import { Badge, Classement } from '../modele/plateau.model';
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
+import { ModalBadgeComponent } from '../modal-badge/modal-badge.component';
 
 
 @Component({
@@ -32,8 +30,8 @@ export class QuestionPageComponent implements OnInit {
   idActiviteEnCours!: number;
   idBonneProposition!: number;
   equipes: Equipe[] = [];
-  classements: Classement[] = [];
-
+  badges: Badge[] = [];
+  classement!: Classement;
   constructor(
     protected service: QuestionPageService,
     private router : Router,
@@ -61,23 +59,27 @@ export class QuestionPageComponent implements OnInit {
         this.equipes = message.data.listeEquipes;
         this.service.etape = "explication";
         this.openDialogMaitreDuJeu();
-        this.openDialogMaitreDuJeu();
     },
       (message: any) => {
         console.log("json reçu", message);
         const question = message.data.question;
         this.idBonneProposition = question.bonneProposition.id;
-        this.service.explication = question.explication ?? "";
-        this.equipes = message.data.listeEquipes;
         this.service.etape = "explication";
     },
     (message: any) => {
       console.log("json reçu", message);
-      this.equipes = message.data.listeEquipes;
-      this.classements = message.data.classements;
+      this.badges = message.data.equipe.badges;
+      this.equipes = [message.data.equipe];
+      this.classement = {badges: this.badges, equipes: this.equipes};
       this.service.etape = "explication";
       this.openDialogEquipe();
-    });
+    }, 
+    (message: any) => {
+      console.log("json reçu", message);
+      this.equipes = message.data.listeEquipes;
+      this.service.etape = "explication";
+      this.openDialogMaitreDuJeu();
+  });
 
     //TODO : header pour indiquer : le monde, l'avancement, le score des joueurs...
   }
@@ -115,20 +117,10 @@ export class QuestionPageComponent implements OnInit {
   }
 
   openDialogEquipe(): void {
-    const dialogRef = this.dialog.open(ModalScoreComponent, {
-      data: this.equipes,
-      width: '70%'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
-  openDialogEquipe(): void {
     const dialogRef = this.dialog.open(ModalBadgeComponent, {
-      data: [this.classements, this.service.getIdEquipe()],
-      width: '70%'
+      data: {"equipes": this.equipes, "badges": this.badges},
+      width: '70%',
+      height: '85%'
     });
 
     dialogRef.afterClosed().subscribe(result => {

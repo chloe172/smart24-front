@@ -1,1 +1,11 @@
-<p>modal-badge works!</p>
+<div class="options" style=" display: flex; justify-content: space-between;">
+    <div class="center-align">
+      <h2 mat-dialog-title>Résultats</h2>
+    </div>
+    <button mat-icon-button color="primary" (click)="onNoClick()">
+      <mat-icon fontIcon="close"></mat-icon>
+    </button>
+</div>
+<div class="center-align">
+    <app-menu-joueur [badges]="data.badges" [equipes]="data.equipes"> </app-menu-joueur>
+</div>

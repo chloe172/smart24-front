@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { NgFor } from '@angular/common';
-import { Classement, Plateau } from '../modele/plateau.model';
+import { Badge, Plateau } from '../modele/plateau.model';
 
 @Component({
   selector: 'app-badge-joueur',
@@ -11,9 +11,9 @@ import { Classement, Plateau } from '../modele/plateau.model';
   styleUrl: './badge-joueur.component.scss'
 })
 export class BadgeJoueurComponent {
-  @Input() classements!: Classement[];
+  @Input() badges!: Badge[];
   
-  getBadgeImagePath(index: number) : string {
-    return "../assets/"+this.classements[index].plateau.nom+"/"+this.classements[index].rang+".svg";
+  getBadgeImagePath(badge: Badge) : string {
+    return "../assets/"+badge.plateau+"/"+badge.rang+".svg";
   }
 }
