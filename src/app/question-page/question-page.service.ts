@@ -45,6 +45,7 @@ export class QuestionPageService {
             
             this.webservice.subscribeToType('reponseLancerActivite', (message): any => {
                 this.etape = "click";
+
                 callbackLancementActivite(message);
             });
             
@@ -162,6 +163,10 @@ export class QuestionPageService {
         });
     }
     
+    resetBar(){
+        this.progressBarService.resetBar();
+    }
+
     mettreEnPause(callback: () => any) {
         console.log("partie mise en pause");
         const idPartie = this.partieService.getId();

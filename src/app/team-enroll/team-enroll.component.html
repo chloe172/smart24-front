@@ -1,13 +1,14 @@
 <div class="create-game-container text-align center-align">
     <div class="row">
         <mat-card class="col s4 offset-s4 card-panel" style="margin-top: 20px; background-color: rgba(28, 35, 93, 0.5);;">
-            <h4 class="text-align center-align white-text">Créer une Nouvelle Equipe</h4>
+            <h4 class="text-align center-align white-text" style="font-weight: bold;">Créer une Nouvelle Equipe</h4>
         </mat-card>
     </div>
     <!-- <h3 class="white-text">Créer une Nouvelle Equipe</h3> -->
     <div class="row">
         <div class="col s6 offset-s3">
             <mat-card class="card-panel hoverable center-align">
+                <app-avatar [avatar]="avatarEquipe" (newAvatar)="updateAvatar($event)"></app-avatar>
                 <mat-form-field>
                     <mat-label >Entrez le nom de votre équipe</mat-label>
                     <input matInput
