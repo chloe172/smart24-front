@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Equipe } from '../modele/equipe.model';
 import { TeamChoiceService } from './team-choice.service';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatCard, MatCardModule } from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
 
 @Component({

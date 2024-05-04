@@ -1,0 +1,21 @@
+<div class="container">
+    <img [src]="getAvatarPath(avatar)" alt="Avatar" width="100" height="100">
+    <button mat-icon-button color="primary" class="edit-button" (click)="changerAvatar()">
+        <mat-icon>edit</mat-icon>
+    </button>
+</div>
+<div *ngIf="avatarVisible == true">
+    <mat-selection-list [multiple]="false" [(ngModel)]="selected" class="row">
+        @for (avatar of avatars; track avatar) {
+            <div class="col s3 center-align">
+                <img 
+                [src]="getAvatarPath(avatar)" 
+                height="100px" 
+                width="100px" 
+                class="hoverable rounded-image" 
+                style="padding: 10px;"
+                (click)="selectAvatar(avatar)">
+            </div>
+        }
+    </mat-selection-list>
+</div>
