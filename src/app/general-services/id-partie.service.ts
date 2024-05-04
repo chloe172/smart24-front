@@ -9,8 +9,8 @@ import { AccessSessionService } from '../access-session/access-session.service';
     providedIn: 'root'
 })
 export class IdPartieService {
-    idPartie : number;
-    codePin : string;
+    private idPartie : number;
+    private codePin : string;
     constructor() {
         this.idPartie = -1;
         this.codePin = "";

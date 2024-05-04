@@ -16,7 +16,7 @@ export class QuestionPageService {
     explication: string = "";
     bonneProposition!: Proposition;
     etape: "click" | "select" | "explication" = "click";
-
+    
     constructor(
         private webservice: WebSocketService,
         private connexionService: ConnexionService,
@@ -27,7 +27,7 @@ export class QuestionPageService {
         private router: Router
     ) {
     }
-
+    
     InitQuestionPage(callbackLancementActivite: (message: any) => any,
         callbackReponseActiviteMaitreDuJeu: (message: any) => any,
         callbackReponseActiviteEquipe: (message: any) => any,
@@ -36,12 +36,12 @@ export class QuestionPageService {
         if (this.connexionService.getUserAuthentication()) {
             let idPartie = this.partieService.getId();
             this.webservice.SendToType("lancerActivite", { idPartie });
-
+            
             this.webservice.subscribeToType('reponseLancerActivite', (message): any => {
                 this.etape = "click";
                 callbackLancementActivite(message);
             });
-
+            
             this.webservice.subscribeToType('notificationSoumettreReponse', (message): any => {
                 if (!message.succes) {
                     console.log(message.messageErreur);
@@ -50,7 +50,7 @@ export class QuestionPageService {
                     console.log("Soumission reponse d'une equipe", message);
                 }
             });
-
+            
             this.webservice.subscribeToType('notificationReponseActivite', (message): any => {
                 if (!message.succes) {
                     console.log(message.messageErreur);
@@ -60,7 +60,7 @@ export class QuestionPageService {
                     callbackReponseActiviteMaitreDuJeu(message);
                 }
             });
-
+            
             this.webservice.subscribeToType("reponseTerminerExplication", (message) => {
                 console.log("json reçu", message);
                 if (message.succes) {
@@ -70,7 +70,7 @@ export class QuestionPageService {
                         this.router.navigate(['/selection']);
                         callbackFinPlateau(message);
                     } else {
-                        const idPartie = this.partieService.idPartie;
+                        const idPartie = this.partieService.getId();
                         this.webservice.SendToType("lancerActivite", { idPartie });
                         this.explication = "";
                     }
@@ -79,10 +79,10 @@ export class QuestionPageService {
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 }
             });
-
+            
             // Equipe
         } else if (this.accessSessionService.getUserAccessed()) {
-
+            
             this.webservice.subscribeToType('notificationLancerActivite', (message): any => {
                 if (!message.succes) {
                     console.log(message.messageErreur);
@@ -92,7 +92,7 @@ export class QuestionPageService {
                     callbackLancementActivite(message);
                 }
             });
-
+            
             this.webservice.subscribeToType('notificationReponseActivite', (message): any => {
                 if (!message.succes) {
                     console.log(message.messageErreur);
@@ -103,7 +103,7 @@ export class QuestionPageService {
                     // this.bonneProposition = message.data.bonneProposition as Proposition;
                 }
             });
-
+            
             this.webservice.subscribeToType("notificationTerminerExplication", (message) => {
                 console.log("json reçu", message);
                 if (message.succes) {
@@ -121,12 +121,11 @@ export class QuestionPageService {
             this.router.navigate(['/']);
         }
     }
-
+    
     envoyerReponse(idProposition: number, idActiviteEnCours : number) {
         let idEquipe = this.equipeService.getIdEquipe();
         let idPartie = this.partieService.getId();
         
-
         this.webservice.SendToType("soumettreReponse", {
             idPartie,
             idProposition,
@@ -134,8 +133,57 @@ export class QuestionPageService {
             idActiviteEnCours
         });
     }
+    
+    recevoirSoumettreReponse(){
+        this.webservice.removeAllSubscriptionsOfType('reponseSoumettreReponse');
+        this.webservice.subscribeToType('reponseSoumettreReponse', (message: any): any => {
+            console.log("Question soumise", message);
+            if (!message.succes) {
+                this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+            }
+        });
+    }
+    
+    mettreEnPause(callback: () => any) {
+        console.log("partie mise en pause");
+        const idPartie = this.partieService.getId();
+        this.webservice.SendToType("mettreEnPause", { idPartie });
+        this.webservice.removeAllSubscriptionsOfType('reponseLancerActivite');
+        this.webservice.removeAllSubscriptionsOfType('notificationReponseActivite');
+        this.webservice.removeAllSubscriptionsOfType('reponseTerminerExplication');
+        this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
+        this.webservice.removeAllSubscriptionsOfType('notificationSoumettreReponse');
+        
+        this.webservice.subscribeToType('reponseMettreEnPausePartie', (message): any => {
+            if (message.succes) {
+                console.log("service deco")
+                this.partieService.setId(-1);
+                callback();
+            }
+            else{
+                console.log(message.messageErreur);
+                this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+            }
+        });
+       
+    }
+    
+    getEquipe() {
+        this.equipeService.getIdEquipe();
+    }
+    
+    envoyerTerminerExplication() {
+        const idPartie = this.partieService.getId();
+        this.webservice.SendToType("terminerExplication", { idPartie });
+        this.explication = "";
+        this.webservice.subscribeToType('reponseTerminerExplication', (message): any => {
+            if (!message.succes) {
+                console.log(message.messageErreur);
+                this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+            }
+        });
 
-
-
-
+    }
+    
+    
 }

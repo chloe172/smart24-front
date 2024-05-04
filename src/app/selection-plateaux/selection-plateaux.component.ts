@@ -23,9 +23,7 @@ import { MatCardModule } from '@angular/material/card';
     router : Router = new Router;
 
     constructor(
-      private service : SelectionPlateauxService, 
-      private webservice: WebSocketService,
-      private partieService: IdPartieService
+      private service : SelectionPlateauxService
       ) { }
 
     ngOnInit(){
@@ -42,10 +40,7 @@ import { MatCardModule } from '@angular/material/card';
 
     mettreEnPause() {
       console.log("partie mise en pause");
-      const idPartie = this.partieService.idPartie;
-      this.webservice.SendToType("mettreEnPause", { idPartie });
-      this.router.navigate(['/ongoing-games']);
-  
+      this.service.mettreEnPause();
     }
 
 
