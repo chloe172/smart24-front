@@ -1,10 +1,9 @@
 <div class="row">
     <mat-card class="col s4 offset-s4 card-panel" style="margin-top: 20px; background-color: rgba(28, 35, 93, 0.5);;">
-        <h4 class="center-align white-text">Reprendre une partie</h4>
+        <h4 class="center-align white-text" style="font-weight: bold;">Reprendre une partie</h4>
     </mat-card>
 </div>
 
-<!-- <h4 class="text-align center-align white-text">Choisissez votre plateau : </h4> -->
 <div class="row">
     <div *ngFor="let partie of onGoingGames" class="col s6 m4">
         <app-ongoing-game-card [partie]="partie"></app-ongoing-game-card>

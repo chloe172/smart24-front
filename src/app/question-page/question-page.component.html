@@ -1,6 +1,6 @@
-<h4 class="center-align white-text">{{question.intitule}}</h4>
-<div class="row">
-    <progress-bar></progress-bar>
+<h4 class="center-align white-text" style="font-weight: bold;">{{question.intitule}}</h4>
+<div *ngIf="typeActivite==='question'" class="row">
+    <progress-bar *ngIf="showProgressBar"></progress-bar>
     <div *ngFor="let proposition of propositions; index as i" class="col s12 m6">
         <app-response [index]="i" [proposition]="proposition" [etape]="service.etape"
             [onClickCallback]="onSelectionReponse" [estSelectionnee]="propositionSelectionnee === proposition"
@@ -22,3 +22,4 @@
         </button>
     </div>
 </mat-card>
+

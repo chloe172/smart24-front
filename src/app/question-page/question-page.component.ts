@@ -31,6 +31,8 @@ export class QuestionPageComponent implements OnInit {
   idActiviteEnCours!: number;
   idBonneProposition!: number;
   equipes: Equipe[] = [];
+  showProgressBar: boolean = false;
+  typeActivite : string = "question";
 
   constructor(
     protected service: QuestionPageService,
@@ -46,9 +48,14 @@ export class QuestionPageComponent implements OnInit {
         console.log(message.messageErreur);
         this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
       } else {
-        this.propositions = message.data.question.listePropositions as Proposition[];
-        this.question = message.data.question;
-        this.idActiviteEnCours = message.data.idActiviteEnCours;
+        this.typeActivite = message.data.typeActivite;
+        if(this.typeActivite === "question"){
+          this.propositions = message.data.question.listePropositions as Proposition[];
+          this.question = message.data.question;
+          this.idActiviteEnCours = message.data.idActiviteEnCours;
+          this.service.resetBar();
+          this.showProgressBar = true;
+        }
       }
     },
       (message: any) => {
@@ -58,6 +65,7 @@ export class QuestionPageComponent implements OnInit {
         this.service.explication = question.explication ?? "";
         this.equipes = message.data.listeEquipes;
         this.service.etape = "explication";
+        this.showProgressBar = false;
         this.openDialogMaitreDuJeu();
     },
       (message: any) => {
@@ -66,6 +74,7 @@ export class QuestionPageComponent implements OnInit {
         this.idBonneProposition = question.bonneProposition.id;
         this.service.explication = question.explication ?? "";
         this.equipes = message.data.listeEquipes;
+        this.showProgressBar = false;
         this.service.etape = "explication";
     },
     (message: any) => {
