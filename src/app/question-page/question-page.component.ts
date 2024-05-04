@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef  } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ModalScoreComponent } from '../modal-score/modal-score.component';
+import { Classement } from '../modele/plateau.model';
 
 @Component({
   selector: 'app-question-page',
@@ -29,6 +30,7 @@ export class QuestionPageComponent implements OnInit {
   idActiviteEnCours!: number;
   idBonneProposition!: number;
   equipes: Equipe[] = [];
+  classements: Classement[] = [];
 
   constructor(
     private webservice: WebSocketService,
@@ -59,7 +61,7 @@ export class QuestionPageComponent implements OnInit {
         this.service.explication = question.explication ?? "";
         this.equipes = message.data.listeEquipes;
         this.service.etape = "explication";
-        this.openDialog();
+        this.openDialogMaitreDuJeu();
     },
       (message: any) => {
         console.log("json reçu", message);
@@ -72,8 +74,9 @@ export class QuestionPageComponent implements OnInit {
     (message: any) => {
       console.log("json reçu", message);
       this.equipes = message.data.listeEquipes;
+      this.classements = message.data.classements;
       this.service.etape = "explication";
-      this.openDialog();
+      this.openDialogEquipe();
     });
 
     //TODO : header pour indiquer : le monde, l'avancement, le score des joueurs...
@@ -122,9 +125,20 @@ export class QuestionPageComponent implements OnInit {
     this.service.etape = "click";
   }
 
-  openDialog(): void {
+  openDialogMaitreDuJeu(): void {
     const dialogRef = this.dialog.open(ModalScoreComponent, {
       data: this.equipes,
+      width: '70%'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  openDialogEquipe(): void {
+    const dialogRef = this.dialog.open(ModalBadgeComponent, {
+      data: [this.classements, this.service.getIdEquipe()],
       width: '70%'
     });
 

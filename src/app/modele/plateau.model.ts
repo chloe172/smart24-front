@@ -6,3 +6,9 @@ export interface Plateau {
     activites: Activite[];
 }
 
+export interface Classement {
+    etatPlateau: boolean;
+    plateau: Plateau;
+    rang: string;
+}
+

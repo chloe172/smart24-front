@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { NgFor } from '@angular/common';
+import { Classement, Plateau } from '../modele/plateau.model';
 
 @Component({
   selector: 'app-badge-joueur',
@@ -10,18 +11,9 @@ import { NgFor } from '@angular/common';
   styleUrl: './badge-joueur.component.scss'
 })
 export class BadgeJoueurComponent {
-  badges: any[] = [
-    { nom: 'Accessibilite', etat: 'or' },
-    { nom: 'AI', etat: 'argent' },
-    { nom: 'Cyber', etat: 'or' },
-    { nom: 'Developpement', etat: 'noir' },
-    { nom: 'Général', etat: 'blanc' },
-    { nom: 'GestionProjet', etat: 'bronze' },
-    { nom: 'GreenIT', etat: 'blanc' },
-    { nom: 'IoT', etat: 'noir' }
-  ];
-
-  getBadgeImagePath(badge : any) : string {
-    return "../assets/"+badge.nom+"/"+badge.etat+".svg";
+  @Input() classements!: Classement[];
+  
+  getBadgeImagePath(index: number) : string {
+    return "../assets/"+this.classements[index].plateau.nom+"/"+this.classements[index].rang+".svg";
   }
 }

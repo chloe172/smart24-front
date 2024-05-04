@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AccessSessionService } from '../access-session/access-session.service';
 import { IdPartieService } from '../general-services/id-partie.service';
 import { Proposition } from "../modele/proposition.model";
+import { TeamEnrollService } from '../team-enroll/team-enroll.service';
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +21,7 @@ export class QuestionPageService {
         private connexionService: ConnexionService,
         private accessSessionService: AccessSessionService,
         private partieService: IdPartieService,
+        private equipeService: TeamEnrollService,
         private router: Router
     ) {
     }
@@ -116,6 +118,10 @@ export class QuestionPageService {
         } else {
             this.router.navigate(['/']);
         }
+    }
+
+    getIdEquipe() {
+        this.equipeService.getIdEquipe();
     }
 
 }
