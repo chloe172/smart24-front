@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Component, Input } from '@angular/core';
 import { BadgeJoueurComponent } from '../badge-joueur/badge-joueur.component';
 import { ClassementComponent } from '../classement/classement.component';
 import { Badge } from '../modele/plateau.model';
@@ -18,4 +17,8 @@ import { AvatarComponent } from '../avatar/avatar.component';
 export class MenuJoueurComponent {
   @Input() badges!: Badge[];
   @Input() equipes!: Equipe[];
+
+  getAvatarPath(avatar: string): string {
+    return "../assets/Avatar-pikisuperstar/"+avatar+".svg";
+  }
 }
