@@ -47,7 +47,7 @@ export class TeamEnrollService {
                     }
                 }
                 else{
-                    this.idEquipe = message.data.idEquipe;
+                    this.idEquipe = message.data.equipe.id;
                     console.log('Equipe inscrite', message);
                     this.router.navigate(['/waiting']);
                 }
@@ -61,6 +61,10 @@ export class TeamEnrollService {
     
     getIdEquipe() {
         this.idEquipe;
+    }
+
+    setIdEquipe(id: number) {
+        this.idEquipe = id;
     }
     
     getTeamErrorMessage(): string {

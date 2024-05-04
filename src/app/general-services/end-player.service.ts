@@ -4,6 +4,7 @@ import { Partie } from '../modele/partie.model';
 import { IdPartieService } from './id-partie.service';
 import { AccessSessionService } from '../access-session/access-session.service';
 import { Router } from '@angular/router';
+import { ConnexionService } from '../connexion/connexion.service';
 
 
 @Injectable({
@@ -15,6 +16,7 @@ export class EndPlayerService {
         private webservice: WebSocketService,
         private accessSessionService: AccessSessionService,
         private partieService: IdPartieService,
+        private connexionService : ConnexionService,
         private router: Router
     ) {
         this.endGamePlayer();
@@ -33,6 +35,6 @@ export class EndPlayerService {
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 }
             });
-        }
+        }            
     }
 }
