@@ -19,7 +19,7 @@ export class WaitingForPlayersService {
     private partieService: PartieService,
     private router: Router,
     private snackbar: MatSnackBar
-  ) {}
+  ) { }
 
   getCodePin() {
     return this.partieService.getPartie()?.codePin;
@@ -78,22 +78,21 @@ export class WaitingForPlayersService {
     if (this.connexionService.getUserAuthentication()) {
       let idPartie = this.partieService.getPartie()?.id;
       if (idPartie !== -1) {
+
         this.webSocketService.SendToType('demarrerPartie', { idPartie });
-        this.webSocketService.subscribeToType(
-          'reponseDemarrerPartie',
-          (message) => {
-            console.log('Partie démarrée', message);
-            console.log(message.succes);
-            if (message.succes) {
-              this.router.navigate(['/selection']);
-            } else {
-              console.log(message.messageErreur);
-              this.router.navigate(['/ongoing-games']);
-              this.snackbar.open('Une erreur est survenue', 'OK');
-            }
+        this.webSocketService.subscribeToType('reponseDemarrerPartie', (message) => {
+          console.log('Partie démarrée', message);
+          console.log(message.succes)
+          if (message.succes) {
+            console.log(message.messageErreur);
+            this.router.navigate(['/selection']);
+          } else {
+            this.router.navigate(['/ongoing-games']);
+            this.snackbar.open('Une erreur est survenue', 'OK');
           }
-        );
-      } else {
+        });
+      }
+      else {
         this.router.navigate(['/ongoing-games']);
         this.snackbar.open('Partie introuvable', 'OK');
       }

@@ -4,12 +4,13 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Partie } from '../modele/partie.model';
 import { ModalService } from './modal.service';
 import { Router } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [MatButton],
+  imports: [MatButton, MatCardModule],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss',
 })
@@ -18,9 +19,10 @@ export class ModalComponent {
     public dialogRef: MatDialogRef<ModalComponent>,
     private service: ModalService,
     private snackbar: MatSnackBar
-  ) {}
+  ) { }
+
   @Input() partie!: Partie;
-  router: Router = new Router();
+  router: Router = new Router;
 
   supprimer() {
     this.service.finishGame(this.partie, (message) => {

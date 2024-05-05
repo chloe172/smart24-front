@@ -11,8 +11,9 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { WaitingForPlayersComponent } from './waiting-for-players/waiting-for-players.component';
 import { TeamEnrollComponent } from './team-enroll/team-enroll.component';
 import { TeamChoiceComponent } from './team-choice/team-choice.component';
-import { CyberGameComponent } from './cyber-game/cyber-game.component';
-import { MjGestionProjetComponent } from './mj-gestion-projet/mj-gestion-projet.component';
+import { CyberGameComponent } from './minijeux/cyber-game/cyber-game.component';
+import { GestionProjetComponent } from './minijeux/gestion-projet/gestion-projet.component';
+import { IAGameComponent } from './iagame/iagame.component';
 
 export const routes: Routes = [
   {
@@ -49,6 +50,10 @@ export const routes: Routes = [
     component: CyberGameComponent,
   },
   {
+    path: 'ia-game',
+    component: IAGameComponent,
+  },
+  {
     path: 'create-game',
     component: CreateGameComponent,
   },
@@ -69,11 +74,15 @@ export const routes: Routes = [
     component: TeamChoiceComponent,
   },
   {
-    path: 'mj-gestion-projet',
-    component: MjGestionProjetComponent,
+    path: 'gestion-projet',
+    component: GestionProjetComponent,
+  },
+  {
+    path: 'gribouille',
+    component: CyberGameComponent,
   },
   {
     path: '**',
     redirectTo: 'error/404/Page introuvable',
-  },
+  }
 ];

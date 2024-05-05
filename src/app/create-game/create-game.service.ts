@@ -18,7 +18,7 @@ export class CreateGameService {
     private router: Router,
     private partieService: PartieService,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   listerPlateaux(callback: (message: any) => any) {
     if (this.connexionService.getUserAuthentication()) {
@@ -41,12 +41,12 @@ export class CreateGameService {
       this.webSocketService.SendToType('creerPartie', { nomPartie, plateaux });
       this.webSocketService.subscribeToType('reponseCreerPartie', (message) => {
         console.log('Partie créée', message);
-        if (!message.succes) {
-          console.log(message.messageErreur);
-          this.snackBar.open('Une erreur est survenue', 'OK');
-        } else {
+        if (message.succes) {
           this.partieService.setPartie(message.data.partie);
           this.router.navigate(['/waiting']);
+        } else {
+          console.log(message.messageErreur);
+          this.snackBar.open('Une erreur est survenue', 'OK');
         }
       });
     } else {

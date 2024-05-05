@@ -5,6 +5,8 @@ export interface Plateau {
     id: number;
     nom: string;
     activites: Activite[];
+    nombreActivites: number;
+    nombreActivitesTerminees: number;
 }
 
 export interface Badge {

@@ -30,7 +30,7 @@ export class OngoingGameCardComponent {
     private service: OngoingGameCardService,
     private idService: PartieService,
     public matDialog: MatDialog
-  ) {}
+  ) { }
   @Input() partie!: Partie;
   router: Router = new Router();
   dialogConfig = new MatDialogConfig();

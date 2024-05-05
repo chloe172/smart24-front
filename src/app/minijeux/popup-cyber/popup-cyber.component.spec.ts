@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MjGestionProjetComponent } from './mj-gestion-projet.component';
+import { PopupCyberComponent } from './popup-cyber.component';
 
-describe('MjGestionProjetComponent', () => {
-  let component: MjGestionProjetComponent;
-  let fixture: ComponentFixture<MjGestionProjetComponent>;
+describe('PopupCyberComponent', () => {
+  let component: PopupCyberComponent;
+  let fixture: ComponentFixture<PopupCyberComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MjGestionProjetComponent]
+      imports: [PopupCyberComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(MjGestionProjetComponent);
+    fixture = TestBed.createComponent(PopupCyberComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
