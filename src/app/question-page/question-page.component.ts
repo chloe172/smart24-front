@@ -40,6 +40,7 @@ export class QuestionPageComponent implements OnInit {
   propositionSelectionnee: Proposition | null = null;
   idActiviteEnCours!: number;
   idBonneProposition!: number;
+  nomPlateau: string='';
   equipes: Equipe[] = [];
   badges: Badge[] = [];
   classement!: Classement;  equipe!: Equipe;
@@ -89,6 +90,9 @@ export class QuestionPageComponent implements OnInit {
           this.showProgressBar = false;
         }
         this.equipes = message.data.listeEquipes;
+        this.service.etape = "explication";
+        this.showProgressBar = false;
+        this.nomPlateau = message.data.nomPlateauCourant;
         this.openDialogMaitreDuJeu();
     },
       (message: any) => {
@@ -113,6 +117,7 @@ export class QuestionPageComponent implements OnInit {
       console.log("json reçu", message);
       this.equipes = message.data.listeEquipes;
       this.service.etape = "explication";
+      this.nomPlateau = message.data.partie.nomPlateauCourant;
       this.openDialogMaitreDuJeu();
     },
     (message: any) => {
@@ -148,7 +153,7 @@ export class QuestionPageComponent implements OnInit {
 
   openDialogMaitreDuJeu(): void {
     const dialogRef = this.dialog.open(ModalScoreComponent, {
-      data: this.equipes,
+      data: {"equipes": this.equipes, "nomPlateau": this.nomPlateau},
       width: '70%'
     });
 

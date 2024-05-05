@@ -21,9 +21,8 @@ import { Router } from '@angular/router';
 export class CreateGameComponent {
   nomPartie: string = '';
   constructor(private service: CreateGameService, private router: Router) { }
-  plateaux: any[] = [
-    //{ plateau: this.plateau1, selected: false },
-  ];
+  plateaux: any[] = [];
+  
   ngOnInit() {
     this.service.resetPartyError();
     this.service.listerPlateaux((message) => {
@@ -60,11 +59,16 @@ export class CreateGameComponent {
     return plateaux.map(plateau => ({ plateau, selected: true }));
   }
 
-  partyNameInvalid(): boolean{
+  partyNameInvalid(): boolean {
     return this.service.getPartyError();
   }
 
-  getErrorMessage(): string{
+  getErrorMessage(): string {
     return this.service.getPartyErrorMessage();
+  }
+
+  getTousPlateauxSelectionnes(): boolean {
+    const plateauxSelectionnes = this.plateaux.filter(plateau => plateau.selected).map(plateau => plateau.plateau);
+    return plateauxSelectionnes.length == this.plateaux.length;
   }
 }

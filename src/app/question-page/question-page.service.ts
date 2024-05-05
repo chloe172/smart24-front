@@ -8,6 +8,7 @@ import { Proposition } from "../modele/proposition.model";
 import { ProgressBarService } from '../progress-bar/progress-bar.service';
 import { TeamEnrollService } from '../team-enroll/team-enroll.service';
 import { Equipe } from '../modele/equipe.model'
+import { Partie } from '../modele/partie.model';
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +21,7 @@ export class QuestionPageService {
     bonneProposition!: Proposition;
     equipes: Equipe[] = [];
     etape: "click" | "select" | "explication" = "click";
-    
+        
     constructor(
         private webservice: WebSocketService,
         private connexionService: ConnexionService,
@@ -80,7 +81,6 @@ export class QuestionPageService {
             });
             
             this.webservice.subscribeToType("reponseTerminerExplication", (message) => {
-                console.log("json reçu", message);
                 if (message.succes) {
                     const partie = message.data.partie;
                     console.log(partie.finPlateau);
@@ -92,8 +92,10 @@ export class QuestionPageService {
                         this.webservice.removeAllSubscriptionsOfType('reponseTerminerExplication');
                         this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
                         this.webservice.removeAllSubscriptionsOfType('notificationSoumettreReponse');
-                        this.webservice.removeAllSubscriptionsOfType('reponseChoisirPlateau');
-                        this.webservice.removeAllSubscriptionsOfType('reponseListerPlateau');
+                        this.webservice.removeAllSubscriptionsOfType('reponseChoisirPlateaux');
+                        this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
+                        this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
+                        this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
                         this.router.navigate(['/selection']);
                     } else {
                         const idPartie = this.partieService.getId();
@@ -212,7 +214,9 @@ export class QuestionPageService {
         this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
         this.webservice.removeAllSubscriptionsOfType('notificationSoumettreReponse');
         this.webservice.removeAllSubscriptionsOfType('reponseChoisirPlateau');
-        this.webservice.removeAllSubscriptionsOfType('reponseListerPlateau');
+        this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
+        this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
+        this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
         
         this.webservice.subscribeToType('reponseMettreEnPausePartie', (message): any => {
             if (message.succes) {

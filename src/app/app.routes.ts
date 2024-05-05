@@ -19,8 +19,6 @@ export const routes: Routes = [
     {
         path: '',
         component: AccessSessionComponent,
-        title: 'Access'
-
     },
     {
         path: 'design',
@@ -29,16 +27,14 @@ export const routes: Routes = [
     {
         path: 'login',
         component: ConnexionComponent,
-        title: 'Login'
     },
     {
         path: 'question',
         component: QuestionPageComponent,
     },
     {
-        path : 'ongoing-games',
-        component : OngoingGamesComponent,
-        title : 'Ongoing Games'
+        path: 'ongoing-games',
+        component: OngoingGamesComponent,
     },
     {
         path: 'selection',
@@ -50,12 +46,16 @@ export const routes: Routes = [
     },
 
     {
-        path: 'create-game',
-        component: CreateGameComponent, 
+        path: 'cyber-game',
+        component: CyberGameComponent
     },
-    { 
-        path: 'error/:code/:message', 
-        component: ErrorPageComponent, 
+    {
+        path: 'create-game',
+        component: CreateGameComponent,
+    },
+    {
+        path: 'error/:code/:message',
+        component: ErrorPageComponent,
     },
     {
         path: 'waiting',
