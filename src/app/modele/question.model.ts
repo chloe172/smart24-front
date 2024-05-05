@@ -5,5 +5,5 @@ export interface Question extends Activite {
     id: number;
     temps: number;
     score: number;
-    bonneProposition: Proposition;
+    bonneProposition?: Proposition;
 }
