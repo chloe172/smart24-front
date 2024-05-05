@@ -51,3 +51,8 @@
     </div>
 </mat-card>
 
+<mat-card class="card-panel" *ngIf="service.score !== ''" style="margin: 10px;">
+    <h6 class="center-align black-text" style="font-weight: bold;">Score</h6>
+    <hr style="border: 1px solid black; width: 200px">
+    <h6 class="center-align black-text">{{service.score}} points</h6>
+</mat-card>

@@ -1,4 +1,9 @@
-<mat-card class="card-panel hoverable" [ngClass]="{'disable': estSelectionnee === false}"
+<mat-card 
+    class="card-panel hoverable" 
+    [ngClass]="{'disable': estSelectionnee === false}"
+    style="height: 120px; display: flex; justify-content: center;"
     [ngStyle]="{'background-color': getColor()}" (click)="onClick()">
-    <h6>{{index+1}}. {{proposition.intitule}}</h6>
+    <div style="display: table-cell; vertical-align: middle;">
+        <h6>{{index+1}}. {{proposition.intitule}}</h6>
+    </div>
 </mat-card>

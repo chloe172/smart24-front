@@ -1,17 +1,26 @@
 <div class="row">
-    <div class="col s6 m4 valign-wrapper">
-        <div class="container">
-            <app-badge-joueur></app-badge-joueur>
+    <div class="col s12">
+        <div class="mat-card-container">
+            <mat-card class="card-panel" style="background: #7fb8ce; width: 100%;">
+                <h5 class="center-align white-text" style="font-weight: bold;">{{equipes[0].rang}}</h5>
+                <hr style="border: 1px solid white; width: 200px">
+                <h6 class="center-align white-text">{{equipes[0].score}} points</h6>
+            </mat-card>
         </div>
     </div>
-    <div class="col s6 m4 valign-wrapper">
-        <app-classement></app-classement>
+    <div class="col s6">
+        <div class="mat-card-container">
+            <app-badge-joueur [badges]="badges"></app-badge-joueur>
+        </div>
     </div>
-    <div class="col s6 m4 valign-wrapper">
-        <div class="center-align">
-            <app-avatar></app-avatar>
-            <h4>Nom de l'équipe quand ça marchera aussi</h4>
-            <!--<img [src]="getAvatarPath()" width="300px" height="300px">-->
+    <div class="col s6">
+        <div class="mat-card-container valign-wrapper">
+            <mat-card class="card-panel" style="background: #283593; width: 100%; height: 300px;">
+                <h5 class="white-text">{{equipes[0].nom}}</h5>
+                <div class="center-align" style="padding: 10px;">
+                    <img [src]="getAvatarPath(equipes[0].avatar)"  width="180px" height="180px">
+                </div>
+            </mat-card>
         </div>
     </div>
 </div>

@@ -11,7 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ModalScoreComponent } from '../modal-score/modal-score.component';
+import { Badge, Classement } from '../modele/plateau.model';
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
+import { ModalBadgeComponent } from '../modal-badge/modal-badge.component';
 import { CyberGameComponent } from '../minijeux/cyber-game/cyber-game.component';
 import { PopupCyberComponent } from '../minijeux/popup-cyber/popup-cyber.component';
 
@@ -24,13 +26,23 @@ import { PopupCyberComponent } from '../minijeux/popup-cyber/popup-cyber.compone
   styleUrl: './question-page.component.scss'
 })
 export class QuestionPageComponent implements OnInit {
-  question!: Question;
+  question: Question = {
+    intitule: "",
+    id: 0,
+    temps: 0,
+    score: 0,
+    bonneProposition: undefined,
+    plateau: undefined,
+    numeroActivite: 0,
+    difficulteActivite: ''
+  };
   propositions: Proposition[] = [];
   propositionSelectionnee: Proposition | null = null;
   idActiviteEnCours!: number;
   idBonneProposition!: number;
   equipes: Equipe[] = [];
-  equipe!: Equipe;
+  badges: Badge[] = [];
+  classement!: Classement;  equipe!: Equipe;
   showProgressBar: boolean = false;
   typeActivite : string = "question";
   codeMinijeu : string = "";
@@ -92,13 +104,17 @@ export class QuestionPageComponent implements OnInit {
     },
     (message: any) => {
       console.log("json reçu", message);
+      this.badges = message.data.equipe.badges;
+      this.equipes = [message.data.equipe];
+      this.classement = {badges: this.badges, equipes: this.equipes};
+      this.service.etape = "explication";
+      this.openDialogEquipe();
+    }, 
+    (message: any) => {
+      console.log("json reçu", message);
       this.equipes = message.data.listeEquipes;
       this.service.etape = "explication";
       this.openDialogMaitreDuJeu();
-    },
-    (message: any) => {
-      console.log("json reçu", message);
-      this.equipesFinMinijeu.push(message.data.equipe);
     });
 
     //TODO : header pour indiquer : le monde, l'avancement, le score des joueurs...
@@ -138,7 +154,7 @@ export class QuestionPageComponent implements OnInit {
 
   openDialogEquipe(): void {
     const dialogRef = this.dialog.open(ModalScoreComponent, {
-      data: this.equipe,
+      data: this.equipes,
       width: '70%'
     });
 
