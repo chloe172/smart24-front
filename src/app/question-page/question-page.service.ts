@@ -18,6 +18,7 @@ export class QuestionPageService {
     explication: string = "";
     score: string = "";
     rang: string = "";
+    finPlateau: boolean = true;
     bonneProposition!: Proposition;
     equipes: Equipe[] = [];
     etape: "click" | "select" | "explication" = "click";
@@ -96,6 +97,8 @@ export class QuestionPageService {
                         this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
                         this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
                         this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
+                        this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
+
                         this.router.navigate(['/selection']);
                     } else {
                         const idPartie = this.partieService.getId();
@@ -119,6 +122,7 @@ export class QuestionPageService {
                     this.etape = "click";
                     this.score = "";
                     this.rang = "";
+                    this.finPlateau = false;
                     callbackLancementActivite(message);
                 }
             });
@@ -143,6 +147,7 @@ export class QuestionPageService {
                     if (partie.finPlateau) {
                         // TODO : aller à la page de choix de plateau
                         callbackFinPlateauEquipe(message);
+                        this.finPlateau = true;
                     } 
                 } else {
                     console.log(message.messageErreur);
@@ -217,6 +222,7 @@ export class QuestionPageService {
         this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
         this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
         this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
+        this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
         
         this.webservice.subscribeToType('reponseMettreEnPausePartie', (message): any => {
             if (message.succes) {

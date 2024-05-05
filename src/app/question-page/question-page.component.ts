@@ -16,12 +16,13 @@ import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 import { ModalBadgeComponent } from '../modal-badge/modal-badge.component';
 import { CyberGameComponent } from '../minijeux/cyber-game/cyber-game.component';
 import { PopupCyberComponent } from '../minijeux/popup-cyber/popup-cyber.component';
+import { GestionProjetComponent } from '../minijeux/gestion-projet/gestion-projet.component';
 
 @Component({
   selector: 'app-question-page',
   standalone: true,
   imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule,ProgressBarComponent, MatDialogModule, 
-    ModalScoreComponent,CyberGameComponent,PopupCyberComponent],
+    ModalScoreComponent,CyberGameComponent,PopupCyberComponent, GestionProjetComponent],
   templateUrl: './question-page.component.html',
   styleUrl: './question-page.component.scss'
 })
@@ -48,6 +49,7 @@ export class QuestionPageComponent implements OnInit {
   typeActivite : string = "question";
   codeMinijeu : string = "";
   equipesFinMinijeu: Equipe[] = [];
+  messagePhishing: boolean = false;
 
   constructor(
     protected service: QuestionPageService,
@@ -75,6 +77,7 @@ export class QuestionPageComponent implements OnInit {
           this.equipesFinMinijeu = [];
           this.codeMinijeu = message.data.minijeu.code;
           this.service.etape = "click";
+          this.messagePhishing = false;
           this.showProgressBar = false;
         }
       }
@@ -97,13 +100,14 @@ export class QuestionPageComponent implements OnInit {
     },
       (message: any) => {
         console.log("json reçu", message);
+        this.typeActivite = message.data.typeActivite;
         if(this.typeActivite === "question"){
           const question = message.data.question;
           this.idBonneProposition = question.bonneProposition.id;
           this.service.explication = question.explication ?? "";
           this.showProgressBar = false;
           this.service.etape = "explication";
-        }
+        } 
     },
     (message: any) => {
       console.log("json reçu", message);
@@ -111,6 +115,7 @@ export class QuestionPageComponent implements OnInit {
       this.equipes = [message.data.equipe];
       this.classement = {badges: this.badges, equipes: this.equipes};
       this.service.etape = "explication";
+      this.typeActivite = "";
       this.openDialogEquipe();
     }, 
     (message: any) => {
@@ -163,8 +168,8 @@ export class QuestionPageComponent implements OnInit {
   }
 
   openDialogEquipe(): void {
-    const dialogRef = this.dialog.open(ModalScoreComponent, {
-      data: this.equipes,
+    const dialogRef = this.dialog.open(ModalBadgeComponent, {
+      data: {"equipes": this.equipes, "badges": this.badges},
       width: '70%'
     });
 
@@ -175,8 +180,11 @@ export class QuestionPageComponent implements OnInit {
 
   receiveScore($event: any){
     console.log("score mj recu : ", $event)
-    this.service.sendScoreMinijeu($event, this.idActiviteEnCours); 
-    this.typeActivite = "explication_Mini_Jeu";
+    this.service.sendScoreMinijeu($event, this.idActiviteEnCours);
+    if(this.codeMinijeu==="phishing") {
+      this.messagePhishing = true;
+    }
+    this.typeActivite = "finMinijeu";
   }
 
   isPlayer(): boolean{
@@ -188,9 +196,6 @@ export class QuestionPageComponent implements OnInit {
   }
   
   terminerMinijeu(){
-    this.service.explication = "explication_Mini_Jeu";
-    this.typeActivite = "explication_Mini_Jeu";
-    // this.openDialogMaitreDuJeu(this.equipesFinMinijeu);
     this.service.envoyerTerminerMinijeu();
   }
 }

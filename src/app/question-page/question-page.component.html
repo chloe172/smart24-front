@@ -16,47 +16,129 @@
         <div *ngIf="codeMinijeu==='phishing'">
             <app-popup-cyber (scoreEvent)="receiveScore($event)"></app-popup-cyber>
         </div>
+        <div *ngIf="codeMinijeu==='gestion-projet'">
+            <app-gestion-projet (scoreEvent)="receiveScore($event)"></app-gestion-projet>
+        </div>
     </div>
     <div *ngIf="isHost()">
         <div class="row">
             <mat-card class="col s4 offset-s4 card-panel" style="margin-top: 20px; background-color: rgba(28, 35, 93, 0.5);;">
                 <h4 class="center-align text-align white-text" style="font-weight: bold;">Minijeu en cours ... </h4>
             </mat-card>
-            <h5 class="col s4 offset-s4 center-align text-align white-text" style="font-weight: bold;">Equipes qui ont terminé le mini-jeu :</h5>
-            <h6 *ngIf="equipesFinMinijeu.length===0" class="col s4 offset-s4 center-align text-align white-text">Pas d'équipe</h6>
-            <div class="col m4 s6" *ngFor="let equipe of equipesFinMinijeu">
-                <mat-card class="card-panel"><mat-card-content class="black-text"  style="font-weight: bold;">{{equipe.nom}}</mat-card-content></mat-card>
-            </div>
-            <button mat-flat-button color="warn" style="max-width: 200px;" (click)="terminerMinijeu()">Terminer Minijeu</button>
+            <mat-card class="card-panel col s8 offset-s2"style="padding: 20px;">
+                <div class="col s8 offset-s2 center-align text-align black-text">
+                    <h5 style="font-weight: bold;">Equipes qui ont terminées le mini-jeu :</h5>
+                </div>
+                <h6 *ngIf="equipesFinMinijeu.length===0" class="col s4 offset-s4 center-align text-align black-text">Aucune équipe</h6>
+                <div class="row">
+                    <div class="col m4 s6" *ngFor="let equipe of equipesFinMinijeu">
+                        <mat-card class="card-panel center-align text-align" style="background-color: #283593;">
+                            <mat-card-content class="white-text center-align"  style="font-weight: bold;">{{equipe.nom}}</mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+                <div class="col s4 offset-s4 center-align text-align">
+                    <button mat-flat-button color="warn" style="max-width: 200px;" (click)="terminerMinijeu()">Terminer Minijeu</button>
+                </div>
+            </mat-card>
         </div>
     </div>
 </div>
 
-<mat-card class="card-panel" *ngIf="service.explication !== ''" style="margin: 10px;">
-    <div *ngIf="typeActivite!='explication_Mini_Jeu'">
-        <h6 class="center-align">{{service.explication}}</h6>
+<div *ngIf="isPlayer() && typeActivite==='finMinijeu'">
+    <div class="row">
+        <div class="col s12 valign-wrapper" style="height: 100vh;">
+            <div class="col s12 m6 offset-m3 center-align">
+                <div class="mat-card-container" *ngIf="messagePhishing===false">
+                    <mat-card class="card-panel center-align col s10 offset-s1" style="padding: 20px;">
+                        <h5 class="center-align">Mini jeu terminé ! </h5>
+                        <h5 class="center-align">Préparez vous à la prochaine activiité </h5>
+                    </mat-card>
+                </div>
+                <div class="mat-card-container" *ngIf="messagePhishing===true">
+                    <mat-card class="card-panel center-align col s10 offset-s1" style="padding: 20px;">
+                        <h5 class="center-align">Dommage... </h5>
+                        <h5 class="center-align">Vous êtes tombés dans le piège. </h5>
+                        <h5 class="center-align">Préparez vous à la prochaine activiité </h5>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
     </div>
-    <div *ngIf="typeActivite==='explication_Mini_Jeu'">
-        <h6 class="center-align">Fin du mini jeu</h6>
+</div>
+
+<div class="row" *ngIf="typeActivite==='finMinijeu'">
+    <div class="col s12 valign-wrapper" style="height: 100vh;">
+        <div class="col s12 m6 offset-m3 center-align">
+            <div class="mat-card-container">
+                <mat-card class="card-panel center-align" *ngIf="service.explication !== ''" style="margin: 10px; width: 90%;">
+                    <h6 class="center-align" style="font-weight: bold;">Fin du mini jeu</h6>
+                    <div class="options" style="padding-top:10px; display: flex; justify-content: space-between;">
+                        <button mat-flat-button color="warn" style="width: 150px;" (click)="mettreEnPause()">
+                            Sauvegarder
+                            <mat-icon fontIcon="save"></mat-icon>
+                        </button>
+                        <button mat-flat-button style="width: 150px;" color="warn" (click)="openDialogMaitreDuJeu()">
+                            Classement
+                            <mat-icon fontIcon="workspace_premium"></mat-icon>
+                        </button>
+                        <button mat-flat-button style="width: 150px;"color="warn" (click)="activiteSuivante()">
+                            Suivant
+                            <mat-icon fontIcon="arrow_forward"></mat-icon>
+                        </button>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
     </div>
-    <div class="options" style=" display: flex; justify-content: space-between;">
-        <button mat-flat-button color="warn" (click)="mettreEnPause()">
-            Sauvegarder
-            <mat-icon fontIcon="save"></mat-icon>
-        </button>
-        <button mat-flat-button color="warn" (click)="openDialogMaitreDuJeu()">
-            Classement
-            <mat-icon fontIcon="workspace_premium"></mat-icon>
-        </button>
-        <button mat-flat-button color="warn" (click)="activiteSuivante()">
-            Suivant
-            <mat-icon fontIcon="arrow_forward"></mat-icon>
-        </button>
+</div>
+
+<div class="row" *ngIf="typeActivite!='finMinijeu'">
+    <div class="col s12-s2 center-align">
+        <mat-card class="card-panel center-align" *ngIf="service.explication !== ''" style="margin: 10px;">
+            <h6 class="center-align">{{service.explication}}</h6>
+            <div class="options" style="padding-top:10px; display: flex; justify-content: space-between;">
+                <button mat-flat-button color="warn" (click)="mettreEnPause()">
+                    Sauvegarder
+                    <mat-icon fontIcon="save"></mat-icon>
+                </button>
+                <button mat-flat-button color="warn" (click)="openDialogMaitreDuJeu()">
+                    Classement
+                    <mat-icon fontIcon="workspace_premium"></mat-icon>
+                </button>
+                <button mat-flat-button color="warn" (click)="activiteSuivante()">
+                    Suivant
+                    <mat-icon fontIcon="arrow_forward"></mat-icon>
+                </button>
+            </div>
+        </mat-card>
+    </div>
+</div>
+
+<mat-card class="card-panel" *ngIf="service.score !== '' && service.finPlateau===false" style="margin: 10px;">
+    <h6 class="center-align black-text" style="font-weight: bold;">Score</h6>
+    <hr style="border: 1px solid black; width: 200px">
+    <div *ngIf="service.score==='0'">
+        <h6 class="center-align black-text">{{service.score}} point</h6>
+    </div>
+    <div *ngIf="service.score!='0'">
+        <h6 class="center-align black-text">{{service.score}} points</h6>
     </div>
 </mat-card>
 
-<mat-card class="card-panel" *ngIf="service.score !== ''" style="margin: 10px;">
-    <h6 class="center-align black-text" style="font-weight: bold;">Score</h6>
-    <hr style="border: 1px solid black; width: 200px">
-    <h6 class="center-align black-text">{{service.score}} points</h6>
-</mat-card>
+<div *ngIf="isPlayer() && service.finPlateau===true">
+    <div class="row">
+        <div class="col s12 valign-wrapper" style="height: 100vh;">
+            <div class="col s12 m6 offset-m3 center-align">
+                <div class="mat-card-container">
+                    <mat-card class="card-panel center-align col s10 offset-s1" style="padding: 20px;">
+                        <h5 class="center-align">En attente du prochain plateau !</h5>
+                        <button mat-flat-button color="warn" style="width: 150px" (click)="openDialogEquipe()">
+                        Classement <mat-icon fontIcon="workspace_premium"></mat-icon>
+                        </button>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
