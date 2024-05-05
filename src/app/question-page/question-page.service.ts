@@ -18,6 +18,7 @@ export class QuestionPageService {
     explication: string = "";
     score: string = "";
     rang: string = "";
+    finPlateau: boolean = true;
     bonneProposition!: Proposition;
     equipes: Equipe[] = [];
     etape: "click" | "select" | "explication" = "click";
@@ -34,10 +35,11 @@ export class QuestionPageService {
     }
     
     InitQuestionPage(callbackLancementActivite: (message: any) => any,
-        callbackReponseActiviteMaitreDuJeu: (message: any) => any,
-        callbackReponseActiviteEquipe: (message: any) => any,
-        callbackFinPlateauEquipe: (message: any) => any,
-        callbackFinPlateauMaitreDuJeu: (message: any) => any) {
+    callbackReponseActiviteMaitreDuJeu: (message: any) => any,
+    callbackReponseActiviteEquipe: (message: any) => any,
+    callbackFinPlateauEquipe: (message: any) => any,
+    callbackFinPlateauMaitreDuJeu: (message: any) => any,
+    callbackNotificationMiniJeuMaitreDuJeu: (message: any) => any ){
 
         // Maitre du jeu
         if (this.connexionService.getUserAuthentication()) {
@@ -46,7 +48,7 @@ export class QuestionPageService {
             
             this.webservice.subscribeToType('reponseLancerActivite', (message): any => {
                 this.etape = "click";
-
+                
                 callbackLancementActivite(message);
             });
             
@@ -56,6 +58,16 @@ export class QuestionPageService {
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 } else {
                     console.log("Soumission reponse d'une equipe", message);
+                }
+            });
+            
+            this.webservice.subscribeToType('notificationSoumettreScoreMinijeu', (message): any => {
+                if (!message.succes) {
+                    console.log(message.messageErreur);
+                    this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+                } else {
+                    callbackNotificationMiniJeuMaitreDuJeu(message);
+                    console.log("Soumission mini jeu d'une equipe", message);
                 }
             });
             
@@ -85,6 +97,8 @@ export class QuestionPageService {
                         this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
                         this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
                         this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
+                        this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
+
                         this.router.navigate(['/selection']);
                     } else {
                         const idPartie = this.partieService.getId();
@@ -108,6 +122,7 @@ export class QuestionPageService {
                     this.etape = "click";
                     this.score = "";
                     this.rang = "";
+                    this.finPlateau = false;
                     callbackLancementActivite(message);
                 }
             });
@@ -117,7 +132,7 @@ export class QuestionPageService {
                     console.log(message.messageErreur);
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 } else {
-                    console.log(message.equipe);
+                    console.log(message.data.equipe);
                     //this.explication = message.data.explication;  
                     this.score = message.data.equipe.score;
                     //this.rang = message.data.equipe.rang;
@@ -132,6 +147,7 @@ export class QuestionPageService {
                     if (partie.finPlateau) {
                         // TODO : aller à la page de choix de plateau
                         callbackFinPlateauEquipe(message);
+                        this.finPlateau = true;
                     } 
                 } else {
                     console.log(message.messageErreur);
@@ -165,10 +181,34 @@ export class QuestionPageService {
         });
     }
     
+    sendScoreMinijeu($event: any, idActiviteEnCours:number) {
+        let score = $event;
+        this.webservice.SendToType("soumettreScoreMinijeu", { score, idActiviteEnCours});
+        this.webservice.removeAllSubscriptionsOfType('reponseSoumettreScoreMinijeu');
+        this.webservice.subscribeToType('reponseSoumettreScoreMinijeu', (message: any): any => {
+            console.log("score mj soumis", message);
+            if (!message.succes) {
+                this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+            }
+        });
+    }
+    
+    envoyerTerminerMinijeu() {
+        let idPartie = this.partieService.getId();
+        this.webservice.SendToType("terminerMinijeu", { idPartie });
+        this.webservice.removeAllSubscriptionsOfType('reponseTerminerMinijeu');
+        this.webservice.subscribeToType('reponseTerminerMinijeu', (message: any): any => {
+            console.log("terminer mj envoyé", message);
+            if (!message.succes) {
+                this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+            }
+        });
+    }
+
     resetBar(){
         this.progressBarService.resetBar();
     }
-
+    
     mettreEnPause(callback: () => any) {
         console.log("partie mise en pause");
         const idPartie = this.partieService.getId();
@@ -182,6 +222,7 @@ export class QuestionPageService {
         this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
         this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
         this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
+        this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
         
         this.webservice.subscribeToType('reponseMettreEnPausePartie', (message): any => {
             if (message.succes) {
@@ -212,6 +253,14 @@ export class QuestionPageService {
             }
         });
 
+    }
+
+    isPlayer(): boolean {
+        return this.accessSessionService.getUserAccessed();
+    }
+
+    isHost(): boolean {
+        return this.connexionService.getUserAuthentication();
     }
     
     

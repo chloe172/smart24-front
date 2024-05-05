@@ -3,6 +3,7 @@ import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { ConnexionService } from '../connexion/connexion.service';
 import { Router } from '@angular/router';
 import { IdPartieService } from '../general-services/id-partie.service';
+import { AccessSessionService } from '../access-session/access-session.service';
 
 
 @Injectable({
@@ -12,6 +13,7 @@ import { IdPartieService } from '../general-services/id-partie.service';
 export class SelectionPlateauxService{
     constructor(private webservice : WebSocketService,
                 private connexionService: ConnexionService,
+                private accessSessionService: AccessSessionService,
                 private router: Router,
                 private partieService : IdPartieService
     ){}
@@ -42,6 +44,16 @@ export class SelectionPlateauxService{
             if (message.succes) {
                 console.log("service deco")
                 this.partieService.setId(-1);
+                this.webservice.removeAllSubscriptionsOfType('reponseLancerActivite');
+                this.webservice.removeAllSubscriptionsOfType('notificationReponseActivite');
+                this.webservice.removeAllSubscriptionsOfType('reponseTerminerExplication');
+                this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
+                this.webservice.removeAllSubscriptionsOfType('notificationSoumettreReponse');
+                this.webservice.removeAllSubscriptionsOfType('reponseChoisirPlateau');
+                this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
+                this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
+                this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
+                this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
                 this.router.navigate(['/ongoing-games']);
             }
             else{
@@ -49,6 +61,14 @@ export class SelectionPlateauxService{
                 this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
             }
         });
-       
     }
+
+    isPlayer(): boolean {
+        return this.accessSessionService.getUserAccessed();
+    }
+
+    isHost(): boolean {
+        return this.connexionService.getUserAuthentication();
+    }
+    
 }

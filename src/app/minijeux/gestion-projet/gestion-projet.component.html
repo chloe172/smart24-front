@@ -1,0 +1,20 @@
+<div class="row">
+    <h4 class="center-align white-text" style="font-weight: bold;">Mini Jeu</h4>
+    <h5 class="center-align white-text" style="font-weight: bold;">Remettez dans l'ordre ces etapes de la gestion de projet pour obtenir les points !</h5>
+    <div class="mat-card-container">
+        <mat-card class="center-align" style="border-radius: 10px; padding: 10px; margin: 10px">
+            <div cdkDropList class="example-list"(cdkDropListDropped)="drop($event)">
+                @for (etape of etapes; track etape) {
+                    <div class="example-box" cdkDrag>{{etape.intitule}}</div>
+                }
+            </div>
+            <div class="center-align">
+                <button mat-flat-button color="warn" style="width: 150px; margin: 10px;" (click)="valider()">Valider</button>
+            </div>
+            <div class="center-align">
+                <mat-error *ngIf="message!=''">{{message}}</mat-error>
+            </div>
+        </mat-card>
+    </div>
+</div>
+  

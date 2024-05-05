@@ -77,12 +77,10 @@ export class WaitingForPlayersService {
                         this.router.navigate(['/selection']);
                     }
                 });
-            }
-            else{
+            } else {
                 this.router.navigate(['/error', 404, "Partie introuvable"]);
             }
-        }
-        else{
+        } else{
             this.router.navigate(['/login']);
         }
     }
