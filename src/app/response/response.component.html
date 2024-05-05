@@ -1,6 +1,10 @@
-<mat-card class="card-panel hoverable" [ngClass]="{'disable': estSelectionnee === false}" 
+<mat-card 
+    class="card-panel hoverable" 
+    [ngClass]="{'disable': estSelectionnee === false}" 
+    style="height: 120px; display: flex; justify-content: center;"
     [ngStyle]="{'background-color': getColor()}" (click)="onClick()">
     <div class="options" style="display: flex; justify-content: space-between;">
+        <div style="display: table-cell; vertical-align: middle;">
         <h6>{{index+1}}. {{proposition.intitule}}</h6>
         <span *ngIf="etape === 'explication'">
             <span *ngIf="etatReponse === 'bonne'">
@@ -10,5 +14,6 @@
                 <mat-icon fontIcon="close"></mat-icon>
             </span>
         </span>
+    </div>
     </div>
 </mat-card>

@@ -24,7 +24,16 @@ import { ModalBadgeComponent } from '../modal-badge/modal-badge.component';
   styleUrl: './question-page.component.scss'
 })
 export class QuestionPageComponent implements OnInit {
-  question!: Question;
+  question: Question = {
+    intitule: "",
+    id: 0,
+    temps: 0,
+    score: 0,
+    bonneProposition: undefined,
+    plateau: undefined,
+    numeroActivite: 0,
+    difficulteActivite: ''
+  };
   propositions: Proposition[] = [];
   propositionSelectionnee: Proposition | null = null;
   idActiviteEnCours!: number;
