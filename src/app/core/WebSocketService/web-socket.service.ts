@@ -11,7 +11,7 @@ export class WebSocketService {
 
   private callbacks: { [type: string]: ((message: any) => any)[] } = {};
 
-  constructor(private cookieservice : CookieService) {
+  constructor(private cookieservice: CookieService) {
     this.socket = new WebSocket(environment.webSocketUrl);
     this.socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
@@ -21,12 +21,12 @@ export class WebSocketService {
         });
       }
     };
-    if(this.cookieservice.get("tokensession") != null) {
+    if (this.cookieservice.get("tokensession") == null) {
       this.askToken();
     } else {
       let asking = false;
       let token = this.cookieservice.get("tokensession");
-      this.SendToType("token", {asking, token});
+      this.SendToType("token", { asking, token });
       this.subscribeToType("reponseToken", (message): any => {
         if (!message.succes) {
           this.askToken();
@@ -47,6 +47,12 @@ export class WebSocketService {
   }
 
   SendToType(type: string, data: any) {
+    if (this.socket.readyState !== WebSocket.OPEN) {
+      setTimeout(() => {
+        this.SendToType(type, data);
+      }, 100);
+      return;
+    }
     this.socket.send(
       JSON.stringify({
         type: type,
@@ -57,9 +63,9 @@ export class WebSocketService {
 
   askToken() {
     let asking = true;
-    this.SendToType("token", {asking});
+    this.SendToType("token", { asking });
     this.subscribeToType("reponseToken", (message): any => {
-      if(message.succes) {
+      if (message.succes) {
         this.cookieservice.set("tokensession", message.data.token);
       }
     });
