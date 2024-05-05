@@ -29,9 +29,10 @@ export class QuestionPageService {
     }
     
     InitQuestionPage(callbackLancementActivite: (message: any) => any,
-        callbackReponseActiviteMaitreDuJeu: (message: any) => any,
-        callbackReponseActiviteEquipe: (message: any) => any,
-        callbackFinPlateau: (message: any) => any) {
+    callbackReponseActiviteMaitreDuJeu: (message: any) => any,
+    callbackReponseActiviteEquipe: (message: any) => any,
+    callbackFinPlateau: (message: any) => any,
+    callbackNotificationMiniJeuMaitreDuJeu: (message: any) => any ){
         // Maitre du jeu
         if (this.connexionService.getUserAuthentication()) {
             let idPartie = this.partieService.getId();
@@ -39,7 +40,7 @@ export class QuestionPageService {
             
             this.webservice.subscribeToType('reponseLancerActivite', (message): any => {
                 this.etape = "click";
-
+                
                 callbackLancementActivite(message);
             });
             
@@ -49,6 +50,16 @@ export class QuestionPageService {
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 } else {
                     console.log("Soumission reponse d'une equipe", message);
+                }
+            });
+            
+            this.webservice.subscribeToType('notificationSoumettreScoreMinijeu', (message): any => {
+                if (!message.succes) {
+                    console.log(message.messageErreur);
+                    this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+                } else {
+                    callbackNotificationMiniJeuMaitreDuJeu(message);
+                    console.log("Soumission mini jeu d'une equipe", message);
                 }
             });
             
@@ -145,10 +156,34 @@ export class QuestionPageService {
         });
     }
     
+    sendScoreMinijeu($event: any, idActiviteEnCours:number) {
+        let score = $event;
+        this.webservice.SendToType("soumettreScoreMinijeu", { score, idActiviteEnCours});
+        this.webservice.removeAllSubscriptionsOfType('reponseSoumettreScoreMinijeu');
+        this.webservice.subscribeToType('reponseSoumettreScoreMinijeu', (message: any): any => {
+            console.log("score mj soumis", message);
+            if (!message.succes) {
+                this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+            }
+        });
+    }
+    
+    envoyerTerminerMinijeu() {
+        let idPartie = this.partieService.getId();
+        this.webservice.SendToType("terminerMinijeu", { idPartie });
+        this.webservice.removeAllSubscriptionsOfType('reponseTerminerMinijeu');
+        this.webservice.subscribeToType('reponseTerminerMinijeu', (message: any): any => {
+            console.log("terminer mj envoyé", message);
+            if (!message.succes) {
+                this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+            }
+        });
+    }
+
     resetBar(){
         this.progressBarService.resetBar();
     }
-
+    
     mettreEnPause(callback: () => any) {
         console.log("partie mise en pause");
         const idPartie = this.partieService.getId();
@@ -188,6 +223,14 @@ export class QuestionPageService {
             }
         });
 
+    }
+
+    isPlayer(): boolean {
+        return this.accessSessionService.getUserAccessed();
+    }
+
+    isHost(): boolean {
+        return this.connexionService.getUserAuthentication();
     }
     
     

@@ -50,11 +50,6 @@ export const routes: Routes = [
     },
 
     {
-        path: 'cyber-game',
-        component: CyberGameComponent
-    },
-
-    {
         path: 'create-game',
         component: CreateGameComponent, 
     },

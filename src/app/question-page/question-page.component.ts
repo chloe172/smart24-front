@@ -13,11 +13,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { ModalScoreComponent } from '../modal-score/modal-score.component';
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 import { CyberGameComponent } from '../minijeux/cyber-game/cyber-game.component';
+import { PopupCyberComponent } from '../minijeux/popup-cyber/popup-cyber.component';
 
 @Component({
   selector: 'app-question-page',
   standalone: true,
-  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule,ProgressBarComponent, MatDialogModule, ModalScoreComponent,CyberGameComponent],
+  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule,ProgressBarComponent, MatDialogModule, 
+    ModalScoreComponent,CyberGameComponent,PopupCyberComponent],
   templateUrl: './question-page.component.html',
   styleUrl: './question-page.component.scss'
 })
@@ -28,9 +30,11 @@ export class QuestionPageComponent implements OnInit {
   idActiviteEnCours!: number;
   idBonneProposition!: number;
   equipes: Equipe[] = [];
+  equipe!: Equipe;
   showProgressBar: boolean = false;
   typeActivite : string = "question";
   codeMinijeu : string = "";
+  equipesFinMinijeu: Equipe[] = [];
 
   constructor(
     protected service: QuestionPageService,
@@ -46,16 +50,17 @@ export class QuestionPageComponent implements OnInit {
         console.log(message.messageErreur);
         this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
       } else {
+        this.idActiviteEnCours = message.data.idActiviteEnCours;
         this.typeActivite = message.data.typeActivite;
         if(this.typeActivite === "question"){
           this.propositions = message.data.question.listePropositions as Proposition[];
           this.question = message.data.question;
-          this.idActiviteEnCours = message.data.idActiviteEnCours;
           this.service.resetBar();
           this.showProgressBar = true;
         }
         else if(this.typeActivite === "minijeu"){
-          this.codeMinijeu = message.data.miniJeu.code;
+          this.equipesFinMinijeu = [];
+          this.codeMinijeu = message.data.minijeu.code;
           this.service.etape = "click";
           this.showProgressBar = false;
         }
@@ -63,28 +68,37 @@ export class QuestionPageComponent implements OnInit {
     },
       (message: any) => {
         console.log("json reçu", message);
-        const question = message.data.question;
-        this.idBonneProposition = question.bonneProposition.id;
-        this.service.explication = question.explication ?? "";
+        this.typeActivite = message.data.typeActivite;
+        if(this.typeActivite === "question"){
+          const question = message.data.question;
+          this.idBonneProposition = question.bonneProposition.id;
+          this.service.explication = question.explication ?? "";
+          this.service.etape = "explication";
+          this.showProgressBar = false;
+        }
         this.equipes = message.data.listeEquipes;
-        this.service.etape = "explication";
-        this.showProgressBar = false;
         this.openDialogMaitreDuJeu();
     },
       (message: any) => {
         console.log("json reçu", message);
-        const question = message.data.question;
-        this.idBonneProposition = question.bonneProposition.id;
-        this.service.explication = question.explication ?? "";
-        this.equipes = message.data.listeEquipes;
-        this.showProgressBar = false;
-        this.service.etape = "explication";
+        if(this.typeActivite === "question"){
+          const question = message.data.question;
+          this.idBonneProposition = question.bonneProposition.id;
+          this.service.explication = question.explication ?? "";
+          this.showProgressBar = false;
+          this.service.etape = "explication";
+        }
+        this.equipe = message.data.equipe;
     },
     (message: any) => {
       console.log("json reçu", message);
       this.equipes = message.data.listeEquipes;
       this.service.etape = "explication";
       this.openDialogMaitreDuJeu();
+    },
+    (message: any) => {
+      console.log("json reçu", message);
+      this.equipesFinMinijeu.push(message.data.equipe);
     });
 
     //TODO : header pour indiquer : le monde, l'avancement, le score des joueurs...
@@ -124,12 +138,33 @@ export class QuestionPageComponent implements OnInit {
 
   openDialogEquipe(): void {
     const dialogRef = this.dialog.open(ModalScoreComponent, {
-      data: this.equipes,
+      data: this.equipe,
       width: '70%'
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  receiveScore($event: any){
+    console.log("score mj recu : ", $event)
+    this.service.sendScoreMinijeu($event, this.idActiviteEnCours); 
+    this.typeActivite = "explication_Mini_Jeu";
+  }
+
+  isPlayer(): boolean{
+    return this.service.isPlayer();
+  }
+
+  isHost() : boolean {
+    return this.service.isHost();
+  }
+  
+  terminerMinijeu(){
+    this.service.explication = "explication_Mini_Jeu";
+    this.typeActivite = "explication_Mini_Jeu";
+    // this.openDialogMaitreDuJeu(this.equipesFinMinijeu);
+    this.service.envoyerTerminerMinijeu();
   }
 }
