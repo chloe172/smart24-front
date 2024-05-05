@@ -68,5 +68,8 @@ export class CreateGameService {
     getPartyError(): boolean {
         return this.partyNameError;
     }
+    resetPartyError(){
+        this.partyNameError = false;
+    }
 
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Plateau } from '../modele/plateau.model';
 import { NgFor, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +25,7 @@ export class CreateGameComponent {
     //{ plateau: this.plateau1, selected: false },
   ];
   ngOnInit() {
+    this.service.resetPartyError();
     this.service.listerPlateaux((message) => {
       console.log("json reçu", message);
       if (!message.succes) {
