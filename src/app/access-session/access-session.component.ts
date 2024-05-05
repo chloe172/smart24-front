@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormControl, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,18 +22,30 @@ import { AccessSessionService } from './access-session.service';
   selector: 'access-session',
   templateUrl: './access-session.component.html',
   styleUrl: './access-session.component.scss',
-  imports: [FormsModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterModule, NgIf]
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    RouterModule,
+    NgIf,
+  ],
 })
 export class AccessSessionComponent {
-  router: Router = new Router;
+  router: Router = new Router();
 
-  pin = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]);
+  pin = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+    Validators.maxLength(6),
+  ]);
   errorMessage = '';
-  sessionErrorMessage ='';
+  sessionErrorMessage = '';
   sessionError: boolean = false;
 
-
-  constructor(private service : AccessSessionService) {
+  constructor(private service: AccessSessionService) {
     merge(this.pin.statusChanges, this.pin.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
@@ -37,15 +56,15 @@ export class AccessSessionComponent {
       console.log('PIN is valid:', this.pin.value);
       this.sessionError = false;
       this.sessionErrorMessage = '';
-      this.service.validerCodePin(this.pin.value,(message) => {
-        console.log('json reçu',message);
-        if (!message.succes){
+      this.service.validerCodePin(this.pin.value, (message) => {
+        console.log('json reçu', message);
+        if (!message.succes) {
           console.log(message.messageErreur);
           this.sessionErrorMessage = message.messageErreur as string;
           this.sessionError = true;
-        }else{
+        } else {
           console.log('Connexion réussie');
-          this.service.navigate(message.data.partie.id,message.data.partie.etat);
+          this.service.navigate(message.data.partie);
           this.sessionError = false;
           this.sessionErrorMessage = '';
         }
@@ -57,12 +76,9 @@ export class AccessSessionComponent {
 
   updateErrorMessage() {
     if (this.pin.hasError('required')) {
-      this.errorMessage = 'Code PIN nécessaire';  
+      this.errorMessage = 'Code PIN nécessaire';
     } else {
       this.errorMessage = '6 caractères attendus';
     }
   }
 }
-
-
-

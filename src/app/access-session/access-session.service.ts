@@ -1,46 +1,51 @@
 import { Injectable } from '@angular/core';
 import { WebSocketService } from '../core/WebSocketService/web-socket.service';
-import { filter } from 'rxjs/operators'; // Add this import statement
 import { IdPartieService } from '../general-services/id-partie.service';
 import { Router } from '@angular/router';
+import { Partie } from '../modele/partie.model';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class AccessSessionService {
-    userAccessed : boolean;
-    constructor(private webservice : WebSocketService,private idPartieService : IdPartieService,private router: Router) {    
-        this.userAccessed = false;       
-    }
+  userAccessed: boolean;
+  constructor(
+    private webservice: WebSocketService,
+    private idPartieService: IdPartieService,
+    private router: Router
+  ) {
+    this.userAccessed = false;
+  }
 
-    validerCodePin(pin: string,callback: (message: any) => any){
-        let message = { "codePin": pin };
-        this.webservice.SendToType('validerCodePin', message);
-        this.webservice.subscribeToType('reponseValiderCodePin', (message): any => {
-            callback(message);
-        });  
+  validerCodePin(pin: string, callback: (message: any) => any) {
+    let message = { codePin: pin };
+    this.webservice.SendToType('validerCodePin', message);
+    this.webservice.subscribeToType('reponseValiderCodePin', (message): any => {
+      callback(message);
+    });
+  }
 
+  navigate(partie: Partie) {
+    if (partie.etat === 'ATTENTE_EQUIPE_RECONNEXION') {
+      this.idPartieService.setPartie(partie);
+      this.setUserAccessed(true);
+      this.router.navigate(['/team-choice']);
+    } else if (partie.etat === 'ATTENTE_EQUIPE_INSCRIPTION') {
+      this.idPartieService.setPartie(partie);
+      this.setUserAccessed(true);
+      this.router.navigate(['/team-enroll']);
     }
+  }
 
-    navigate(id : number,etatPartie: string){
-        if(etatPartie === 'ATTENTE_EQUIPE_RECONNEXION'){
-            this.idPartieService.setId(id);
-            this.setUserAccessed(true);
-            this.router.navigate(['/team-choice']);
-        }
-        else if(etatPartie === 'ATTENTE_EQUIPE_INSCRIPTION'){
-            this.idPartieService.setId(id);
-            this.setUserAccessed(true);
-            this.router.navigate(['/team-enroll']);
-        }
+  setUserAccessed(access: boolean) {
+    if (access) {
+      localStorage.setItem('type', 'ekip');
+    } else {
+      localStorage.removeItem('type');
     }
+  }
 
-    setUserAccessed(access : boolean){
-        this.userAccessed = access;
-    }
-
-    getUserAccessed (){
-        return this.userAccessed;
-    }
-    
+  getUserAccessed() {
+    return localStorage.getItem('type') === 'ekip';
+  }
 }

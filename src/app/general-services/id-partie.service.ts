@@ -1,33 +1,30 @@
 import { Injectable } from '@angular/core';
-import { WebSocketService } from '../core/WebSocketService/web-socket.service';
-import { Router } from '@angular/router';
-import { ConnexionService } from '../connexion/connexion.service';
-import { AccessSessionService } from '../access-session/access-session.service';
-
+import { Partie } from '../modele/partie.model';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class IdPartieService {
-    private idPartie : number;
-    private codePin : string;
-    constructor() {
-        this.idPartie = -1;
-        this.codePin = "";
-    }
-        
-    setCodePin(code : string){
-        this.codePin = code;
-    }
-    getCodePin () {
-        return this.codePin;
-    }
+  private partie: Partie | null = null;
 
-    
-    setId(id : number){
-        this.idPartie = id;
+  constructor() {
+    let partieStr = localStorage.getItem('partie');
+    if (partieStr) {
+      this.partie = JSON.parse(partieStr);
     }
-    getId () {
-        return this.idPartie;
-    }
+  }
+
+  setPartie(partie: Partie) {
+    this.partie = partie;
+    localStorage.setItem('partie', JSON.stringify(this.partie));
+  }
+
+  getPartie() {
+    return this.partie;
+  }
+
+  removePartie() {
+    this.partie = null;
+    localStorage.removeItem('partie');
+  }
 }

@@ -4,73 +4,70 @@ import { ConnexionService } from '../connexion/connexion.service';
 import { Router } from '@angular/router';
 import { IdPartieService } from '../general-services/id-partie.service';
 import { Plateau } from '../modele/plateau.model';
-import { CookieService } from 'ngx-cookie-service';
-
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class CreateGameService {
-    partyNameError: boolean = false;
-    partyNameErrorMessage: string = "";
-    constructor(private webSocketService: WebSocketService,
-                private router: Router,
-                private partieService : IdPartieService,
-                private cookieservice : CookieService
-    ) {
-       
-    }
+  partyNameError: boolean = false;
+  partyNameErrorMessage: string = '';
+  constructor(
+    private webSocketService: WebSocketService,
+    private connexionService: ConnexionService,
+    private router: Router,
+    private partieService: IdPartieService
+  ) {}
 
-    listerPlateaux(callback: (message: any) => any){
-        if(this.cookieservice.get("authentification") === "true"){
-            this.webSocketService.SendToType('listerPlateaux', {});
-            this.webSocketService.subscribeToType('reponseListerPlateaux', (message) => {
-                console.log('Liste des plateaux reçue', message);
-                callback(message);
-            });
-
+  listerPlateaux(callback: (message: any) => any) {
+    if (this.connexionService.getUserAuthentication()) {
+      this.webSocketService.SendToType('listerPlateaux', {});
+      this.webSocketService.subscribeToType(
+        'reponseListerPlateaux',
+        (message) => {
+          console.log('Liste des plateaux reçue', message);
+          callback(message);
         }
-        else{
-            this.router.navigate(['/login']);
-        }
+      );
+    } else {
+      this.router.navigate(['/login']);
     }
+  }
 
-    creerPartie(nomPartie: string, listePlateaux: Plateau[]){
-        if(this.cookieservice.get("authentification") === "true"){
-            const plateaux = listePlateaux.map(plateau => plateau.id);
-            this.webSocketService.SendToType('creerPartie', {nomPartie, plateaux});
-            this.webSocketService.subscribeToType('reponseCreerPartie', (message) => {
-                console.log('Partie créée', message);
-                if(!message.succes){
-                    console.log(message.messageErreur);
-                    if(message.codeErreur === 422){
-                        this.partyNameError = true;
-                        this.partyNameErrorMessage = message.messageErreur;
-                    }
-                    else{
-                        this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
-                    }
-                }
-                else{
-                    this.partieService.setId(message.data.partie.id);
-                    this.partieService.setCodePin(message.data.partie.codePin);
-                    this.router.navigate(['/waiting']);
-                }    
-            });
+  creerPartie(nomPartie: string, listePlateaux: Plateau[]) {
+    if (this.connexionService.getUserAuthentication()) {
+      const plateaux = listePlateaux.map((plateau) => plateau.id);
+      this.webSocketService.SendToType('creerPartie', { nomPartie, plateaux });
+      this.webSocketService.subscribeToType('reponseCreerPartie', (message) => {
+        console.log('Partie créée', message);
+        if (!message.succes) {
+          console.log(message.messageErreur);
+          if (message.codeErreur === 422) {
+            this.partyNameError = true;
+            this.partyNameErrorMessage = message.messageErreur;
+          } else {
+            this.router.navigate([
+              '/error',
+              message.codeErreur,
+              message.messageErreur,
+            ]);
+          }
+        } else {
+          this.partieService.setPartie(message.data.partie);
+          this.router.navigate(['/waiting']);
         }
-        else{
-            this.router.navigate(['/login']);
-        }
+      });
+    } else {
+      this.router.navigate(['/login']);
     }
+  }
 
-    getPartyErrorMessage(): string {
-        return this.partyNameErrorMessage;
-    }
-    getPartyError(): boolean {
-        return this.partyNameError;
-    }
-    resetPartyError(){
-        this.partyNameError = false;
-    }
-
+  getPartyErrorMessage(): string {
+    return this.partyNameErrorMessage;
+  }
+  getPartyError(): boolean {
+    return this.partyNameError;
+  }
+  resetPartyError() {
+    this.partyNameError = false;
+  }
 }

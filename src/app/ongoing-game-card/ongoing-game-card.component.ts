@@ -12,37 +12,45 @@ import { IdPartieService } from '../general-services/id-partie.service';
 import { OngoingGameCardService } from './ongoing-game-card.service';
 import { ModalComponent } from '../modal/modal.component';
 
-
 @Component({
   selector: 'app-ongoing-game-card',
   standalone: true,
   templateUrl: './ongoing-game-card.component.html',
   styleUrl: './ongoing-game-card.component.scss',
-  imports: [MatCardModule, MatButtonModule, MatDialogModule, DatePipe, ModalComponent]
+  imports: [
+    MatCardModule,
+    MatButtonModule,
+    MatDialogModule,
+    DatePipe,
+    ModalComponent,
+  ],
 })
-
 export class OngoingGameCardComponent {
-  constructor(private service: OngoingGameCardService, private idService: IdPartieService, public matDialog: MatDialog) { }
+  constructor(
+    private service: OngoingGameCardService,
+    private idService: IdPartieService,
+    public matDialog: MatDialog
+  ) {}
   @Input() partie!: Partie;
-  router: Router = new Router;
+  router: Router = new Router();
   dialogConfig = new MatDialogConfig();
   modalDialog: MatDialogRef<ModalComponent, any> | undefined;
 
   reprendre() {
-    this.service.reprendre(this.partie.id);
+    this.service.reprendre(this.partie);
   }
   ngAfterViewInit(): void {
     document.onclick = (args: any): void => {
       if (args.target.tagName === 'BODY') {
-        this.modalDialog?.close()
+        this.modalDialog?.close();
       }
-    }
+    };
   }
 
   openModal() {
-    this.dialogConfig.id = "app-modal-component";
-    this.dialogConfig.height = "500px";
-    this.dialogConfig.width = "650px";
+    this.dialogConfig.id = 'app-modal-component';
+    this.dialogConfig.height = '500px';
+    this.dialogConfig.width = '650px';
     this.modalDialog = this.matDialog.open(ModalComponent, this.dialogConfig);
     this.modalDialog.componentInstance.partie = this.partie;
   }

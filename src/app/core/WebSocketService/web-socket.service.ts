@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,7 @@ export class WebSocketService {
 
   private callbacks: { [type: string]: ((message: any) => any)[] } = {};
 
-  constructor(private cookieservice: CookieService) {
+  constructor() {
     this.socket = new WebSocket(environment.webSocketUrl);
     this.socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
@@ -21,11 +20,11 @@ export class WebSocketService {
         });
       }
     };
-    if (this.cookieservice.get("tokensession") == null) {
+    if (localStorage.getItem("tokensession") == null) {
       this.askToken();
     } else {
       let asking = false;
-      let token = this.cookieservice.get("tokensession");
+      let token = localStorage.getItem("tokensession");
       this.SendToType("token", { asking, token });
       this.subscribeToType("reponseToken", (message): any => {
         if (!message.succes) {
@@ -66,7 +65,7 @@ export class WebSocketService {
     this.SendToType("token", { asking });
     this.subscribeToType("reponseToken", (message): any => {
       if (message.succes) {
-        this.cookieservice.set("tokensession", message.data.token);
+        localStorage.setItem("tokensession", message.data.token);
       }
     });
   }
