@@ -1,33 +1,35 @@
 <div class="row">
-    <div class="col s12 valign-wrapper" style="height: 100vh;">
-        <div class="col s12 m6 offset-m3 center-align">
-            <div class="mat-card-container">
-                <mat-card class="card-panel hoverable" style="max-width: 1000px;">
-                    <div class="center-align">
-                        <img src="../assets/PlayIT.svg" alt="Play IT" width="150" height="100" >
-                    </div>
-                    <mat-form-field>
-                        <mat-label>Entrez votre email</mat-label>
-                        <input matInput autofocus
-                            placeholder="pat@exemple.com"
-                            [formControl]="email"
-                            (blur)="updateErrorMessage()"
-                            required
-                            (keyup.enter)="connect()">
-                        @if (email.invalid) {
-                        <mat-error>{{errorMessage}}</mat-error>
-                        }
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>Entrer votre mot de passe</mat-label>
-                        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="password" (keyup.enter)="connect()">
-                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                        </button>
-                    </mat-form-field>
-                    <button mat-flat-button color="primary" [disabled]="email.invalid || password.invalid" (click)="connect()">Se connecter</button>
-                    <mat-error *ngIf="loginError">{{loginErrorMessage}}</mat-error>
-                </mat-card>         
-        </div>
+    <div class="col s12 m6 offset-m3 center-align">
+        <img src="../assets/PlayIT.svg" alt="Play IT" width="300" height="200">
+        <div class="mat-card-container">
+            <mat-card class="card-panel hoverable" style="max-width: 1000px;">
+                <mat-form-field>
+                    <mat-label>Entrez votre email</mat-label>
+                    <input matInput autofocus
+                        placeholder="pat@exemple.com"
+                        [formControl]="email"
+                        (blur)="updateErrorMessage()"
+                        required
+                        (keyup.enter)="connect()">
+                    @if (email.invalid) {
+                    <mat-error>{{errorMessage}}</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Entrer votre mot de passe</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" [formControl]="password" (keyup.enter)="connect()">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+                <button mat-flat-button color="primary" [disabled]="email.invalid || password.invalid" (click)="connect()">Se connecter</button>
+                <mat-error *ngIf="loginError">{{loginErrorMessage}}</mat-error>
+            </mat-card>         
+    </div>
+    <div class="col s12 center-align">
+        <h6 class="white-text">Vous voulez rejoindre une partie ?
+            <a class="pink-text" [routerLink]="['/']">Validez le code PIN</a> sur cette page
+        </h6>
     </div>
 </div>
+
