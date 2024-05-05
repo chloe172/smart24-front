@@ -18,7 +18,6 @@ export class AccessSessionService {
         this.webservice.SendToType('validerCodePin', message);
         this.webservice.subscribeToType('reponseValiderCodePin', (message): any => {
             callback(message);
-           
         });  
 
     }
@@ -34,10 +33,6 @@ export class AccessSessionService {
             this.setUserAccessed(true);
             this.router.navigate(['/team-enroll']);
         }
-        else {
-            this.router.navigate(['/error', '404', 'La partie est introuvable']);
-        }
-        
     }
 
     setUserAccessed(access : boolean){

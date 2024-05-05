@@ -1,7 +1,7 @@
 <div class="create-game-container text-align center-align">
     <div class="row">
         <mat-card class="col s4 offset-s4 card-panel" style="margin-top: 20px; background-color: rgba(28, 35, 93, 0.5);;">
-            <h4 class="white-text" style="font-weight: bold;">Créer une Nouvelle Partie</h4>
+            <h4 class="white-text" style="font-weight: bold;">Créer une nouvelle partie</h4>
         </mat-card>
     </div>
 
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="center-align">
-                    <button mat-flat-button color="primary" (click)="selectAll()" style="max-width: 200px;">Sélectionner
+                    <button mat-flat-button color="primary" [disabled]="getTousPlateauxSelectionnes()" (click)="selectAll()" style="max-width: 200px;">Sélectionner
                         Tout</button>
                 </div>
             </mat-card>

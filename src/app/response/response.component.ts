@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { NgStyle, NgClass } from '@angular/common';
+import { NgStyle, NgClass, NgIf } from '@angular/common';
 import { Proposition } from '../modele/proposition.model';
 import { AccessSessionService } from '../access-session/access-session.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-response',
   standalone: true,
-  imports: [MatCardModule, NgStyle, NgClass],
+  imports: [MatCardModule, NgStyle, NgClass, MatIcon, NgIf],
   templateUrl: './response.component.html',
   styleUrl: './response.component.scss'
 })

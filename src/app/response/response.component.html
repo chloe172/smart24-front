@@ -1,4 +1,14 @@
-<mat-card class="card-panel hoverable" [ngClass]="{'disable': estSelectionnee === false}"
+<mat-card class="card-panel hoverable" [ngClass]="{'disable': estSelectionnee === false}" 
     [ngStyle]="{'background-color': getColor()}" (click)="onClick()">
-    <h6>{{index+1}}. {{proposition.intitule}}</h6>
+    <div class="options" style="display: flex; justify-content: space-between;">
+        <h6>{{index+1}}. {{proposition.intitule}}</h6>
+        <span *ngIf="etape === 'explication'">
+            <span *ngIf="etatReponse === 'bonne'">
+                <mat-icon fontIcon="done"></mat-icon>
+            </span>
+            <span *ngIf="etatReponse === 'mauvaise'">
+                <mat-icon fontIcon="close"></mat-icon>
+            </span>
+        </span>
+    </div>
 </mat-card>

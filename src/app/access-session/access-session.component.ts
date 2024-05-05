@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,6 +22,9 @@ export class AccessSessionComponent {
 
   pin = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]);
   errorMessage = '';
+  sessionErrorMessage ='';
+  sessionError: boolean = false;
+
 
   constructor(private service : AccessSessionService) {
     merge(this.pin.statusChanges, this.pin.valueChanges)
@@ -32,18 +35,21 @@ export class AccessSessionComponent {
   valider() {
     if (this.pin.valid && this.pin.value != null) {
       console.log('PIN is valid:', this.pin.value);
+      this.sessionError = false;
+      this.sessionErrorMessage = '';
       this.service.validerCodePin(this.pin.value,(message) => {
         console.log('json reçu',message);
         if (!message.succes){
           console.log(message.messageErreur);
-          this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
-        }
-        else{
+          this.sessionErrorMessage = message.messageErreur as string;
+          this.sessionError = true;
+        }else{
           console.log('Connexion réussie');
           this.service.navigate(message.data.partie.id,message.data.partie.etat);
+          this.sessionError = false;
+          this.sessionErrorMessage = '';
         }
       });
-      
     } else {
       this.pin.markAllAsTouched();
     }
@@ -51,9 +57,12 @@ export class AccessSessionComponent {
 
   updateErrorMessage() {
     if (this.pin.hasError('required')) {
-      this.errorMessage = 'Le code PIN est nécessaire';
+      this.errorMessage = 'Code PIN nécessaire';  
     } else {
-      this.errorMessage = 'Le code PIN doit être de 6 caractères';
+      this.errorMessage = '6 caractères attendus';
     }
   }
 }
+
+
+

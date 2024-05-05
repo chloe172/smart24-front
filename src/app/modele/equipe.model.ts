@@ -1,4 +1,5 @@
 import { Partie } from "./partie.model";
+import { Plateau } from "./plateau.model";
 
 export interface Equipe {
     id: number;
@@ -7,4 +8,9 @@ export interface Equipe {
     avatar: string;
     partie?: Partie;
     rang: string;
+}
+
+export interface ClassementPlateau {
+    equipes: Equipe[];
+    nomPlateau: string;
 }

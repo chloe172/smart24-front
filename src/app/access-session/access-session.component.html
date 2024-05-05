@@ -7,7 +7,8 @@
                 <input matInput [formControl]="pin" (blur)="updateErrorMessage()" oninput="this.value = this.value.toUpperCase()" (keyup.enter)="valider()">
                 <mat-error *ngIf="pin.invalid">{{errorMessage}}</mat-error>
             </mat-form-field>
-            <button mat-flat-button color="primary" [disabled]="pin.invalid" (click)="valider()">Accéder à la session</button>           
+            <mat-error *ngIf="sessionError==true">{{sessionErrorMessage}}</mat-error>
+            <button mat-flat-button color="primary" [disabled]="pin.invalid" (click)="valider()">Accéder à la session</button>          
         </mat-card>
     </div>
     <h6 class="white-text">Vous voulez être maître du jeu pour une partie PlayIT ?
