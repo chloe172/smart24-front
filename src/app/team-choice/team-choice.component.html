@@ -1,17 +1,19 @@
-
-  
-  
   <div class="create-game-container text-align center-align">
-    <h3 class="white-text">Choisissez votre équipe</h3>
-    <div class="col s6 offset-s3">
-        <mat-selection-list #equipes [multiple]="false" [(ngModel)]="selected">
-            @for (equipe of listeEquipes; track equipe) {
-              <mat-list-option [value]="equipe">{{equipe.nom}}</mat-list-option>
-            }
-          </mat-selection-list>
-        <p>
-            Option selected: {{equipes.selectedOptions.hasValue() ? equipes.selectedOptions.selected[0].value.nom : 'None'}}
-        </p>
+    <div class="row">
+      <mat-card class="col s4 offset-s4 card-panel" style="margin-top: 20px; background-color: rgba(28, 35, 93, 0.5);;">
+          <h4 class="center-align text-align white-text" style="font-weight: bold;">Choisissez votre équipe</h4>
+      </mat-card>
     </div>
+    <mat-selection-list #equipes [multiple]="false" [(ngModel)]="selected" class="center-align text-align">
+      @for (equipe of listeEquipes; track equipe) {                
+        <div class="mat-card-container">
+        <mat-card class="center-align text-align" style="margin: 10px; max-width: max-content; padding: 0px;">
+          <mat-card-content class="black-text"  style="font-weight: bold;">
+            <mat-list-option [value]="equipe">{{equipe.nom}}</mat-list-option>
+          </mat-card-content>
+        </mat-card>
+        </div>
+      }
+    </mat-selection-list>
     <button mat-flat-button color="warn" style="max-width: 200px;" (click)="connecterEquipe()" [disabled]="!equipes.selectedOptions.hasValue()">Se connecter</button>
 </div>

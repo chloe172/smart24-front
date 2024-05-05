@@ -1,13 +1,14 @@
 <div class="center-align">
-    <img src="../assets/P-2.svg" alt="Play IT" width="300" height="200">
+    <img src="../assets/PlayIT.svg" alt="Play IT" width="300" height="200">
     <div class="mat-card-container">
         <mat-card class="card-panel hoverable" style="max-width: 400px;">
             <mat-form-field>
                 <mat-label>Code PIN</mat-label>
-                <input matInput [formControl]="pin" (blur)="updateErrorMessage()" oninput="this.value = this.value.toUpperCase()" (keyup.enter)="valider()">
+                <input matInput autofocus [formControl]="pin" (blur)="updateErrorMessage()" oninput="this.value = this.value.toUpperCase()" (keyup.enter)="valider()">
                 <mat-error *ngIf="pin.invalid">{{errorMessage}}</mat-error>
             </mat-form-field>
-            <button mat-flat-button color="primary" [disabled]="pin.invalid" (click)="valider()">Accéder à la session</button>           
+            <mat-error *ngIf="sessionError==true">{{sessionErrorMessage}}</mat-error>
+            <button mat-flat-button color="primary" [disabled]="pin.invalid" (click)="valider()">Accéder à la session</button>          
         </mat-card>
     </div>
     <h6 class="white-text">Vous voulez être maître du jeu pour une partie PlayIT ?

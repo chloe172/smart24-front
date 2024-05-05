@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Plateau } from '../modele/plateau.model';
-import { NgFor } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { NgFor, NgIf } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,16 +15,16 @@ import { Router } from '@angular/router';
   templateUrl: './create-game.component.html',
   styleUrls: ['./create-game.component.scss'],
   standalone: true,
-  imports: [NgFor, FormsModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatCardModule]
+  imports: [NgFor, FormsModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatCardModule, NgIf]
 })
 
 export class CreateGameComponent {
   nomPartie: string = '';
   constructor(private service: CreateGameService, private router: Router) { }
-  plateaux: any[] = [
-    //{ plateau: this.plateau1, selected: false },
-  ];
+  plateaux: any[] = [];
+  
   ngOnInit() {
+    this.service.resetPartyError();
     this.service.listerPlateaux((message) => {
       console.log("json reçu", message);
       if (!message.succes) {
@@ -57,5 +57,18 @@ export class CreateGameComponent {
   }
   initializePlateaux(plateaux: Plateau[]): any[] {
     return plateaux.map(plateau => ({ plateau, selected: true }));
+  }
+
+  partyNameInvalid(): boolean {
+    return this.service.getPartyError();
+  }
+
+  getErrorMessage(): string {
+    return this.service.getPartyErrorMessage();
+  }
+
+  getTousPlateauxSelectionnes(): boolean {
+    const plateauxSelectionnes = this.plateaux.filter(plateau => plateau.selected).map(plateau => plateau.plateau);
+    return plateauxSelectionnes.length == this.plateaux.length;
   }
 }

@@ -1,0 +1,17 @@
+.container {
+    position: relative;
+    display: inline-block;
+    max-width: max-content;
+}
+
+.edit-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+}
+
+.rounded-image {
+    border-radius: 25%;
+    overflow: hidden;
+}

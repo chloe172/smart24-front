@@ -41,6 +41,7 @@ export class WaitingForPlayersService {
         console.log("passé dans ajouter équipe", this.accessSessionService.getUserAccessed());
         if(this.connexionService.getUserAuthentication() || this.accessSessionService.getUserAccessed()){
             console.log("passé dans ajouter équipe");
+            this.webSocketService.removeAllSubscriptionsOfType('notificationInscrireEquipe');
             this.webSocketService.subscribeToType('notificationInscrireEquipe', (message) => {
                 console.log('Equipe reçue', message);
                 callback(message);

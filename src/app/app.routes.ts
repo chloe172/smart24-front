@@ -12,6 +12,7 @@ import { WaitingForPlayersComponent } from './waiting-for-players/waiting-for-pl
 import { TeamEnrollComponent } from './team-enroll/team-enroll.component';
 import { TeamChoiceComponent } from './team-choice/team-choice.component';
 import { CyberGameComponent } from './cyber-game/cyber-game.component';
+import { MjGestionProjetComponent } from './mj-gestion-projet/mj-gestion-projet.component';
 import { IAGameComponent } from './iagame/iagame.component';
 
 
@@ -19,8 +20,6 @@ export const routes: Routes = [
     {
         path: '',
         component: AccessSessionComponent,
-        title: 'Access'
-
     },
     {
         path: 'design',
@@ -29,16 +28,14 @@ export const routes: Routes = [
     {
         path: 'login',
         component: ConnexionComponent,
-        title: 'Login'
     },
     {
         path: 'question',
-        component: QuestionPageComponent
+        component: QuestionPageComponent,
     },
     {
-        path : 'ongoing-games',
-        component : OngoingGamesComponent,
-        title : 'Ongoing Games'
+        path: 'ongoing-games',
+        component: OngoingGamesComponent,
     },
     {
         path: 'selection',
@@ -61,11 +58,11 @@ export const routes: Routes = [
 
     {
         path: 'create-game',
-        component: CreateGameComponent, 
+        component: CreateGameComponent,
     },
-    { 
-        path: 'error/:code/:message', 
-        component: ErrorPageComponent, 
+    {
+        path: 'error/:code/:message',
+        component: ErrorPageComponent,
     },
     {
         path: 'waiting',
@@ -79,6 +76,10 @@ export const routes: Routes = [
     {
         path: 'team-choice',
         component: TeamChoiceComponent
+    },
+    {
+        path: 'mj-gestion-projet',
+        component: MjGestionProjetComponent
     },
     {
         path: '**',

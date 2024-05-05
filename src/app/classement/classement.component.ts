@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { MatCard } from '@angular/material/card';
 import { NgStyle } from '@angular/common';
+import { Equipe } from '../modele/equipe.model';
 
 @Component({
   selector: 'app-classement',
@@ -9,13 +10,15 @@ import { NgStyle } from '@angular/common';
   imports: [NgFor, MatCard, NgStyle],
   templateUrl: './classement.component.html',
   styleUrl: './classement.component.scss'
+  
 })
 export class ClassementComponent {
+  @Input() equipes!: Equipe[];
 
-  equipes : any[] = [
-    { nomEquipe : 'equipe1', color : '#5ce1e6', points : 63, avatar : '', classement : '1er'}, 
-    { nomEquipe : 'equipe2', color : '#ca5fe8', points : 54, avatar : '', classement : '2eme'},
-    { nomEquipe : 'equipe3', color : '#fbcd40', points : 50, avatar : '', classement : '3eme'},
-  ]
-
+getColor(i: number) {
+  const colors = ['#5ce1e6', '#ca5fe8', '#fbcd40', '#ff5353'];
+  return colors[i % 4];
 }
+}
+
+

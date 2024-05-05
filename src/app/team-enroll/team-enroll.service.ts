@@ -9,6 +9,8 @@ import { IdPartieService } from '../general-services/id-partie.service';
 })
 export class TeamEnrollService {
     idEquipe: number;
+    teamNameError: boolean = false;
+    teamNameErrorMessage: string = "";
     constructor(
         private webSocketService: WebSocketService,
         private accessSessionService: AccessSessionService,
@@ -19,7 +21,7 @@ export class TeamEnrollService {
         // Initialize your service here
         this.idEquipe = 0
     }
-
+    
     verifyUser() {
         console.log('Verify user access');
         if (!this.accessSessionService.getUserAccessed()){
@@ -27,33 +29,48 @@ export class TeamEnrollService {
             this.router.navigate(['/']);
         }
     }
-
-
-    inscrireEquipe(nomEquipe: string) {
+    
+    
+    inscrireEquipe(nomEquipe: string, avatar: string) {
         if (this.accessSessionService.getUserAccessed()) {
             let idPartie = this.idService.getId();
-            this.webSocketService.SendToType('inscrireEquipe', { nomEquipe,idPartie });
+            this.webSocketService.SendToType('inscrireEquipe', { nomEquipe, idPartie, avatar });
             this.webSocketService.subscribeToType('reponseInscrireEquipe', (message) => {
                 if(!message.succes){
                     console.log('Erreur inscription', message);
-                    this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+                    if(message.codeErreur === 422){
+                        this.teamNameError = true;
+                        this.teamNameErrorMessage = message.messageErreur;
+                    }
+                    else{
+                        this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
+                    }
                 }
                 else{
-                    this.idEquipe = message.data.idEquipe;
+                    this.idEquipe = message.data.equipe.id;
                     console.log('Equipe inscrite', message);
                     this.router.navigate(['/waiting']);
                 }
-
+                
             });
         } else {
             console.log('User doesn\'t have access to this service');
             this.router.navigate(['/']);
-
         }
     }
-
+    
     getIdEquipe() {
         this.idEquipe;
     }
 
+    setIdEquipe(id: number) {
+        this.idEquipe = id;
+    }
+    
+    getTeamErrorMessage(): string {
+        return this.teamNameErrorMessage;
+    }
+    getTeamError(): boolean {
+        return this.teamNameError;
+    }
 }

@@ -1,5 +1,10 @@
 <div class="create-game-container text-align center-align">
-    <h4 class="white-text">Créer une Nouvelle Partie</h4>
+    <div class="row">
+        <mat-card class="col s4 offset-s4 card-panel" style="margin-top: 20px; background-color: rgba(28, 35, 93, 0.5);;">
+            <h4 class="white-text" style="font-weight: bold;">Créer une nouvelle partie</h4>
+        </mat-card>
+    </div>
+
     <div class="row">
         <div class="col s6 offset-s3">
             <mat-card class="card-panel hoverable center-align">
@@ -8,27 +13,27 @@
                     <input matInput
                         placeholder="Ma première partie"
                         [(ngModel)]="nomPartie"
+                        autofocus
                         required
                         (keyup.enter)="creerPartie()"/>
                 </mat-form-field>
+                <mat-error *ngIf="partyNameInvalid()">{{getErrorMessage()}}</mat-error>
             </mat-card>
         </div>
         <div class="col s6 offset-s3">
             <mat-card class="card-panel hoverable center-align text-align" style="max-width: 1000px;">
                 <h5 color="primary">Choisir les Plateaux:</h5>
                 <div class="row">
-                    <div class="col s3" *ngFor="let plateau of plateaux">
+                    <div class="col s3 left-align" *ngFor="let plateau of plateaux">
                         <mat-checkbox color="primary" [(ngModel)]="plateau.selected">
                             <p color="primary">{{plateau.plateau.nom}}</p>
                         </mat-checkbox>
                     </div>
-
                 </div>
                 <div class="center-align">
-                    <button mat-flat-button color="primary" (click)="selectAll()" style="max-width: 200px;">Sélectionner
+                    <button mat-flat-button color="primary" [disabled]="getTousPlateauxSelectionnes()" (click)="selectAll()" style="max-width: 200px;">Sélectionner
                         Tout</button>
                 </div>
-
             </mat-card>
         </div>
     </div>

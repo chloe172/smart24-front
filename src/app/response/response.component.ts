@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { NgStyle, NgClass } from '@angular/common';
+import { NgStyle, NgClass, NgIf } from '@angular/common';
 import { Proposition } from '../modele/proposition.model';
 import { AccessSessionService } from '../access-session/access-session.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-response',
   standalone: true,
-  imports: [MatCardModule, NgStyle, NgClass],
+  imports: [MatCardModule, NgStyle, NgClass, MatIcon, NgIf],
   templateUrl: './response.component.html',
   styleUrl: './response.component.scss'
 })
@@ -30,7 +31,7 @@ export class ResponseComponent {
       return colors[this.index % 4];
     } else if (this.etape === "select") {
       if (this.estSelectionnee) {
-        return 'blue';
+        return '#4e5fff';
       } else {
         return 'gray';
       }
@@ -38,7 +39,7 @@ export class ResponseComponent {
       if (this.etatReponse === "bonne") {
         return 'green';
       } else if (this.etatReponse === "mauvaise") {
-        return 'red';
+        return '#ff5353';
       } else {
         return 'gray';
       }
