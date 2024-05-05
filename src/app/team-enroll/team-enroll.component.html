@@ -11,15 +11,21 @@
                 <app-avatar [avatar]="avatarEquipe" (newAvatar)="updateAvatar($event)"></app-avatar>
                 <mat-form-field>
                     <mat-label >Entrez le nom de votre équipe</mat-label>
-                    <input matInput
+                    <!-- <input matInput autofocus
                         placeholder="Nom de mon équipe"
                         [(ngModel)]="nomEquipe"
                         required
-                        (keyup.enter)="inscrireEquipe()"/>
+                        (keyup.enter)="inscrireEquipe()"/> -->
+                        <input matInput autofocus
+                            [formControl]="nomEquipe"
+                            (blur)="updateErrorMessage()"
+                            required
+                            (keyup.enter)="inscrireEquipe()">
+                        <mat-error *ngIf="nomEquipe.invalid">{{errorMessage}}</mat-error>
                 </mat-form-field>
                 <mat-error *ngIf="teamNameInvalid()">{{getErrorMessage()}}</mat-error>
                 <div class="center-align">
-                    <button mat-flat-button color="primary" style="max-width: 200px;" (click)="inscrireEquipe()" [disabled]="!nomEquipe">Inscrire l'équipe</button>
+                    <button mat-flat-button color="primary" style="max-width: 200px;" (click)="inscrireEquipe()" [disabled]="!nomEquipe || nomEquipe.invalid">Inscrire l'équipe</button>
                 </div>
             </mat-card>
         </div>
