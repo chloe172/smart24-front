@@ -12,7 +12,7 @@ import { MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ModalScoreComponent } from '../modal-score/modal-score.component';
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
-import { CyberGameComponent } from '../cyber-game/cyber-game.component';
+import { CyberGameComponent } from '../minijeux/cyber-game/cyber-game.component';
 
 @Component({
   selector: 'app-question-page',

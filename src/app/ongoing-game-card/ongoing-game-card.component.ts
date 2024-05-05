@@ -41,8 +41,6 @@ export class OngoingGameCardComponent {
 
   openModal() {
     this.dialogConfig.id = "app-modal-component";
-    this.dialogConfig.height = "500px";
-    this.dialogConfig.width = "650px";
     this.modalDialog = this.matDialog.open(ModalComponent, this.dialogConfig);
     this.modalDialog.componentInstance.partie = this.partie;
   }

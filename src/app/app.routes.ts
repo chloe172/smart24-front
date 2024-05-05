@@ -11,8 +11,8 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { WaitingForPlayersComponent } from './waiting-for-players/waiting-for-players.component';
 import { TeamEnrollComponent } from './team-enroll/team-enroll.component';
 import { TeamChoiceComponent } from './team-choice/team-choice.component';
-import { CyberGameComponent } from './cyber-game/cyber-game.component';
-import { MjGestionProjetComponent } from './mj-gestion-projet/mj-gestion-projet.component';
+import { CyberGameComponent } from './minijeux/cyber-game/cyber-game.component';
+import { MjGestionProjetComponent } from './minijeux/mj-gestion-projet/mj-gestion-projet.component';
 
 
 export const routes: Routes = [

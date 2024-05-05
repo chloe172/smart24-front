@@ -7,21 +7,20 @@ import { Partie } from '../modele/partie.model';
 import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { ModalService } from './modal.service';
 import { Router } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [MatButton],
+  imports: [MatButton,MatCardModule],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss'
 })
 export class ModalComponent {
 
   constructor (
-    private idService : IdPartieService, 
-    public dialogRef: MatDialogRef<ModalComponent>,
-    private webservice: WebSocketService, 
+    public dialogRef: MatDialogRef<ModalComponent>, 
     private service : ModalService
     ) {}
     @Input() partie!: Partie;

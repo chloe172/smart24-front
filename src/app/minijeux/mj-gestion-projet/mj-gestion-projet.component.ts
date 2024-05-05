@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
-import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
+import { ProgressBarComponent } from '../../progress-bar/progress-bar.component';
 
 /**
  * @title Drag&Drop sorting
