@@ -4,7 +4,7 @@ import { ConnexionService } from '../connexion/connexion.service';
 import { Router } from '@angular/router';
 import { IdPartieService } from '../general-services/id-partie.service';
 import { AccessSessionService } from '../access-session/access-session.service';
-import { EndPlayerService } from '../general-services/end-player.service';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Injectable({
@@ -15,8 +15,8 @@ export class WaitingForPlayersService {
         private connexionService: ConnexionService,
         private accessSessionService: AccessSessionService,
         private partieService: IdPartieService,
-        private endPlayer : EndPlayerService,
-        private router: Router
+        private router: Router,
+        private cookieservice : CookieService
     ) {
         
     }
@@ -39,7 +39,7 @@ export class WaitingForPlayersService {
     
     ajouterEquipe(callback: (message: any) => any){
         console.log("passé dans ajouter équipe", this.accessSessionService.getUserAccessed());
-        if(this.connexionService.getUserAuthentication() || this.accessSessionService.getUserAccessed()){
+        if(this.cookieservice.get("authentification") === "true" || this.accessSessionService.getUserAccessed()){
             console.log("passé dans ajouter équipe");
             this.webSocketService.removeAllSubscriptionsOfType('notificationInscrireEquipe');
             this.webSocketService.subscribeToType('notificationInscrireEquipe', (message) => {
@@ -61,7 +61,7 @@ export class WaitingForPlayersService {
     }
 
     demarrerPartie(){
-        if(this.connexionService.getUserAuthentication()){
+        if(this.cookieservice.get("authentification") === "true"){
             let idPartie = this.partieService.getId();
             if(idPartie !== -1){
 
@@ -88,7 +88,7 @@ export class WaitingForPlayersService {
     }
 
     isHost(): boolean {
-        return this.connexionService.getUserAuthentication();
+        return this.cookieservice.get("authentification") === "true";
     }
 
     isPlayer(): boolean {

@@ -3,6 +3,7 @@ import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { ConnexionService } from '../connexion/connexion.service';
 import { Router } from '@angular/router';
 import { IdPartieService } from '../general-services/id-partie.service';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Injectable({
@@ -11,13 +12,13 @@ import { IdPartieService } from '../general-services/id-partie.service';
 
 export class SelectionPlateauxService{
     constructor(private webservice : WebSocketService,
-                private connexionService: ConnexionService,
                 private router: Router,
-                private partieService : IdPartieService
+                private partieService : IdPartieService,
+                private cookieservice : CookieService
     ){}
 
     InitSelectionPlateau(callback: (message: any) => any){
-        if (this.connexionService.getUserAuthentication()) {
+        if (this.cookieservice.get("authentification") === "true") {
             let idPartie = this.partieService.getId();
             if(idPartie !== -1){
                 this.webservice.SendToType('listerPlateauxPartie', {idPartie});

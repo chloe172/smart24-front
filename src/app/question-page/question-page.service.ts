@@ -9,6 +9,7 @@ import { ProgressBarService } from '../progress-bar/progress-bar.service';
 import { TeamEnrollService } from '../team-enroll/team-enroll.service';
 import { Equipe } from '../modele/equipe.model'
 import { Partie } from '../modele/partie.model';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
     providedIn: 'root'
@@ -24,12 +25,12 @@ export class QuestionPageService {
         
     constructor(
         private webservice: WebSocketService,
-        private connexionService: ConnexionService,
         private accessSessionService: AccessSessionService,
         private partieService: IdPartieService,
         private progressBarService: ProgressBarService,
         private equipeService: TeamEnrollService,
-        private router: Router
+        private router: Router,
+        private cookieservice : CookieService
     ) {
     }
     
@@ -40,7 +41,7 @@ export class QuestionPageService {
         callbackFinPlateauMaitreDuJeu: (message: any) => any) {
 
         // Maitre du jeu
-        if (this.connexionService.getUserAuthentication()) {
+        if (this.cookieservice.get("authentification") === "true") {
             let idPartie = this.partieService.getId();
             this.webservice.SendToType("lancerActivite", { idPartie });
             

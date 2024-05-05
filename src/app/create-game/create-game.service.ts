@@ -4,6 +4,7 @@ import { ConnexionService } from '../connexion/connexion.service';
 import { Router } from '@angular/router';
 import { IdPartieService } from '../general-services/id-partie.service';
 import { Plateau } from '../modele/plateau.model';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Injectable({
@@ -13,15 +14,15 @@ export class CreateGameService {
     partyNameError: boolean = false;
     partyNameErrorMessage: string = "";
     constructor(private webSocketService: WebSocketService,
-                private connexionService: ConnexionService,
                 private router: Router,
-                private partieService : IdPartieService
+                private partieService : IdPartieService,
+                private cookieservice : CookieService
     ) {
        
     }
 
     listerPlateaux(callback: (message: any) => any){
-        if(this.connexionService.getUserAuthentication()){
+        if(this.cookieservice.get("authentification") === "true"){
             this.webSocketService.SendToType('listerPlateaux', {});
             this.webSocketService.subscribeToType('reponseListerPlateaux', (message) => {
                 console.log('Liste des plateaux reçue', message);
@@ -35,7 +36,7 @@ export class CreateGameService {
     }
 
     creerPartie(nomPartie: string, listePlateaux: Plateau[]){
-        if(this.connexionService.getUserAuthentication()){
+        if(this.cookieservice.get("authentification") === "true"){
             const plateaux = listePlateaux.map(plateau => plateau.id);
             this.webSocketService.SendToType('creerPartie', {nomPartie, plateaux});
             this.webSocketService.subscribeToType('reponseCreerPartie', (message) => {
