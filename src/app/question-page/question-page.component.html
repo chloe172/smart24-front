@@ -23,7 +23,7 @@
                 <h4 class="center-align text-align white-text" style="font-weight: bold;">Minijeu en cours ... </h4>
             </mat-card>
             <h5 class="col s4 offset-s4 center-align text-align white-text" style="font-weight: bold;">Equipes qui ont terminé le mini-jeu :</h5>
-            <h6 *ngIf="equipesFinMinijeu.length===0" class="col s4 offset-s4 center-align text-align white-text">Pas d'équipes</h6>
+            <h6 *ngIf="equipesFinMinijeu.length===0" class="col s4 offset-s4 center-align text-align white-text">Pas d'équipe</h6>
             <div class="col m4 s6" *ngFor="let equipe of equipesFinMinijeu">
                 <mat-card class="card-panel"><mat-card-content class="black-text"  style="font-weight: bold;">{{equipe.nom}}</mat-card-content></mat-card>
             </div>

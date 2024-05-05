@@ -36,7 +36,7 @@ export class QuestionPageService {
     callbackReponseActiviteMaitreDuJeu: (message: any) => any,
     callbackReponseActiviteEquipe: (message: any) => any,
     callbackFinPlateauEquipe: (message: any) => any,
-        callbackFinPlateauMaitreDuJeu: (message: any) => any,
+    callbackFinPlateauMaitreDuJeu: (message: any) => any,
     callbackNotificationMiniJeuMaitreDuJeu: (message: any) => any ){
 
         // Maitre du jeu
@@ -126,7 +126,7 @@ export class QuestionPageService {
                     console.log(message.messageErreur);
                     this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
                 } else {
-                    console.log(message.equipe);
+                    console.log(message.data.equipe);
                     //this.explication = message.data.explication;  
                     this.score = message.data.equipe.score;
                     //this.rang = message.data.equipe.rang;

@@ -100,7 +100,6 @@ export class QuestionPageComponent implements OnInit {
           this.showProgressBar = false;
           this.service.etape = "explication";
         }
-        this.equipe = message.data.equipe;
     },
     (message: any) => {
       console.log("json reçu", message);
@@ -115,7 +114,13 @@ export class QuestionPageComponent implements OnInit {
       this.equipes = message.data.listeEquipes;
       this.service.etape = "explication";
       this.openDialogMaitreDuJeu();
-    });
+    },
+    (message: any) => {
+      console.log("json reçu", message);
+      this.equipesFinMinijeu.push(message.data.equipe);
+      this.service.etape = "explication";
+    },
+  );
 
     //TODO : header pour indiquer : le monde, l'avancement, le score des joueurs...
   }
