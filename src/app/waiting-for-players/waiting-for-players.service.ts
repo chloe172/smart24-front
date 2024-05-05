@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { ConnexionService } from '../connexion/connexion.service';
 import { Router } from '@angular/router';
-import { IdPartieService } from '../general-services/id-partie.service';
+import { PartieService } from '../general-services/partie.service';
 import { AccessSessionService } from '../access-session/access-session.service';
 import { EndPlayerService } from '../general-services/end-player.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,9 @@ export class WaitingForPlayersService {
     private connexionService: ConnexionService,
     private endPlayerService: EndPlayerService, //à ne pas enlever: doit être créer ici
     private accessSessionService: AccessSessionService,
-    private partieService: IdPartieService,
-    private router: Router
+    private partieService: PartieService,
+    private router: Router,
+    private snackbar: MatSnackBar
   ) {}
 
   getCodePin() {
@@ -82,20 +84,18 @@ export class WaitingForPlayersService {
           (message) => {
             console.log('Partie démarrée', message);
             console.log(message.succes);
-            if (!message.succes) {
-              console.log(message.messageErreur);
-              this.router.navigate([
-                '/error',
-                message.codeErreur,
-                message.messageErreur,
-              ]);
-            } else {
+            if (message.succes) {
               this.router.navigate(['/selection']);
+            } else {
+              console.log(message.messageErreur);
+              this.router.navigate(['/ongoing-games']);
+              this.snackbar.open('Une erreur est survenue', 'OK');
             }
           }
         );
       } else {
-        this.router.navigate(['/error', 404, 'Partie introuvable']);
+        this.router.navigate(['/ongoing-games']);
+        this.snackbar.open('Partie introuvable', 'OK');
       }
     } else {
       this.router.navigate(['/login']);

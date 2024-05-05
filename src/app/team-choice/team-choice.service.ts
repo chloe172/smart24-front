@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { WebSocketService } from '../core/WebSocketService/web-socket.service';
-import { IdPartieService } from '../general-services/id-partie.service';
+import { PartieService } from '../general-services/partie.service';
 import { AccessSessionService } from '../access-session/access-session.service';
 import { Router } from '@angular/router';
 import { TeamEnrollService } from '../team-enroll/team-enroll.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +12,11 @@ import { TeamEnrollService } from '../team-enroll/team-enroll.service';
 export class TeamChoiceService {
   constructor(
     private webSocketService: WebSocketService,
-    private idPartieService: IdPartieService,
+    private idPartieService: PartieService,
     private router: Router,
     private accessService: AccessSessionService,
-    private teamService: TeamEnrollService
+    private teamService: TeamEnrollService,
+    private snackbar: MatSnackBar
   ) {
     // Initialize your service here
   }
@@ -46,17 +48,14 @@ export class TeamChoiceService {
       this.webSocketService.subscribeToType(
         'reponseRejoindrePartieEquipe',
         (message) => {
-          if (!message.succes) {
-            console.log('Erreur inscription', message);
-            this.router.navigate([
-              '/error',
-              message.codeErreur,
-              message.messageErreur,
-            ]);
-          } else {
+          if (message.succes) {
             console.log('Equipe inscrite', message);
             this.teamService.setIdEquipe(message.data.equipe.id);
             this.router.navigate(['/waiting']);
+          } else {
+            let idPartie = this.idPartieService.getPartie()?.id;
+            this.webSocketService.SendToType('listerEquipes', { idPartie });
+            this.snackbar.open(message.messageErreur, 'OK');
           }
         }
       );

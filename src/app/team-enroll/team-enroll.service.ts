@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { AccessSessionService } from '../access-session/access-session.service';
 import { Router } from '@angular/router';
-import { IdPartieService } from '../general-services/id-partie.service';
+import { PartieService } from '../general-services/partie.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +12,14 @@ export class TeamEnrollService {
   idEquipe: number;
   teamNameError: boolean = false;
   teamNameErrorMessage: string = '';
+
   constructor(
     private webSocketService: WebSocketService,
     private accessSessionService: AccessSessionService,
-    private idService: IdPartieService,
-    private router: Router
+    private idService: PartieService,
+    private router: Router,
+    private snackbar: MatSnackBar
   ) {
-    // Initialize your service here
     this.idEquipe = 0;
   }
 
@@ -40,22 +42,19 @@ export class TeamEnrollService {
       this.webSocketService.subscribeToType(
         'reponseInscrireEquipe',
         (message) => {
-          if (!message.succes) {
+          if (message.succes) {
+            this.idEquipe = message.data.equipe.id;
+            console.log('Equipe inscrite', message);
+            this.router.navigate(['/waiting']);
+          } else {
             console.log('Erreur inscription', message);
             if (message.codeErreur === 422) {
               this.teamNameError = true;
               this.teamNameErrorMessage = message.messageErreur;
             } else {
-              this.router.navigate([
-                '/error',
-                message.codeErreur,
-                message.messageErreur,
-              ]);
+              this.router.navigate(['/']);
+              this.snackbar.open('Une erreur est survenue', 'OK');
             }
-          } else {
-            this.idEquipe = message.data.equipe.id;
-            console.log('Equipe inscrite', message);
-            this.router.navigate(['/waiting']);
           }
         }
       );

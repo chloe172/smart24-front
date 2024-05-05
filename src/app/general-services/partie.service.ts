@@ -4,7 +4,7 @@ import { Partie } from '../modele/partie.model';
 @Injectable({
   providedIn: 'root',
 })
-export class IdPartieService {
+export class PartieService {
   private partie: Partie | null = null;
 
   constructor() {

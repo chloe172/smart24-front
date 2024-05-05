@@ -8,7 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { Partie } from '../modele/partie.model';
 import { Router } from '@angular/router';
-import { IdPartieService } from '../general-services/id-partie.service';
+import { PartieService } from '../general-services/partie.service';
 import { OngoingGameCardService } from './ongoing-game-card.service';
 import { ModalComponent } from '../modal/modal.component';
 
@@ -28,7 +28,7 @@ import { ModalComponent } from '../modal/modal.component';
 export class OngoingGameCardComponent {
   constructor(
     private service: OngoingGameCardService,
-    private idService: IdPartieService,
+    private idService: PartieService,
     public matDialog: MatDialog
   ) {}
   @Input() partie!: Partie;

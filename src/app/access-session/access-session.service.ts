@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WebSocketService } from '../core/WebSocketService/web-socket.service';
-import { IdPartieService } from '../general-services/id-partie.service';
+import { PartieService } from '../general-services/partie.service';
 import { Router } from '@angular/router';
 import { Partie } from '../modele/partie.model';
 
@@ -11,7 +11,7 @@ export class AccessSessionService {
   userAccessed: boolean;
   constructor(
     private webservice: WebSocketService,
-    private idPartieService: IdPartieService,
+    private idPartieService: PartieService,
     private router: Router
   ) {
     this.userAccessed = false;
@@ -39,13 +39,13 @@ export class AccessSessionService {
 
   setUserAccessed(access: boolean) {
     if (access) {
-      localStorage.setItem('type', 'ekip');
+      localStorage.setItem('type', 'EQUIPE');
     } else {
       localStorage.removeItem('type');
     }
   }
 
   getUserAccessed() {
-    return localStorage.getItem('type') === 'ekip';
+    return localStorage.getItem('type') === 'EQUIPE';
   }
 }

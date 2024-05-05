@@ -30,42 +30,20 @@ export class WaitingForPlayersComponent {
       console.log('json reçu', message);
       if (!message.succes) {
         console.log(message.messageErreur);
-        this.router.navigate([
-          '/error',
-          message.codeErreur,
-          message.messageErreur,
-        ]);
+        this.router.navigate(['/']);
       } else {
         this.listeEquipes = message.data.listeEquipesConnectees as Equipe[];
       }
     });
     this.service.ajouterEquipe((message) => {
       console.log('json reçu', message);
-      if (!message.succes) {
-        console.log(message.messageErreur);
-        this.router.navigate([
-          '/error',
-          message.codeErreur,
-          message.messageErreur,
-        ]);
-      } else {
-        let equipe = message.data.equipe as Equipe;
-        this.listeEquipes.push(equipe);
-      }
+      let equipe = message.data.equipe as Equipe;
+      this.listeEquipes.push(equipe);
     });
 
     if (this.service.isPlayer()) {
       this.service.attendreDebutPartie((message) => {
-        if (!message.succes) {
-          console.log(message.messageErreur);
-          this.router.navigate([
-            '/error',
-            message.codeErreur,
-            message.messageErreur,
-          ]);
-        } else {
-          this.router.navigate(['/question']);
-        }
+        this.router.navigate(['/question']);
       });
     }
   }

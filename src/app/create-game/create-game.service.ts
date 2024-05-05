@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { ConnexionService } from '../connexion/connexion.service';
 import { Router } from '@angular/router';
-import { IdPartieService } from '../general-services/id-partie.service';
+import { PartieService } from '../general-services/partie.service';
 import { Plateau } from '../modele/plateau.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,8 @@ export class CreateGameService {
     private webSocketService: WebSocketService,
     private connexionService: ConnexionService,
     private router: Router,
-    private partieService: IdPartieService
+    private partieService: PartieService,
+    private snackBar: MatSnackBar
   ) {}
 
   listerPlateaux(callback: (message: any) => any) {
@@ -41,16 +43,7 @@ export class CreateGameService {
         console.log('Partie créée', message);
         if (!message.succes) {
           console.log(message.messageErreur);
-          if (message.codeErreur === 422) {
-            this.partyNameError = true;
-            this.partyNameErrorMessage = message.messageErreur;
-          } else {
-            this.router.navigate([
-              '/error',
-              message.codeErreur,
-              message.messageErreur,
-            ]);
-          }
+          this.snackBar.open('Une erreur est survenue', 'OK');
         } else {
           this.partieService.setPartie(message.data.partie);
           this.router.navigate(['/waiting']);

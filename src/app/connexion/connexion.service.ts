@@ -6,6 +6,7 @@ import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 })
 export class ConnexionService {
   userConnected: boolean;
+
   constructor(private webservice: WebSocketService) {
     this.userConnected = false;
   }
@@ -14,6 +15,7 @@ export class ConnexionService {
     let message = { nom: user, mdp: password };
     this.webservice.SendToType('authentifierUtilisateur', message);
   }
+
   getAuthentication(callback: (message: any) => any) {
     this.webservice.subscribeToType(
       'reponseAuthentifierUtilisateur',
@@ -24,10 +26,10 @@ export class ConnexionService {
   }
 
   setUserAuthenticated() {
-    localStorage.setItem('type', 'mdj');
+    localStorage.setItem('type', 'MAITRE_DU_JEU');
   }
 
   getUserAuthentication() {
-    return localStorage.getItem('type') === 'mdj';
+    return localStorage.getItem('type') === 'MAITRE_DU_JEU';
   }
 }

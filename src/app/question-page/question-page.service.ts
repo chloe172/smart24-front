@@ -3,11 +3,12 @@ import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { ConnexionService } from '../connexion/connexion.service';
 import { Router } from '@angular/router';
 import { AccessSessionService } from '../access-session/access-session.service';
-import { IdPartieService } from '../general-services/id-partie.service';
+import { PartieService } from '../general-services/partie.service';
 import { Proposition } from '../modele/proposition.model';
 import { ProgressBarService } from '../progress-bar/progress-bar.service';
 import { TeamEnrollService } from '../team-enroll/team-enroll.service';
 import { Equipe } from '../modele/equipe.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -25,10 +26,11 @@ export class QuestionPageService {
     private webservice: WebSocketService,
     private accessSessionService: AccessSessionService,
     private connexionService: ConnexionService,
-    private partieService: IdPartieService,
+    private partieService: PartieService,
     private progressBarService: ProgressBarService,
     private equipeService: TeamEnrollService,
-    private router: Router
+    private router: Router,
+    private snackbar: MatSnackBar
   ) {}
 
   InitQuestionPage(
@@ -55,33 +57,15 @@ export class QuestionPageService {
       this.webservice.subscribeToType(
         'notificationSoumettreReponse',
         (message): any => {
-          if (!message.succes) {
-            console.log(message.messageErreur);
-            this.router.navigate([
-              '/error',
-              message.codeErreur,
-              message.messageErreur,
-            ]);
-          } else {
-            console.log("Soumission reponse d'une equipe", message);
-          }
+          console.log(message);
         }
       );
 
       this.webservice.subscribeToType(
         'notificationReponseActivite',
         (message): any => {
-          if (!message.succes) {
-            console.log(message.messageErreur);
-            this.router.navigate([
-              '/error',
-              message.codeErreur,
-              message.messageErreur,
-            ]);
-          } else {
-            this.explication = message.data.explication;
-            callbackReponseActiviteMaitreDuJeu(message);
-          }
+          this.explication = message.data.explication;
+          callbackReponseActiviteMaitreDuJeu(message);
         }
       );
 
@@ -129,11 +113,6 @@ export class QuestionPageService {
             }
           } else {
             console.log(message.messageErreur);
-            this.router.navigate([
-              '/error',
-              message.codeErreur,
-              message.messageErreur,
-            ]);
           }
         }
       );
@@ -143,39 +122,19 @@ export class QuestionPageService {
       this.webservice.subscribeToType(
         'notificationLancerActivite',
         (message): any => {
-          if (!message.succes) {
-            console.log(message.messageErreur);
-            this.router.navigate([
-              '/error',
-              message.codeErreur,
-              message.messageErreur,
-            ]);
-          } else {
-            this.etape = 'click';
-            this.score = '';
-            this.rang = '';
-            callbackLancementActivite(message);
-          }
+          this.etape = 'click';
+          this.score = '';
+          this.rang = '';
+          callbackLancementActivite(message);
         }
       );
 
       this.webservice.subscribeToType(
         'notificationReponseActivite',
         (message): any => {
-          if (!message.succes) {
-            console.log(message.messageErreur);
-            this.router.navigate([
-              '/error',
-              message.codeErreur,
-              message.messageErreur,
-            ]);
-          } else {
-            console.log(message.equipe);
-            //this.explication = message.data.explication;
-            this.score = message.data.equipe.score;
-            //this.rang = message.data.equipe.rang;
-            callbackReponseActiviteEquipe(message);
-          }
+          console.log(message.equipe);
+          this.score = message.data.equipe.score;
+          callbackReponseActiviteEquipe(message);
         }
       );
 
@@ -183,19 +142,10 @@ export class QuestionPageService {
         'notificationTerminerExplication',
         (message) => {
           console.log('json reçu', message);
-          if (message.succes) {
-            const partie = message.data.partie;
-            if (partie.finPlateau) {
-              // TODO : aller à la page de choix de plateau
-              callbackFinPlateauEquipe(message);
-            }
-          } else {
-            console.log(message.messageErreur);
-            this.router.navigate([
-              '/error',
-              message.codeErreur,
-              message.messageErreur,
-            ]);
+          const partie = message.data.partie;
+          if (partie.finPlateau) {
+            // TODO : aller à la page de choix de plateau
+            callbackFinPlateauEquipe(message);
           }
         }
       );
@@ -223,11 +173,7 @@ export class QuestionPageService {
       (message: any): any => {
         console.log('Question soumise', message);
         if (!message.succes) {
-          this.router.navigate([
-            '/error',
-            message.codeErreur,
-            message.messageErreur,
-          ]);
+          this.snackbar.open('Une erreur est survenue', 'OK');
         }
       }
     );
@@ -262,11 +208,7 @@ export class QuestionPageService {
           callback();
         } else {
           console.log(message.messageErreur);
-          this.router.navigate([
-            '/error',
-            message.codeErreur,
-            message.messageErreur,
-          ]);
+          this.snackbar.open('Une erreur est survenue', 'OK');
         }
       }
     );
@@ -285,11 +227,7 @@ export class QuestionPageService {
       (message): any => {
         if (!message.succes) {
           console.log(message.messageErreur);
-          this.router.navigate([
-            '/error',
-            message.codeErreur,
-            message.messageErreur,
-          ]);
+          this.snackbar.open('Une erreur est survenue', 'OK');
         }
       }
     );
