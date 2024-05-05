@@ -1,0 +1,23 @@
+<h5 class="center-align white-text">Mini-Jeu : Selectionner les images créées par des IAs</h5>
+
+<div class="row">
+    <div class="col s6 m3" *ngFor="let image of images">
+        <mat-card [ngClass]="{'isCliqued': image.clicked}" (click)="select(image.src)" class="card-panel hoverable"> 
+            <div class="center-align">
+                    <img src={{image.src}} width="150" height="150">
+            </div>
+        </mat-card> 
+    </div>
+</div> 
+
+<div>
+    <div class="reponse">
+        <p class="white-text">{{message}}</p>  
+        <button mat-flat-button class="" color="warn" (click)="valider()">
+            Valider
+        </button>
+    </div>
+    
+</div>
+
+
