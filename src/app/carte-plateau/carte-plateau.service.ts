@@ -32,9 +32,7 @@ export class CartePlateauService {
         this.webSocketService.SendToType('choisirPlateau', { "idPartie": partie.id, idPlateau });
         this.webSocketService.removeAllSubscriptionsOfType('reponseChoisirPlateau');
         this.webSocketService.subscribeToType('reponseChoisirPlateau', (message) => {
-          console.log('Plateau choisi', message);
           if (!message.succes) {
-            console.log(message.messageErreur);
             this.router.navigate(['/ongoing-games']);
           } else {
             if (message.data.plateau.termine === true) {
@@ -64,7 +62,6 @@ export class CartePlateauService {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 

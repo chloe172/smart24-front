@@ -14,10 +14,8 @@ export class PopupCyberComponent {
   @Output() scoreEvent = new EventEmitter<number>();
   sendScore(reponse: boolean){
     if(reponse===true) {
-      console.log("score",this.score);
       this.scoreEvent.emit(this.score);
     } else {
-      console.log("score",0);
       this.scoreEvent.emit(0);
     }
     

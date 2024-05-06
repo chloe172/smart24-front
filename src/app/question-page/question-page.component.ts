@@ -70,7 +70,6 @@ export class QuestionPageComponent implements OnInit {
   ngOnInit() {
     this.service.InitQuestionPage(
       (message: any) => {
-        console.log("json reçu", message);
         if (message.succes) {
           this.idActiviteEnCours = message.data.idActiviteEnCours;
           this.typeActivite = message.data.typeActivite;
@@ -88,13 +87,11 @@ export class QuestionPageComponent implements OnInit {
             this.showProgressBar = false;
           }
         } else {
-          console.log(message.messageErreur);
           this.router.navigate(['/ongoing-games']);
           this.snackbar.open('Une erreur est survenue', 'OK');
         }
       },
       (message: any) => {
-        console.log("json reçu", message);
         this.typeActivite = message.data.typeActivite;
         if (this.typeActivite === "question") {
           const question = message.data.question;
@@ -108,7 +105,6 @@ export class QuestionPageComponent implements OnInit {
         this.openDialogMaitreDuJeu();
       },
       (message: any) => {
-        console.log("json reçu", message);
         this.typeActivite = message.data.typeActivite;
         if (this.typeActivite === "question") {
           const question = message.data.question;
@@ -120,7 +116,6 @@ export class QuestionPageComponent implements OnInit {
         }
       },
       (message: any) => {
-        console.log("json reçu", message);
         this.badges = message.data.equipe.badges;
         this.equipes = [message.data.equipe];
         this.classement = { badges: this.badges, equipes: this.equipes };
@@ -129,14 +124,12 @@ export class QuestionPageComponent implements OnInit {
         this.openDialogEquipe();
       },
       (message: any) => {
-        console.log("json reçu", message);
         this.equipes = message.data.listeEquipes;
         this.service.etape = "explication";
         this.nomPlateau = message.data.partie.nomPlateauCourant;
         this.openDialogMaitreDuJeu();
       },
       (message: any) => {
-        console.log("json reçu", message);
         this.equipesFinMinijeu.push(message.data.equipe);
         this.service.etape = "explication";
       });
@@ -150,12 +143,10 @@ export class QuestionPageComponent implements OnInit {
   };
 
   activiteSuivante() {
-    console.log('activite suivante');
     this.service.envoyerTerminerExplication();
   }
 
   mettreEnPause() {
-    console.log('partie mise en pause');
     this.service.mettreEnPause(() => {
       this.service.explication = '';
       this.service.etape = 'click';
@@ -171,7 +162,6 @@ export class QuestionPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
     });
   }
 
@@ -183,12 +173,10 @@ export class QuestionPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
     });
   }
 
   receiveScore($event: any) {
-    console.log("score mj recu : ", $event)
     this.service.sendScoreMinijeu($event, this.idActiviteEnCours);
     if (this.codeMinijeu === "phishing" && $event!=0) {
       this.messagePhishing = true;

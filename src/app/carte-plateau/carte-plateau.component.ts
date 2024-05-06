@@ -25,7 +25,6 @@ export class CartePlateauComponent implements OnInit {
   }
 
   select(idPlateau: number) {
-    console.log("select id ", idPlateau)
     this.service.choisirPlateauPartie(idPlateau);
   }
 

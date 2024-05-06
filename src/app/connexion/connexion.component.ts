@@ -64,16 +64,12 @@ export class ConnexionComponent {
       this.password.valid &&
       this.password.value != null
     ) {
-      console.log('Envoi');
       this.service.authentify(this.email.value, this.password.value);
       this.service.getAuthentication((message) => {
-        console.log('json reçu', message);
         if (!message.succes) {
-          console.log(message.messageErreur);
           this.loginErrorMessage = message.messageErreur as string;
           this.loginError = true;
         } else {
-          console.log('Connexion réussie');
           this.service.setUserAuthenticated();
           this.router.navigate(['/ongoing-games']);
         }

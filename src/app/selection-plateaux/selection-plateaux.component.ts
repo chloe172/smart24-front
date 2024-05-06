@@ -31,9 +31,7 @@ export class SelectionPlateauxComponent {
 
   ngOnInit() {
     this.service.InitSelectionPlateau((message) => {
-      console.log('json reçu', message);
       if (!message.succes) {
-        console.log(message.messageErreur);
         this.router.navigate(['/ongoing-games']);
       } else {
         this.plateaux = message.data.partie.listePlateaux as Plateau[];
@@ -42,7 +40,6 @@ export class SelectionPlateauxComponent {
   }
 
   mettreEnPause() {
-    console.log("partie mise en pause");
     this.service.mettreEnPause();
   }
 
@@ -62,7 +59,6 @@ export class SelectionPlateauxComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
     });
   }
 }

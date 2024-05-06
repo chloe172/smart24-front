@@ -24,9 +24,7 @@ export class TeamEnrollService {
   }
 
   verifyUser() {
-    console.log('Verify user access');
     if (!this.accessSessionService.getUserAccessed()) {
-      console.log("User doesn't have access to this service");
       this.router.navigate(['/']);
     }
   }
@@ -45,10 +43,8 @@ export class TeamEnrollService {
         (message) => {
           if (message.succes) {
             this.idEquipe = message.data.equipe.id;
-            console.log('Equipe inscrite', message);
             this.router.navigate(['/waiting']);
           } else {
-            console.log('Erreur inscription', message);
             if (message.codeErreur === 422) {
               this.teamNameError = true;
               this.teamNameErrorMessage = message.messageErreur;
@@ -60,7 +56,6 @@ export class TeamEnrollService {
         }
       );
     } else {
-      console.log("User doesn't have access to this service");
       this.router.navigate(['/']);
     }
   }

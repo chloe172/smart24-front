@@ -25,12 +25,10 @@ export class TeamChoiceService {
     if (this.accessService.getUserAccessed()) {
       let idPartie = this.idPartieService.getPartie()?.id;
       this.webSocketService.SendToType('listerEquipes', { idPartie });
-      console.log('idPartie', idPartie);
       this.webSocketService.removeAllSubscriptionsOfType('reponseListerEquipes');
       this.webSocketService.subscribeToType(
         'reponseListerEquipes',
         (message) => {
-          console.log('json reçu', message);
           callback(message);
         }
       );
@@ -51,7 +49,6 @@ export class TeamChoiceService {
         'reponseRejoindrePartieEquipe',
         (message) => {
           if (message.succes) {
-            console.log('Equipe inscrite', message);
             this.teamService.setIdEquipe(message.data.equipe.id);
             this.router.navigate(['/waiting']);
           } else {
@@ -62,7 +59,6 @@ export class TeamChoiceService {
         }
       );
     } else {
-      console.log("User doesn't have access to this service");
       this.router.navigate(['/']);
     }
   }

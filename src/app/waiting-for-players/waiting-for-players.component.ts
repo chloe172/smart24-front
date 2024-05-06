@@ -27,21 +27,17 @@ export class WaitingForPlayersComponent {
 
   ngOnInit() {
     this.service.getEquipes((message) => {
-      console.log('json reçu', message);
       if (message.succes) {
         this.listeEquipes = message.data.listeEquipesConnectees as Equipe[];
       } else {
-        console.log(message.messageErreur);
         this.router.navigate(['/']);
       }
     });
     this.service.ajouterEquipe((message) => {
-      console.log('json reçu', message);
       let equipe = message.data.equipe as Equipe;
       this.listeEquipes.push(equipe);
     });
     this.service.enleverEquipe((message) => {
-      console.log('json reçu', message);
       let equipe = message.data.equipe as Equipe;
       let index = this.getEquipeById(equipe.id);
       this.listeEquipes.splice(index, 1);

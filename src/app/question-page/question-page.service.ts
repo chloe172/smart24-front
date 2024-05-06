@@ -60,13 +60,11 @@ export class QuestionPageService {
       this.webservice.subscribeToType(
         'notificationSoumettreReponse',
         (message): any => {
-          console.log(message);
         }
       );
       this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
       this.webservice.subscribeToType('notificationSoumettreScoreMinijeu', (message): any => {
         callbackNotificationMiniJeuMaitreDuJeu(message);
-        console.log("Soumission mini jeu d'une equipe", message);
       });
 
       this.webservice.removeAllSubscriptionsOfType('notificationReponseActivite');
@@ -84,7 +82,6 @@ export class QuestionPageService {
         (message) => {
           if (message.succes) {
             const partie = message.data.partie;
-            console.log(partie.finPlateau);
             if (partie.finPlateau) {
               this.explication = "";
               callbackFinPlateauMaitreDuJeu(message);
@@ -110,7 +107,6 @@ export class QuestionPageService {
               this.explication = "";
             }
           } else {
-            console.log(message.messageErreur);
           }
         }
       );
@@ -132,7 +128,6 @@ export class QuestionPageService {
       this.webservice.subscribeToType(
         'notificationReponseActivite',
         (message): any => {
-          console.log(message.data.equipe);
           this.score = message.data.equipe.score;
           this.avatar = message.data.equipe.avatar;
           callbackReponseActiviteEquipe(message);
@@ -142,7 +137,6 @@ export class QuestionPageService {
       this.webservice.subscribeToType(
         'notificationTerminerExplication',
         (message) => {
-          console.log('json reçu', message);
           const partie = message.data.partie;
           if (partie.finPlateau) {
             callbackFinPlateauEquipe(message);
@@ -172,7 +166,6 @@ export class QuestionPageService {
     this.webservice.subscribeToType(
       'reponseSoumettreReponse',
       (message: any): any => {
-        console.log("Question soumise", message);
         if (!message.succes) {
           this.snackbar.open('Une erreur est survenue', 'OK');
         }
@@ -185,7 +178,6 @@ export class QuestionPageService {
     this.webservice.SendToType("soumettreScoreMinijeu", { score, idActiviteEnCours });
     this.webservice.removeAllSubscriptionsOfType('reponseSoumettreScoreMinijeu');
     this.webservice.subscribeToType('reponseSoumettreScoreMinijeu', (message: any): any => {
-      console.log("score mj soumis", message);
       if (!message.succes) {
         this.snackbar.open('Une erreur est survenue', 'OK');
       }
@@ -197,7 +189,6 @@ export class QuestionPageService {
     this.webservice.SendToType("terminerMinijeu", { idPartie });
     this.webservice.removeAllSubscriptionsOfType('reponseTerminerMinijeu');
     this.webservice.subscribeToType('reponseTerminerMinijeu', (message: any): any => {
-      console.log("terminer mj envoyé", message);
       if (!message.succes) {
         this.snackbar.open('Une erreur est survenue', 'OK');
       }
@@ -209,7 +200,6 @@ export class QuestionPageService {
   }
 
   mettreEnPause(callback: () => any) {
-    console.log("partie mise en pause");
     const idPartie = this.partieService.getPartie()?.id;
     this.webservice.SendToType("mettreEnPause", { idPartie });
     this.webservice.removeAllSubscriptionsOfType('reponseLancerActivite');
@@ -232,11 +222,9 @@ export class QuestionPageService {
       'reponseMettreEnPausePartie',
       (message): any => {
         if (message.succes) {
-          console.log("service deco");
           this.partieService.removePartie();
           callback();
         } else {
-          console.log(message.messageErreur);
           this.snackbar.open('Une erreur est survenue', 'OK');
         }
       }

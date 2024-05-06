@@ -24,7 +24,6 @@ export class IAGameComponent {
     {src : "../assets/pikaso_texttoimage_a-sketch-of-some-invention.jpeg", rep : "IA", clicked : false},
     {src : "../assets/Vesna-figuratif-peinture-turquoise-rose-papillon-femme-fleurs.jpeg", rep : "Humain", clicked : false}
   ];
-  message = '';
   score: number = 100;
   @Output() scoreEvent = new EventEmitter<number>();
 
@@ -60,11 +59,9 @@ export class IAGameComponent {
       reponse = false;
     }
     if(reponse == true){
-      this.message = 'Bonne réponse !';
       this.scoreEvent.emit(this.score);
     } else {
-      this.message = 'Mauvaise Réponse.';
-      this.bar.open(this.message, "OK", {duration : 1000});
+      this.bar.open("Mauvaise réponse, réessayez !", "OK", {duration : 1000});
     }
 
   }

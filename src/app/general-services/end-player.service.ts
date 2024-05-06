@@ -25,7 +25,6 @@ export class EndPlayerService {
       this.webservice.subscribeToType(
         'notificationMettreEnPausePartie',
         (message): any => {
-          console.log('service deco');
           this.partieService.removePartie();
           this.accessSessionService.setUserAccessed(false);
           this.router.navigate(['/']);
