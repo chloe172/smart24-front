@@ -22,7 +22,10 @@ import { ModalComponent } from '../modal/modal.component';
 })
 
 export class OngoingGameCardComponent {
-  constructor(private service: OngoingGameCardService, private idService: IdPartieService, public matDialog: MatDialog) { }
+  constructor(
+    private service: OngoingGameCardService,
+    public matDialog: MatDialog
+  ) { }
   @Input() partie!: Partie;
   router: Router = new Router;
   dialogConfig = new MatDialogConfig();
@@ -40,7 +43,7 @@ export class OngoingGameCardComponent {
   }
 
   openModal() {
-    this.dialogConfig.id = "app-modal-component";
+    this.dialogConfig.id = 'app-modal-component';
     this.modalDialog = this.matDialog.open(ModalComponent, this.dialogConfig);
     this.modalDialog.componentInstance.partie = this.partie;
   }
