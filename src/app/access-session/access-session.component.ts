@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import {
-  AbstractControl,
   FormControl,
   FormsModule,
   ReactiveFormsModule,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
