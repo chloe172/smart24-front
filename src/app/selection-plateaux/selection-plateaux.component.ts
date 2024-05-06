@@ -8,6 +8,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { ModalScoreComponent } from '../modal-score/modal-score.component';
+import { Equipe } from '../modele/equipe.model';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -18,10 +20,13 @@ import { ModalScoreComponent } from '../modal-score/modal-score.component';
 })
 export class SelectionPlateauxComponent {
   plateaux: Plateau[] = [];
+  equipes: Equipe[] = [];
+  nomPlateau: string ='';
 
   constructor(
     private service: SelectionPlateauxService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -39,5 +44,25 @@ export class SelectionPlateauxComponent {
   mettreEnPause() {
     console.log("partie mise en pause");
     this.service.mettreEnPause();
+  }
+
+  obtenirClassement(){
+    this.service.obtenirClassement((message: any) => {
+      this.equipes = message.data.classement;
+      this.nomPlateau = "général";
+      this.openDialogMaitreDuJeu();
+    });
+  }
+
+  openDialogMaitreDuJeu(): void {
+    const dialogRef = this.dialog.open(ModalScoreComponent, {
+      data: { equipes: this.equipes, nomPlateau: this.nomPlateau },
+      width: '70%', 
+      height:'80%',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
   }
 }
