@@ -42,13 +42,11 @@ export class SelectionPlateauxService {
   }
 
   mettreEnPause() {
-    console.log("partie mise en pause");
     const idPartie = this.partieService.getPartie()?.id;
     this.webservice.SendToType("mettreEnPause", { idPartie });
     this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
     this.webservice.subscribeToType('reponseMettreEnPausePartie', (message): any => {
       if (message.succes) {
-        console.log("service deco");
         this.partieService.removePartie();
         this.webservice.removeAllSubscriptionsOfType('reponseLancerActivite');
         this.webservice.removeAllSubscriptionsOfType('notificationReponseActivite');
@@ -67,7 +65,6 @@ export class SelectionPlateauxService {
         this.webservice.removeAllSubscriptionsOfType('reponseDemarrerPartie');
         this.router.navigate(['/ongoing-games']);
       } else {
-        console.log(message.messageErreur);
         this.snackbar.open('Une erreur est survenue', 'OK');
       }
     });
@@ -78,7 +75,6 @@ export class SelectionPlateauxService {
     this.webservice.SendToType("obtenirClassementGeneral", { idPartie });
     this.webservice.removeAllSubscriptionsOfType('reponseObtenirClassementGeneral');
     this.webservice.subscribeToType('reponseObtenirClassementGeneral', (message): any => {
-      console.log(message);
       if (!message.succes) {
         this.snackbar.open('Une erreur est survenue', 'OK');
       } else {

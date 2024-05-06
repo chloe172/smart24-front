@@ -32,7 +32,6 @@ export class CreateGameComponent {
   ngOnInit() {
     this.service.resetPartyError();
     this.service.listerPlateaux((message) => {
-      console.log('json reçu', message);
       if (!message.succes) {
         this.router.navigate(['/ongoing-games']);
       } else {
@@ -58,8 +57,6 @@ export class CreateGameComponent {
       .filter((plateau) => plateau.selected)
       .map((plateau) => plateau.plateau);
     this.service.creerPartie(this.nomPartie, plateauxSelectionnes);
-    console.log('Nom de la partie:', this.nomPartie);
-    console.log('Plateaux sélectionnés:', plateauxSelectionnes);
     // Ajoutez ici la logique pour démarrer la partie
   }
   initializePlateaux(plateaux: Plateau[]): any[] {

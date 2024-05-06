@@ -27,7 +27,6 @@ export class CreateGameService {
       this.webSocketService.subscribeToType(
         'reponseListerPlateaux',
         (message) => {
-          console.log('Liste des plateaux reçue', message);
           callback(message);
         }
       );
@@ -42,12 +41,10 @@ export class CreateGameService {
       this.webSocketService.SendToType('creerPartie', { nomPartie, plateaux });
       this.webSocketService.removeAllSubscriptionsOfType('reponseCreerPartie');
       this.webSocketService.subscribeToType('reponseCreerPartie', (message) => {
-        console.log('Partie créée', message);
         if (message.succes) {
           this.partieService.setPartie(message.data.partie);
           this.router.navigate(['/waiting']);
         } else {
-          console.log(message.messageErreur);
           this.snackBar.open('Une erreur est survenue', 'OK');
         }
       });

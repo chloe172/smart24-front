@@ -51,17 +51,13 @@ export class AccessSessionComponent {
 
   valider() {
     if (this.pin.valid && this.pin.value != null) {
-      console.log('PIN is valid:', this.pin.value);
       this.sessionError = false;
       this.sessionErrorMessage = '';
       this.service.validerCodePin(this.pin.value, (message) => {
-        console.log('json reçu', message);
         if (!message.succes) {
-          console.log(message.messageErreur);
           this.sessionErrorMessage = message.messageErreur as string;
           this.sessionError = true;
         } else {
-          console.log('Connexion réussie');
           this.service.navigate(message.data.partie);
           this.sessionError = false;
           this.sessionErrorMessage = '';

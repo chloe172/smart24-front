@@ -26,7 +26,6 @@ export class ModalComponent {
 
   supprimer() {
     this.service.finishGame(this.partie, (message) => {
-      console.log('json reçu', message);
       if (message.succes) {
         this.snackbar.open('Partie terminée avec succès', 'OK');
         this.router.navigate(['/ongoing-games']);

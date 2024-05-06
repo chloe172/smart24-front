@@ -33,7 +33,6 @@ export class WaitingForPlayersService {
       this.webSocketService.subscribeToType(
         'reponseListerEquipes',
         (message) => {
-          console.log('Equipes reçues', message);
           callback(message);
         }
       );
@@ -41,22 +40,16 @@ export class WaitingForPlayersService {
   }
 
   ajouterEquipe(callback: (message: any) => any) {
-    console.log(
-      'passé dans ajouter équipe',
-      this.accessSessionService.getUserAccessed()
-    );
     if (
       this.connexionService.getUserAuthentication() ||
       this.accessSessionService.getUserAccessed()
     ) {
-      console.log('passé dans ajouter équipe');
       this.webSocketService.removeAllSubscriptionsOfType(
         'notificationInscrireEquipe'
       );
       this.webSocketService.subscribeToType(
         'notificationInscrireEquipe',
         (message) => {
-          console.log('Equipe reçue', message);
           this.partieService.setPartie(message.data.partie);
           callback(message);
         }
@@ -66,11 +59,7 @@ export class WaitingForPlayersService {
     }
   }
 
-  enleverEquipe(callback: (message: any) => any) { //TODO changer a notificationDeconnexionEquipe
-    console.log(
-      'passé dans ajouter équipe',
-      this.accessSessionService.getUserAccessed()
-    );
+  enleverEquipe(callback: (message: any) => any) {
     if (
       this.connexionService.getUserAuthentication() ||
       this.accessSessionService.getUserAccessed()
@@ -81,7 +70,6 @@ export class WaitingForPlayersService {
       this.webSocketService.subscribeToType(
         'notificationDeconnexionEquipe',
         (message) => {
-          console.log('Equipe reçue', message);
           this.partieService.setPartie(message.data.partie);
           callback(message);
         }
@@ -102,7 +90,6 @@ export class WaitingForPlayersService {
     this.webSocketService.subscribeToType(
       'notificationChoisirPlateau',
       (message) => {
-        console.log('choix du plateau effectué, démarrage partie...');
         callback(message);
       }
     );
@@ -116,11 +103,8 @@ export class WaitingForPlayersService {
         this.webSocketService.SendToType('demarrerPartie', { idPartie });
         this.webSocketService.removeAllSubscriptionsOfType('reponseDemarrerPartie');
         this.webSocketService.subscribeToType('reponseDemarrerPartie', (message) => {
-          console.log('Partie démarrée', message);
-          console.log(message.succes)
 
           if (message.succes) {
-            console.log(message.messageErreur);
             this.router.navigate(['/selection']);
           } else {
             this.router.navigate(['/ongoing-games']);

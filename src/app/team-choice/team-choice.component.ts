@@ -27,11 +27,9 @@ export class TeamChoiceComponent {
 
   ngOnInit() {
     this.service.getEquipes((message) => {
-      console.log('json reçu', message);
       if (message.succes) {
         this.listeEquipes = message.data.listeEquipesNonConnectees as Equipe[];
       } else {
-        console.log(message.messageErreur);
         this.router.navigate(['/']);
         this.snackbar.open('Une erreur est survenue', 'OK');
       }
@@ -39,7 +37,6 @@ export class TeamChoiceComponent {
   }
 
   connecterEquipe() {
-    console.log('Equipe sélectionnée', this.selected[0].id);
     this.service.connecterEquipe(this.selected[0].id);
   }
 }

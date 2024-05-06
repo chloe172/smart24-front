@@ -30,7 +30,6 @@ export class OngoingGamesComponent implements OnInit {
 
   ngOnInit() {
     this.service.InitOngoingGames((message) => {
-      console.log('json reçu', message);
       if (message.succes) {
         this.onGoingGames = message.data.listeParties as Partie[];
       }

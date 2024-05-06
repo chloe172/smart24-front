@@ -1,7 +1,7 @@
 <mat-card 
     class="card-panel hoverable" 
     [ngClass]="{'disable': estSelectionnee === false}" 
-    style="height: 120px; display: flex; justify-content: center;"
+    style="height: 120px; display: flex; justify-content: center; cursor: pointer;"
     [ngStyle]="{'background-color': getColor()}" (click)="onClick()">
     <div style="display: table-cell; vertical-align: middle;">
         <div class="options" style="display: flex; justify-content: space-between;">

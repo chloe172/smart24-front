@@ -17,7 +17,6 @@ export class ProgressBarService {
     clearInterval(this.intervallePourcent);
     clearInterval(this.intervalleTemps);
 
-    console.log('reset de la barre');
     // Calculer le pourcentage d'avancement de la barre de progression à chaque seconde
     const pourcentageParSeconde = 100 / (this.duree * 10);
 
