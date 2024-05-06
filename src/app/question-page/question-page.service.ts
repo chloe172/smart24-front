@@ -17,6 +17,7 @@ export class QuestionPageService {
   idBonneProposition!: number;
   explication: string = "";
   score: number | null = null;
+  avatar: string ='';
   rang: string = "";
   finPlateau: boolean = true;
   bonneProposition!: Proposition;
@@ -84,17 +85,22 @@ export class QuestionPageService {
             console.log(partie.finPlateau);
             if (partie.finPlateau) {
               this.explication = "";
-              callbackFinPlateauMaitreDuJeu(message);
-              this.webservice.removeAllSubscriptionsOfType('reponseLancerActivite');
-              this.webservice.removeAllSubscriptionsOfType('notificationReponseActivite');
-              this.webservice.removeAllSubscriptionsOfType('reponseTerminerExplication');
-              this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
-              this.webservice.removeAllSubscriptionsOfType('notificationSoumettreReponse');
-              this.webservice.removeAllSubscriptionsOfType('reponseChoisirPlateaux');
-              this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
-              this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
-              this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
-              this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
+                callbackFinPlateauMaitreDuJeu(message);
+                this.webservice.removeAllSubscriptionsOfType('reponseLancerActivite');
+                this.webservice.removeAllSubscriptionsOfType('notificationReponseActivite');
+                this.webservice.removeAllSubscriptionsOfType('reponseTerminerExplication');
+                this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
+                this.webservice.removeAllSubscriptionsOfType('notificationSoumettreReponse');
+                this.webservice.removeAllSubscriptionsOfType('reponseChoisirPlateau');
+                this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
+                this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
+                this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
+                this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
+                this.webservice.removeAllSubscriptionsOfType('reponseCreerPartie');
+                this.webservice.removeAllSubscriptionsOfType('reponseTerminerPartie');
+                this.webservice.removeAllSubscriptionsOfType('reponseTerminerMinijeu');
+                this.webservice.removeAllSubscriptionsOfType('reponseListerEquipes');
+                this.webservice.removeAllSubscriptionsOfType('reponseDemarrerPartie');
 
               this.router.navigate(['/selection']);
             } else {
@@ -115,6 +121,7 @@ export class QuestionPageService {
         (message): any => {
           this.etape = 'click';
           this.score = null;
+          this.avatar = '';
           this.rang = '';
           this.finPlateau = false;
           callbackLancementActivite(message);
@@ -126,6 +133,7 @@ export class QuestionPageService {
         (message): any => {
           console.log(message.data.equipe);
           this.score = message.data.equipe.score;
+          this.avatar = message.data.equipe.avatar;
           callbackReponseActiviteEquipe(message);
         }
       );
@@ -213,7 +221,12 @@ export class QuestionPageService {
     this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
     this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
     this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
-
+    this.webservice.removeAllSubscriptionsOfType('reponseCreerPartie');
+    this.webservice.removeAllSubscriptionsOfType('reponseTerminerPartie');
+    this.webservice.removeAllSubscriptionsOfType('reponseTerminerMinijeu');
+    this.webservice.removeAllSubscriptionsOfType('reponseListerEquipes');
+    this.webservice.removeAllSubscriptionsOfType('reponseDemarrerPartie');
+    
     this.webservice.subscribeToType(
       'reponseMettreEnPausePartie',
       (message): any => {

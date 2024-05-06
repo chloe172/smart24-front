@@ -22,16 +22,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CyberGameComponent } from '../minijeux/cyber-game/cyber-game.component';
 import { PopupCyberComponent } from '../minijeux/popup-cyber/popup-cyber.component';
 import { GestionProjetComponent } from '../minijeux/gestion-projet/gestion-projet.component';
+import { GreenITComponent } from "../minijeux/green-it/green-it.component";
 import { GraphMJComponent } from '../minijeux/graph-mj/graph-mj.component';
 import { IAGameComponent } from '../minijeux/iagame/iagame.component';
 
 @Component({
-  selector: 'app-question-page',
-  standalone: true,
-  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule, ProgressBarComponent, MatDialogModule,
-    ModalScoreComponent, CyberGameComponent, PopupCyberComponent, GestionProjetComponent, GraphMJComponent, IAGameComponent],
-  templateUrl: './question-page.component.html',
-  styleUrl: './question-page.component.scss',
+    selector: 'app-question-page',
+    standalone: true,
+    templateUrl: './question-page.component.html',
+    styleUrl: './question-page.component.scss',
+    imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule, ProgressBarComponent, MatDialogModule,
+        ModalScoreComponent, CyberGameComponent, PopupCyberComponent, GestionProjetComponent, GreenITComponent, IAGameComponent, GraphMJComponent]
 })
 export class QuestionPageComponent implements OnInit {
   question: Question = {
@@ -165,7 +166,8 @@ export class QuestionPageComponent implements OnInit {
   openDialogMaitreDuJeu(): void {
     const dialogRef = this.dialog.open(ModalScoreComponent, {
       data: { equipes: this.equipes, nomPlateau: this.nomPlateau },
-      width: '70%',
+      width: '70%', 
+      height:'80%',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -177,6 +179,7 @@ export class QuestionPageComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalBadgeComponent, {
       data: { "equipes": this.equipes, "badges": this.badges },
       width: '70%',
+      height:'80%',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -203,5 +206,9 @@ export class QuestionPageComponent implements OnInit {
 
   terminerMinijeu() {
     this.service.envoyerTerminerMinijeu();
+  }
+
+  getAvatarPath(avatar: string): string {
+    return "../assets/Avatar-pikisuperstar/"+avatar+".svg";
   }
 }
