@@ -22,13 +22,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CyberGameComponent } from '../minijeux/cyber-game/cyber-game.component';
 import { PopupCyberComponent } from '../minijeux/popup-cyber/popup-cyber.component';
 import { GestionProjetComponent } from '../minijeux/gestion-projet/gestion-projet.component';
+import { GraphMJComponent } from '../minijeux/graph-mj/graph-mj.component';
 import { IAGameComponent } from '../minijeux/iagame/iagame.component';
 
 @Component({
   selector: 'app-question-page',
   standalone: true,
   imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule, ProgressBarComponent, MatDialogModule,
-    ModalScoreComponent, CyberGameComponent, PopupCyberComponent, GestionProjetComponent, IAGameComponent],
+    ModalScoreComponent, CyberGameComponent, PopupCyberComponent, GestionProjetComponent, GraphMJComponent, IAGameComponent],
   templateUrl: './question-page.component.html',
   styleUrl: './question-page.component.scss',
 })
