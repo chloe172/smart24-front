@@ -46,6 +46,20 @@ export class SelectionPlateauxService {
     const idPartie = this.partieService.getPartie()?.id;
     this.webservice.SendToType("mettreEnPause", { idPartie });
     this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
+    this.webservice.removeAllSubscriptionsOfType('reponseLancerActivite');
+    this.webservice.removeAllSubscriptionsOfType('notificationReponseActivite');
+    this.webservice.removeAllSubscriptionsOfType('reponseTerminerExplication');
+    this.webservice.removeAllSubscriptionsOfType('notificationSoumettreReponse');
+    this.webservice.removeAllSubscriptionsOfType('reponseChoisirPlateau');
+    this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
+    this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
+    this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
+    this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
+    this.webservice.removeAllSubscriptionsOfType('reponseCreerPartie');
+    this.webservice.removeAllSubscriptionsOfType('reponseTerminerPartie');
+    this.webservice.removeAllSubscriptionsOfType('reponseTerminerMinijeu');
+    this.webservice.removeAllSubscriptionsOfType('reponseListerEquipes');
+    this.webservice.removeAllSubscriptionsOfType('reponseDemarrerPartie');
     this.webservice.subscribeToType('reponseMettreEnPausePartie', (message): any => {
       if (message.succes) {
         console.log("service deco");
