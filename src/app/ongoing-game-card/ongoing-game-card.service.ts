@@ -1,31 +1,32 @@
 import { Injectable } from '@angular/core';
-import { IdPartieService } from '../general-services/id-partie.service';
+import { PartieService } from '../general-services/partie.service';
 import { WebSocketService } from '../core/WebSocketService/web-socket.service';
 import { Router } from '@angular/router';
+import { Partie } from '../modele/partie.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class OngoingGameCardService {
-    constructor(private partieIdService: IdPartieService,private webService : WebSocketService,private router : Router) {
-        // Inject the PartieIdService into the OngoingGameCardService
-    }
+  constructor(
+    private partieIdService: PartieService,
+    private webService: WebSocketService,
+    private router: Router,
+    private snackbar: MatSnackBar
+  ) {}
 
-    reprendre(idPartie: number) {
-        this.webService.SendToType('attendreEquipes', { idPartie });
-        console.log('Reprendre partie', idPartie);
-        this.webService.subscribeToType('reponseAttendreEquipes', (message) => {
-            console.log('Reponse attendre equipe', message);
-            this.partieIdService.setId(idPartie);
-            if(message.succes){
-                this.partieIdService.setCodePin(message.data.partie.codePin);
-                this.router.navigate(['/waiting']);
-            }
-            else{
-                this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
-            }
-        });
-        
-        // Set the id of the current partie in the PartieIdService
-    }
+  reprendre(partie: Partie) {
+    this.webService.SendToType('attendreEquipes', { idPartie: partie.id });
+    console.log('Reprendre partie', partie);
+    this.webService.subscribeToType('reponseAttendreEquipes', (message) => {
+      console.log('Reponse attendre equipe', message);
+      if (message.succes) {
+        this.partieIdService.setPartie(partie);
+        this.router.navigate(['/waiting']);
+      } else {
+        this.snackbar.open('Une erreur est survenue', 'OK');
+      }
+    });
+  }
 }

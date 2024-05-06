@@ -8,12 +8,17 @@ import { QuestionPageService } from './question-page.service';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ModalScoreComponent } from '../modal-score/modal-score.component';
 import { Badge, Classement } from '../modele/plateau.model';
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 import { ModalBadgeComponent } from '../modal-badge/modal-badge.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CyberGameComponent } from '../minijeux/cyber-game/cyber-game.component';
 import { PopupCyberComponent } from '../minijeux/popup-cyber/popup-cyber.component';
 import { GestionProjetComponent } from '../minijeux/gestion-projet/gestion-projet.component';
@@ -21,181 +26,180 @@ import { GestionProjetComponent } from '../minijeux/gestion-projet/gestion-proje
 @Component({
   selector: 'app-question-page',
   standalone: true,
-  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule,ProgressBarComponent, MatDialogModule, 
-    ModalScoreComponent,CyberGameComponent,PopupCyberComponent, GestionProjetComponent],
+  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule, ProgressBarComponent, MatDialogModule,
+    ModalScoreComponent, CyberGameComponent, PopupCyberComponent, GestionProjetComponent],
   templateUrl: './question-page.component.html',
-  styleUrl: './question-page.component.scss'
+  styleUrl: './question-page.component.scss',
 })
 export class QuestionPageComponent implements OnInit {
   question: Question = {
-    intitule: "",
+    intitule: '',
     id: 0,
     temps: 0,
     score: 0,
     bonneProposition: undefined,
     plateau: undefined,
     numeroActivite: 0,
-    difficulteActivite: ''
+    difficulteActivite: '',
   };
   propositions: Proposition[] = [];
   propositionSelectionnee: Proposition | null = null;
   idActiviteEnCours!: number;
   idBonneProposition!: number;
-  nomPlateau: string='';
+  nomPlateau: string = '';
   equipes: Equipe[] = [];
   badges: Badge[] = [];
-  classement!: Classement;  equipe!: Equipe;
+  classement!: Classement;
+  equipe!: Equipe;
   showProgressBar: boolean = false;
-  typeActivite : string = "question";
-  codeMinijeu : string = "";
+  typeActivite: string = "question";
+  codeMinijeu: string = "";
   equipesFinMinijeu: Equipe[] = [];
   messagePhishing: boolean = false;
 
   constructor(
     protected service: QuestionPageService,
-    private router : Router,
-    public dialog: MatDialog
-  ) {
-  }
+    private router: Router,
+    public dialog: MatDialog,
+    private snackbar: MatSnackBar
+  ) { }
 
   ngOnInit() {
-    this.service.InitQuestionPage((message: any) => {
-      console.log("json reçu", message);
-      if (!message.succes) {
-        console.log(message.messageErreur);
-        this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
-      } else {
-        this.idActiviteEnCours = message.data.idActiviteEnCours;
-        this.typeActivite = message.data.typeActivite;
-        if(this.typeActivite === "question"){
-          this.propositions = message.data.question.listePropositions as Proposition[];
-          this.question = message.data.question;
-          this.service.resetBar();
-          this.showProgressBar = true;
+    this.service.InitQuestionPage(
+      (message: any) => {
+        console.log("json reçu", message);
+        if (message.succes) {
+          this.idActiviteEnCours = message.data.idActiviteEnCours;
+          this.typeActivite = message.data.typeActivite;
+          if (this.typeActivite === "question") {
+            this.propositions = message.data.question.listePropositions as Proposition[];
+            this.question = message.data.question;
+            this.idActiviteEnCours = message.data.idActiviteEnCours;
+            this.service.resetBar();
+            this.showProgressBar = true;
+          } else if (this.typeActivite === "minijeu") {
+            this.equipesFinMinijeu = [];
+            this.codeMinijeu = message.data.minijeu.code;
+            this.service.etape = "click";
+            this.messagePhishing = false;
+            this.showProgressBar = false;
+          }
+        } else {
+          console.log(message.messageErreur);
+          this.router.navigate(['/ongoing-games']);
+          this.snackbar.open('Une erreur est survenue', 'OK');
         }
-        else if(this.typeActivite === "minijeu"){
-          this.equipesFinMinijeu = [];
-          this.codeMinijeu = message.data.minijeu.code;
-          this.service.etape = "click";
-          this.messagePhishing = false;
-          this.showProgressBar = false;
-        }
-      }
-    },
+      },
       (message: any) => {
         console.log("json reçu", message);
         this.typeActivite = message.data.typeActivite;
-        if(this.typeActivite === "question"){
+        if (this.typeActivite === "question") {
           const question = message.data.question;
           this.idBonneProposition = question.bonneProposition.id;
           this.service.explication = question.explication ?? "";
-          this.service.etape = "explication";
-          this.showProgressBar = false;
         }
         this.equipes = message.data.listeEquipes;
-        this.service.etape = "explication";
+        this.service.etape = 'explication';
         this.showProgressBar = false;
         this.nomPlateau = message.data.nomPlateauCourant;
         this.openDialogMaitreDuJeu();
-    },
+      },
       (message: any) => {
         console.log("json reçu", message);
         this.typeActivite = message.data.typeActivite;
-        if(this.typeActivite === "question"){
+        if (this.typeActivite === "question") {
           const question = message.data.question;
           this.idBonneProposition = question.bonneProposition.id;
           this.service.explication = question.explication ?? "";
+          this.equipes = message.data.listeEquipes;
           this.showProgressBar = false;
           this.service.etape = "explication";
-        } 
-    },
-    (message: any) => {
-      console.log("json reçu", message);
-      this.badges = message.data.equipe.badges;
-      this.equipes = [message.data.equipe];
-      this.classement = {badges: this.badges, equipes: this.equipes};
-      this.service.etape = "explication";
-      this.typeActivite = "";
-      this.openDialogEquipe();
-    }, 
-    (message: any) => {
-      console.log("json reçu", message);
-      this.equipes = message.data.listeEquipes;
-      this.service.etape = "explication";
-      this.nomPlateau = message.data.partie.nomPlateauCourant;
-      this.openDialogMaitreDuJeu();
-    },
-    (message: any) => {
-      console.log("json reçu", message);
-      this.equipesFinMinijeu.push(message.data.equipe);
-      this.service.etape = "explication";
-    },
-  );
-
-    //TODO : header pour indiquer : le monde, l'avancement, le score des joueurs...
+        }
+      },
+      (message: any) => {
+        console.log("json reçu", message);
+        this.badges = message.data.equipe.badges;
+        this.equipes = [message.data.equipe];
+        this.classement = { badges: this.badges, equipes: this.equipes };
+        this.service.etape = "explication";
+        this.typeActivite = "";
+        this.openDialogEquipe();
+      },
+      (message: any) => {
+        console.log("json reçu", message);
+        this.equipes = message.data.listeEquipes;
+        this.service.etape = "explication";
+        this.nomPlateau = message.data.partie.nomPlateauCourant;
+        this.openDialogMaitreDuJeu();
+      },
+      (message: any) => {
+        console.log("json reçu", message);
+        this.equipesFinMinijeu.push(message.data.equipe);
+        this.service.etape = "explication";
+      });
   }
 
   onSelectionReponse = (proposition: Proposition) => {
-    this.service.etape = "select";
+    this.service.etape = 'select';
     this.propositionSelectionnee = proposition;
     this.service.envoyerReponse(proposition.id, this.idActiviteEnCours);
     this.service.recevoirSoumettreReponse();
-  }
+  };
 
   activiteSuivante() {
-    console.log("activite suivante");
+    console.log('activite suivante');
     this.service.envoyerTerminerExplication();
   }
 
   mettreEnPause() {
-    console.log("partie mise en pause");
+    console.log('partie mise en pause');
     this.service.mettreEnPause(() => {
-    this.service.explication = "";
-    this.service.etape = "click";
-    this.router.navigate(['/ongoing-games']);
+      this.service.explication = '';
+      this.service.etape = 'click';
+      this.router.navigate(['/ongoing-games']);
     });
   }
 
   openDialogMaitreDuJeu(): void {
     const dialogRef = this.dialog.open(ModalScoreComponent, {
-      data: {"equipes": this.equipes, "nomPlateau": this.nomPlateau},
-      width: '70%'
+      data: { equipes: this.equipes, nomPlateau: this.nomPlateau },
+      width: '70%',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
     });
   }
 
   openDialogEquipe(): void {
     const dialogRef = this.dialog.open(ModalBadgeComponent, {
-      data: {"equipes": this.equipes, "badges": this.badges},
-      width: '70%'
+      data: { "equipes": this.equipes, "badges": this.badges },
+      width: '70%',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
     });
   }
 
-  receiveScore($event: any){
+  receiveScore($event: any) {
     console.log("score mj recu : ", $event)
     this.service.sendScoreMinijeu($event, this.idActiviteEnCours);
-    if(this.codeMinijeu==="phishing") {
+    if (this.codeMinijeu === "phishing") {
       this.messagePhishing = true;
     }
     this.typeActivite = "finMinijeu";
   }
 
-  isPlayer(): boolean{
+  isPlayer(): boolean {
     return this.service.isPlayer();
   }
 
-  isHost() : boolean {
+  isHost(): boolean {
     return this.service.isHost();
   }
-  
-  terminerMinijeu(){
+
+  terminerMinijeu() {
     this.service.envoyerTerminerMinijeu();
   }
 }

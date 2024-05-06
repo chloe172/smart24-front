@@ -27,7 +27,7 @@ export class ResponseComponent {
 
   getColor(): string {
     if (this.etape === "click") {
-      const colors = ['', '#ca5fe8', '#fbcd40', '#ff5353'];
+      const colors = ['#5ce1e6', '#ca5fe8', '#fbcd40', '#ff5353'];
       return colors[this.index % 4];
     } else if (this.etape === "select") {
       if (this.estSelectionnee) {

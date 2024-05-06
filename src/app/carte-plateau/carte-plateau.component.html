@@ -1,8 +1,8 @@
-<mat-card (click)="select(plateau.id)" class="card-panel hoverable"> 
+<mat-card (click)="select(plateau.id)" class="card-panel hoverable">
         <div class="center-align">
                 <img [src]="getBadgeImagePath()" width="100" height="100">
                 <h5 class="text-align">{{plateau.nom}}</h5>
-                <h6>{{plateau.nombreActivitesTerminees/plateau.nombreActivites*100}}%</h6>
-                <mat-progress-bar [value]="plateau.nombreActivitesTerminees/plateau.nombreActivites*100"></mat-progress-bar>
+                <h6>{{avancement}}%</h6>
+                <mat-progress-bar [value]="avancement"></mat-progress-bar>
         </div>
 </mat-card>

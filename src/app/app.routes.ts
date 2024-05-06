@@ -16,76 +16,73 @@ import { GestionProjetComponent } from './minijeux/gestion-projet/gestion-projet
 import { IAGameComponent } from './iagame/iagame.component';
 
 export const routes: Routes = [
-    {
-        path: '',
-        component: AccessSessionComponent,
-    },
-    {
-        path: 'design',
-        component: DesignTypeComponent
-    },
-    {
-        path: 'login',
-        component: ConnexionComponent,
-    },
-    {
-        path: 'question',
-        component: QuestionPageComponent,
-    },
-    {
-        path: 'ongoing-games',
-        component: OngoingGamesComponent,
-    },
-    {
-        path: 'selection',
-        component: SelectionPlateauxComponent,
-    },
-    {
-        path: 'menuJoueur',
-        component: MenuJoueurComponent,
-    },
+  {
+    path: '',
+    component: AccessSessionComponent,
+  },
+  {
+    path: 'design',
+    component: DesignTypeComponent,
+  },
+  {
+    path: 'login',
+    component: ConnexionComponent,
+  },
+  {
+    path: 'question',
+    component: QuestionPageComponent,
+  },
+  {
+    path: 'ongoing-games',
+    component: OngoingGamesComponent,
+  },
+  {
+    path: 'selection',
+    component: SelectionPlateauxComponent,
+  },
+  {
+    path: 'menuJoueur',
+    component: MenuJoueurComponent,
+  },
 
-    {
-        path: 'cyber-game',
-        component: CyberGameComponent
-    },
-
-    {
-        path: 'ia-game',
-        component: IAGameComponent
-    },
-
-    {
-        path: 'create-game',
-        component: CreateGameComponent,
-    },
-    {
-        path: 'error/:code/:message',
-        component: ErrorPageComponent,
-    },
-    {
-        path: 'waiting',
-        component: WaitingForPlayersComponent
-
-    },
-    {
-        path: 'team-enroll',
-        component: TeamEnrollComponent
-    },
-    {
-        path: 'team-choice',
-        component: TeamChoiceComponent
-    },
-    {
-        path: 'gestion-projet',
-        component: GestionProjetComponent
-    },
-    {
-        path: 'gribouille',
-        component: CyberGameComponent
-    },
-    {
-        path: '**',
-        redirectTo: 'error/404/Page introuvable'
-    }
+  {
+    path: 'cyber-game',
+    component: CyberGameComponent,
+  },
+  {
+    path: 'ia-game',
+    component: IAGameComponent,
+  },
+  {
+    path: 'create-game',
+    component: CreateGameComponent,
+  },
+  {
+    path: 'error/:code/:message',
+    component: ErrorPageComponent,
+  },
+  {
+    path: 'waiting',
+    component: WaitingForPlayersComponent,
+  },
+  {
+    path: 'team-enroll',
+    component: TeamEnrollComponent,
+  },
+  {
+    path: 'team-choice',
+    component: TeamChoiceComponent,
+  },
+  {
+    path: 'gestion-projet',
+    component: GestionProjetComponent,
+  },
+  {
+    path: 'gribouille',
+    component: CyberGameComponent,
+  },
+  {
+    path: '**',
+    redirectTo: 'error/404/Page introuvable',
+  }
 ];
