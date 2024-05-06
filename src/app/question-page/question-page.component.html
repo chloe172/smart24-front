@@ -104,7 +104,7 @@
 </div>
 
 <div class="row" *ngIf="typeActivite!='finMinijeu' && isHost()">
-    <div class="col s12-s2 center-align">
+    <div class="col s12 center-align">
         <mat-card class="card-panel center-align" *ngIf="service.explication !== ''" style="margin: 10px;">
             <h6 class="center-align">{{service.explication}}</h6>
             <div class="options" style="padding-top:10px; display: flex; justify-content: space-between;">
@@ -147,9 +147,11 @@
                 <div class="mat-card-container">
                     <mat-card class="card-panel center-align col s10 offset-s1" style="padding: 20px;">
                         <h5 class="center-align">En attente du prochain plateau !</h5>
-                        <button mat-flat-button color="warn" style="width: 150px" (click)="openDialogEquipe()">
-                        Classement <mat-icon fontIcon="workspace_premium"></mat-icon>
-                        </button>
+                        <div class="center-align">
+                            <button mat-flat-button color="warn" style="width: 150px"  (click)="openDialogEquipe()">
+                                Classement <mat-icon fontIcon="workspace_premium"></mat-icon>
+                                </button>
+                        </div>
                     </mat-card>
                 </div>
             </div>

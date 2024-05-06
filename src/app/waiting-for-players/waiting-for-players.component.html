@@ -10,9 +10,9 @@
             <div class="col m4 s6" *ngFor="let equipe of listeEquipes">
                 <mat-card class="card-panel">
                     <div class="center-align" style="padding: 10px;">
-                        <img [src]="getAvatarPath(equipe.avatar)" style="max-width: 60%">
+                        <img [src]="getAvatarPath(equipe.avatar)" style="max-width: 60%; max-height:100px">
                     </div>
-                    <mat-card-content class="black-text"  style="font-weight: bold;">
+                    <mat-card-content class="black-text center-align"  style="font-weight: bold;">
                         {{equipe.nom}}
                     </mat-card-content>
                 </mat-card>

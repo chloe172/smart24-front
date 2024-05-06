@@ -166,6 +166,7 @@ export class QuestionPageComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalScoreComponent, {
       data: { equipes: this.equipes, nomPlateau: this.nomPlateau },
       width: '70%', 
+      height:'80%',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -177,6 +178,7 @@ export class QuestionPageComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalBadgeComponent, {
       data: { "equipes": this.equipes, "badges": this.badges },
       width: '70%',
+      height:'80%',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
