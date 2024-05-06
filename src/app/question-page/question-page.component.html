@@ -19,6 +19,9 @@
         <div *ngIf="codeMinijeu==='gestion-projet'">
             <app-gestion-projet (scoreEvent)="receiveScore($event)"></app-gestion-projet>
         </div>
+        <div *ngIf="codeMinijeu==='impact-carbone'">
+            <app-green-it (scoreEvent)="receiveScore($event)"></app-green-it>
+        </div>
     </div>
     <div *ngIf="isHost()">
         <div class="row">

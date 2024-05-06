@@ -22,14 +22,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CyberGameComponent } from '../minijeux/cyber-game/cyber-game.component';
 import { PopupCyberComponent } from '../minijeux/popup-cyber/popup-cyber.component';
 import { GestionProjetComponent } from '../minijeux/gestion-projet/gestion-projet.component';
+import { GreenITComponent } from "../minijeux/green-it/green-it.component";
 
 @Component({
-  selector: 'app-question-page',
-  standalone: true,
-  imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule, ProgressBarComponent, MatDialogModule,
-    ModalScoreComponent, CyberGameComponent, PopupCyberComponent, GestionProjetComponent],
-  templateUrl: './question-page.component.html',
-  styleUrl: './question-page.component.scss',
+    selector: 'app-question-page',
+    standalone: true,
+    templateUrl: './question-page.component.html',
+    styleUrl: './question-page.component.scss',
+    imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule, ProgressBarComponent, MatDialogModule,
+        ModalScoreComponent, CyberGameComponent, PopupCyberComponent, GestionProjetComponent, GreenITComponent]
 })
 export class QuestionPageComponent implements OnInit {
   question: Question = {
