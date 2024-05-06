@@ -56,6 +56,32 @@ export class WaitingForPlayersService {
         'notificationInscrireEquipe',
         (message) => {
           console.log('Equipe reçue', message);
+          this.partieService.setPartie(message.data.partie);
+          callback(message);
+        }
+      );
+    } else {
+      this.router.navigate(['/']);
+    }
+  }
+
+  enleverEquipe(callback: (message: any) => any) { //TODO changer a notificationDeconnexionEquipe
+    console.log(
+      'passé dans ajouter équipe',
+      this.accessSessionService.getUserAccessed()
+    );
+    if (
+      this.connexionService.getUserAuthentication() ||
+      this.accessSessionService.getUserAccessed()
+    ) {
+      this.webSocketService.removeAllSubscriptionsOfType(
+        'notificationDeconnexionEquipe'
+      );
+      this.webSocketService.subscribeToType(
+        'notificationDeconnexionEquipe',
+        (message) => {
+          console.log('Equipe reçue', message);
+          this.partieService.setPartie(message.data.partie);
           callback(message);
         }
       );
