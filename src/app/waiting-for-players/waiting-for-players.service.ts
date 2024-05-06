@@ -29,6 +29,7 @@ export class WaitingForPlayersService {
     if (this.accessSessionService.getUserAccessed()) {
       let idPartie = this.partieService.getPartie()?.id;
       this.webSocketService.SendToType('listerEquipes', { idPartie });
+      this.webSocketService.removeAllSubscriptionsOfType('reponseListerEquipes');
       this.webSocketService.subscribeToType(
         'reponseListerEquipes',
         (message) => {
@@ -113,6 +114,7 @@ export class WaitingForPlayersService {
       if (idPartie !== -1) {
                
         this.webSocketService.SendToType('demarrerPartie', { idPartie });
+        this.webSocketService.removeAllSubscriptionsOfType('reponseDemarrerPartie');
         this.webSocketService.subscribeToType('reponseDemarrerPartie', (message) => {
           console.log('Partie démarrée', message);
           console.log(message.succes)

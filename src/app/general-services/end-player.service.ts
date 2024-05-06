@@ -21,6 +21,7 @@ export class EndPlayerService {
 
   endGamePlayer() {
     if (this.accessSessionService.getUserAccessed()) {
+      this.webservice.removeAllSubscriptionsOfType('notificationMettreEnPausePartie');
       this.webservice.subscribeToType(
         'notificationMettreEnPausePartie',
         (message): any => {

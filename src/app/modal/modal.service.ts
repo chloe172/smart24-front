@@ -11,6 +11,7 @@ export class ModalService {
   finishGame(partie: Partie, callback: (message: any) => any) {
     let idPartie = partie.id;
     this.webservice.SendToType('terminerPartie', { idPartie });
+    this.webservice.removeAllSubscriptionsOfType('reponseTerminerPartie');
     this.webservice.subscribeToType('reponseTerminerPartie', (message): any => {
       callback(message);
     });

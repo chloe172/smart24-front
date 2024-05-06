@@ -19,6 +19,7 @@ export class OngoingGameCardService {
   reprendre(partie: Partie) {
     this.webService.SendToType('attendreEquipes', { idPartie: partie.id });
     console.log('Reprendre partie', partie);
+    this.webService.removeAllSubscriptionsOfType('reponseAttendreEquipes');
     this.webService.subscribeToType('reponseAttendreEquipes', (message) => {
       console.log('Reponse attendre equipe', message);
       if (message.succes) {

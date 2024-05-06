@@ -23,6 +23,7 @@ export class CreateGameService {
   listerPlateaux(callback: (message: any) => any) {
     if (this.connexionService.getUserAuthentication()) {
       this.webSocketService.SendToType('listerPlateaux', {});
+      this.webSocketService.removeAllSubscriptionsOfType('reponseListerPlateaux');
       this.webSocketService.subscribeToType(
         'reponseListerPlateaux',
         (message) => {
@@ -39,6 +40,7 @@ export class CreateGameService {
     if (this.connexionService.getUserAuthentication()) {
       const plateaux = listePlateaux.map((plateau) => plateau.id);
       this.webSocketService.SendToType('creerPartie', { nomPartie, plateaux });
+      this.webSocketService.removeAllSubscriptionsOfType('reponseCreerPartie');
       this.webSocketService.subscribeToType('reponseCreerPartie', (message) => {
         console.log('Partie créée', message);
         if (message.succes) {

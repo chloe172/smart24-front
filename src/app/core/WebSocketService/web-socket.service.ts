@@ -33,6 +33,7 @@ export class WebSocketService {
       let asking = false;
       let token = localStorage.getItem('tokensession');
       this.SendToType('token', { asking, token });
+      this.removeAllSubscriptionsOfType('reponseToken');
       this.subscribeToType('reponseToken', (message): any => {
         if (!message.succes) {
           this.askToken();
@@ -78,6 +79,7 @@ export class WebSocketService {
   askToken() {
     let asking = true;
     this.SendToType('token', { asking });
+    this.removeAllSubscriptionsOfType('reponseToken');
     this.subscribeToType('reponseToken', (message): any => {
       if (message.succes) {
         localStorage.setItem('tokensession', message.data.token);

@@ -3,7 +3,13 @@
         <div class="col s12 m6 offset-m3 center-align">
             <div class="mat-card-container">
                 <mat-card style="max-width: 1000px; padding: 20px;">
-                    <h5 class="center-align" > Soyez le plus rapide à cliquez <span id="ici" color="primary" (click)="sendScore()">ici</span> pour gagner 1000 points</h5>
+                    <div style="justify-content: space-between; display: flex;">
+                        <h5>IMPORTANT !!!</h5>
+                        <button mat-icon-button color="primary" (click)="sendScore(false)">
+                            <mat-icon fontIcon="close"></mat-icon>
+                        </button>
+                    </div>
+                    <h5 class="center-align" > Soyez le plus rapide à cliquez <span id="ici" color="primary" (click)="sendScore(true)">ici</span> pour gagner 1000 points</h5>
                 </mat-card>
             </div>
         </div>

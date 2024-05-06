@@ -17,6 +17,7 @@ export class ConnexionService {
   }
 
   getAuthentication(callback: (message: any) => any) {
+    this.webservice.removeAllSubscriptionsOfType('authentifierUtilisateur');
     this.webservice.subscribeToType(
       'reponseAuthentifierUtilisateur',
       (message): any => {
