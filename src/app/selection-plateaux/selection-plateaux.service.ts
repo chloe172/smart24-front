@@ -58,11 +58,27 @@ export class SelectionPlateauxService {
         this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
         this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
         this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
+        this.webservice.removeAllSubscriptionsOfType('reponseObtenirClassementGeneral');
         this.router.navigate(['/ongoing-games']);
       } else {
         console.log(message.messageErreur);
         this.snackbar.open('Une erreur est survenue', 'OK');
       }
     });
+  }
+
+  obtenirClassement(callback: (message: any) => any) {
+    const idPartie = this.partieService.getPartie()?.id;
+    this.webservice.SendToType("obtenirClassementGeneral", { idPartie });
+    this.webservice.removeAllSubscriptionsOfType('reponseObtenirClassementGeneral');
+    this.webservice.subscribeToType('reponseObtenirClassementGeneral', (message): any => {
+      console.log(message);
+      if (!message.succes) {
+        this.snackbar.open('Une erreur est survenue', 'OK');
+      } else {
+        callback(message);
+      }
+    });
+
   }
 }

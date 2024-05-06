@@ -58,7 +58,7 @@ export class CartePlateauService {
 
   openDialogMaitreDuJeu(): void {
     const dialogRef = this.dialog.open(ModalScoreComponent, {
-      data: { "equipes": this.equipes, "nomPlateau": this.nomPlateau },
+      data: { "equipes": this.equipes, "nomPlateau": "du plateau "+this.nomPlateau },
       width: '70%',
       height:'80%',
     });
