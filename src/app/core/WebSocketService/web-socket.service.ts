@@ -6,11 +6,18 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class WebSocketService {
-  private socket: WebSocket;
+  private socket?: WebSocket;
 
   private callbacks: { [type: string]: ((message: any) => any)[] } = {};
 
   constructor(private router: Router) {
+    this.restartWebSocket();
+  }
+
+  restartWebSocket() {
+    if (this.socket && this.socket.CLOSED) {
+      this.socket.close();
+    }
     this.socket = new WebSocket(environment.webSocketUrl);
     this.socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
@@ -34,7 +41,7 @@ export class WebSocketService {
           localStorage.setItem('type', role);
           if (role === 'MAITRE_DU_JEU') {
             this.router.navigate(['/ongoing-games']);
-          } else if (role === 'EQUIPE') {
+          } else {
             this.router.navigate(['/']);
           }
         }
@@ -54,7 +61,7 @@ export class WebSocketService {
   }
 
   SendToType(type: string, data: any) {
-    if (this.socket.readyState !== WebSocket.OPEN) {
+    if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
       setTimeout(() => {
         this.SendToType(type, data);
       }, 100);
