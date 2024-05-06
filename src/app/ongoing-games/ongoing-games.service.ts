@@ -11,7 +11,7 @@ export class OngoingGamesService {
     private webservice: WebSocketService,
     private connexionService: ConnexionService,
     private router: Router
-  ) {}
+  ) { }
 
   InitOngoingGames(callback: (message: any) => any) {
     if (this.connexionService.getUserAuthentication()) {
@@ -25,5 +25,12 @@ export class OngoingGamesService {
     } else {
       this.router.navigate(['/login']);
     }
+  }
+
+  deconnecter() {
+    localStorage.removeItem('type');
+    localStorage.removeItem('tokensession');
+    localStorage.removeItem('partie');
+    this.webservice.restartWebSocket();
   }
 }

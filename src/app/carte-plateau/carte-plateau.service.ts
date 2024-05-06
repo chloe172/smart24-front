@@ -30,6 +30,7 @@ export class CartePlateauService {
       const partie = this.partieService.getPartie();
       if (partie) {
         this.webSocketService.SendToType('choisirPlateau', { "idPartie": partie.id, idPlateau });
+        this.webSocketService.removeAllSubscriptionsOfType('reponseChoisirPlateau');
         this.webSocketService.subscribeToType('reponseChoisirPlateau', (message) => {
           console.log('Plateau choisi', message);
           if (!message.succes) {

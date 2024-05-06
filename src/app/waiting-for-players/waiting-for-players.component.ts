@@ -28,11 +28,11 @@ export class WaitingForPlayersComponent {
   ngOnInit() {
     this.service.getEquipes((message) => {
       console.log('json reçu', message);
-      if (!message.succes) {
+      if (message.succes) {
+        this.listeEquipes = message.data.listeEquipesConnectees as Equipe[];
+      } else {
         console.log(message.messageErreur);
         this.router.navigate(['/']);
-      } else {
-        this.listeEquipes = message.data.listeEquipesConnectees as Equipe[];
       }
     });
     this.service.ajouterEquipe((message) => {
@@ -40,7 +40,6 @@ export class WaitingForPlayersComponent {
       let equipe = message.data.equipe as Equipe;
       this.listeEquipes.push(equipe);
     });
-
     if (this.service.isPlayer()) {
       this.service.attendreDebutPartie((message) => {
         this.router.navigate(['/question']);

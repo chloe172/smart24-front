@@ -1,13 +1,15 @@
-import { Component, HostListener} from '@angular/core';
+import { Component, EventEmitter, Output} from '@angular/core';
 import { NgFor } from '@angular/common';
 import { MatCard } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
 import { NgClass } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-iagame',
   standalone: true,
-  imports: [NgFor, MatCard, MatButton, NgClass],
+  imports: [NgFor, MatCard, MatButton, NgClass, NgIf],
   templateUrl: './iagame.component.html',
   styleUrl: './iagame.component.scss'
 })
@@ -23,7 +25,10 @@ export class IAGameComponent {
     {src : "../assets/Vesna-figuratif-peinture-turquoise-rose-papillon-femme-fleurs.jpeg", rep : "Humain", clicked : false}
   ];
   message = '';
+  score: number = 100;
+  @Output() scoreEvent = new EventEmitter<number>();
 
+  constructor(private bar : MatSnackBar){}
 
   select(src :string){
     // Utilisation de la méthode find pour trouver l'objet correspondant à la source
@@ -56,8 +61,10 @@ export class IAGameComponent {
     }
     if(reponse == true){
       this.message = 'Bonne réponse !';
+      this.scoreEvent.emit(this.score);
     } else {
       this.message = 'Mauvaise Réponse.';
+      this.bar.open(this.message, "OK", {duration : 1000});
     }
 
   }
