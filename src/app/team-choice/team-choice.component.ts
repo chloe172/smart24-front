@@ -6,36 +6,40 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-team-choice',
   standalone: true,
-  imports: [MatListModule,FormsModule, MatCardModule, MatButton],
+  imports: [MatListModule, FormsModule, MatCardModule, MatButton],
   templateUrl: './team-choice.component.html',
-  styleUrl: './team-choice.component.scss'
+  styleUrl: './team-choice.component.scss',
 })
 export class TeamChoiceComponent {
-  listeEquipes: Equipe[] = []
-  selected !:any;
-  constructor(private service : TeamChoiceService) { }
-  router : Router = new Router;
-  ngOnInit(){
+  listeEquipes: Equipe[] = [];
+  selected!: any;
+
+  constructor(
+    private service: TeamChoiceService,
+    private router: Router,
+    private snackbar: MatSnackBar
+  ) {}
+
+  ngOnInit() {
     this.service.getEquipes((message) => {
-        console.log("json reçu",message);
-        if(!message.succes){
-            console.log(message.messageErreur);
-            this.router.navigate(['/error', message.codeErreur, message.messageErreur]);
-        }
-        else{
+      console.log('json reçu', message);
+      if (message.succes) {
         this.listeEquipes = message.data.listeEquipesNonConnectees as Equipe[];
-        }
+      } else {
+        console.log(message.messageErreur);
+        this.router.navigate(['/']);
+        this.snackbar.open('Une erreur est survenue', 'OK');
       }
-    );
+    });
   }
 
-  connecterEquipe(){
-    console.log("Equipe sélectionnée", this.selected[0].id);
+  connecterEquipe() {
+    console.log('Equipe sélectionnée', this.selected[0].id);
     this.service.connecterEquipe(this.selected[0].id);
   }
-
 }
