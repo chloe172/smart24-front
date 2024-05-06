@@ -31,7 +31,7 @@ import { IAGameComponent } from '../minijeux/iagame/iagame.component';
     templateUrl: './question-page.component.html',
     styleUrl: './question-page.component.scss',
     imports: [NgFor, ResponseComponent, NgIf, MatCardModule, MatButtonModule, MatIconModule, ProgressBarComponent, MatDialogModule,
-        ModalScoreComponent, CyberGameComponent, PopupCyberComponent, GestionProjetComponent, GreenITComponent]
+        ModalScoreComponent, CyberGameComponent, PopupCyberComponent, GestionProjetComponent, GreenITComponent, IAGameComponent]
 })
 export class QuestionPageComponent implements OnInit {
   question: Question = {

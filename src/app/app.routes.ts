@@ -13,7 +13,7 @@ import { TeamEnrollComponent } from './team-enroll/team-enroll.component';
 import { TeamChoiceComponent } from './team-choice/team-choice.component';
 import { CyberGameComponent } from './minijeux/cyber-game/cyber-game.component';
 import { GestionProjetComponent } from './minijeux/gestion-projet/gestion-projet.component';
-import { IAGameComponent } from './iagame/iagame.component';
+import { IAGameComponent } from './minijeux/iagame/iagame.component';
 import { GreenITComponent } from './minijeux/green-it/green-it.component';
 
 export const routes: Routes = [
