@@ -1,10 +1,16 @@
 <div class="center-align" *ngFor="let equipe of equipes; index as i">
     <div class="mat-card-container">
         <mat-card class="card-panel" [ngStyle]="{'background-color': getColor(i)}" style="width: 60%;">
-            <div class="center-align">
-                <h6 class="center-align white-text">{{equipe.rang}} - {{equipe.score}}</h6>
-                <hr style="border: 1px solid white; width: 200px">
-                <h6 class="center-align white-text">{{equipe.nom}}</h6>
+            <div style="display: flex; justify-content: space-between;">
+                <div class="center-align">
+                    <img [src]="getAvatarPath(equipe.avatar)" height="100px" width="100px">
+                </div>
+                <h4 style="font-weight: bold;" class="black-text">{{equipe.rang}} </h4>
+                <div class="center-align">
+                    <h5 class="black-text">Score : {{equipe.score}}</h5>
+                    <hr style="border: 1px solid white; width: 200px">
+                    <h5 class="black-text">{{equipe.nom}}</h5>
+                </div>
             </div>
         </mat-card>
     </div>

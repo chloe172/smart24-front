@@ -91,6 +91,13 @@ export class WaitingForPlayersService {
   }
 
   attendreDebutPartie(callback: (message: any) => void) {
+    this.webSocketService.removeAllSubscriptionsOfType('notificationLancerActivite');
+    this.webSocketService.removeAllSubscriptionsOfType('notificationReponseActivite');
+    this.webSocketService.removeAllSubscriptionsOfType('notificationTerminerExplication');
+    this.webSocketService.removeAllSubscriptionsOfType('reponseSoumettreReponse');
+    this.webSocketService.removeAllSubscriptionsOfType('reponseSoumettreScoreMinijeu');
+    this.webSocketService.removeAllSubscriptionsOfType('reponseTerminerMinijeu');
+    this.webSocketService.removeAllSubscriptionsOfType('reponseDemarrerPartie');
     this.webSocketService.subscribeToType(
       'notificationChoisirPlateau',
       (message) => {
@@ -104,11 +111,12 @@ export class WaitingForPlayersService {
     if (this.connexionService.getUserAuthentication()) {
       let idPartie = this.partieService.getPartie()?.id;
       if (idPartie !== -1) {
-
+               
         this.webSocketService.SendToType('demarrerPartie', { idPartie });
         this.webSocketService.subscribeToType('reponseDemarrerPartie', (message) => {
           console.log('Partie démarrée', message);
           console.log(message.succes)
+
           if (message.succes) {
             console.log(message.messageErreur);
             this.router.navigate(['/selection']);

@@ -39,6 +39,7 @@ export class TeamEnrollService {
         idPartie,
         avatar,
       });
+      this.webSocketService.removeAllSubscriptionsOfType('reponseInscrireEquipe');
       this.webSocketService.subscribeToType(
         'reponseInscrireEquipe',
         (message) => {

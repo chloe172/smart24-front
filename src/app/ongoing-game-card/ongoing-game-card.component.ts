@@ -28,7 +28,6 @@ import { ModalComponent } from '../modal/modal.component';
 export class OngoingGameCardComponent {
   constructor(
     private service: OngoingGameCardService,
-    private idService: PartieService,
     public matDialog: MatDialog
   ) { }
   @Input() partie!: Partie;
@@ -49,8 +48,6 @@ export class OngoingGameCardComponent {
 
   openModal() {
     this.dialogConfig.id = 'app-modal-component';
-    this.dialogConfig.height = '500px';
-    this.dialogConfig.width = '650px';
     this.modalDialog = this.matDialog.open(ModalComponent, this.dialogConfig);
     this.modalDialog.componentInstance.partie = this.partie;
   }
