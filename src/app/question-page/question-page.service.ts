@@ -87,7 +87,22 @@ export class QuestionPageService {
             console.log(partie.finPlateau);
             if (partie.finPlateau) {
               this.explication = "";
-                callbackFinPlateauMaitreDuJeu(message);
+              callbackFinPlateauMaitreDuJeu(message);
+              this.webservice.removeAllSubscriptionsOfType('reponseLancerActivite');
+              this.webservice.removeAllSubscriptionsOfType('notificationReponseActivite');
+              this.webservice.removeAllSubscriptionsOfType('reponseTerminerExplication');
+              this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
+              this.webservice.removeAllSubscriptionsOfType('notificationSoumettreReponse');
+              this.webservice.removeAllSubscriptionsOfType('reponseChoisirPlateau');
+              this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
+              this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
+              this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
+              this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
+              this.webservice.removeAllSubscriptionsOfType('reponseCreerPartie');
+              this.webservice.removeAllSubscriptionsOfType('reponseTerminerPartie');
+              this.webservice.removeAllSubscriptionsOfType('reponseTerminerMinijeu');
+              this.webservice.removeAllSubscriptionsOfType('reponseListerEquipes');
+              this.webservice.removeAllSubscriptionsOfType('reponseDemarrerPartie');
               this.router.navigate(['/selection']);
             } else {
               const idPartie = this.partieService.getPartie()?.id;
