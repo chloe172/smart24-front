@@ -40,6 +40,13 @@ export class WaitingForPlayersComponent {
       let equipe = message.data.equipe as Equipe;
       this.listeEquipes.push(equipe);
     });
+    this.service.enleverEquipe((message) => {
+      console.log('json reçu', message);
+      let equipe = message.data.equipe as Equipe;
+      let index = this.getEquipeById(equipe.id);
+      this.listeEquipes.splice(index, 1);
+
+    });
     if (this.service.isPlayer()) {
       this.service.attendreDebutPartie((message) => {
         this.router.navigate(['/question']);
@@ -53,6 +60,16 @@ export class WaitingForPlayersComponent {
 
   playersConnected(): boolean {
     return !(this.listeEquipes.length === 0);
+  }
+
+  getEquipeById(id: number): number {
+    let i = -1;
+    this.listeEquipes.forEach((element, index) => {
+      if (id === element.id) {
+        i = index;
+      }
+    });
+    return i;
   }
 
   isHost(): boolean {
