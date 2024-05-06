@@ -22,6 +22,9 @@
         <div *ngIf="codeMinijeu==='impact-carbone'">
             <app-green-it (scoreEvent)="receiveScore($event)"></app-green-it>
         </div>
+        <div *ngIf="codeMinijeu==='mj-ux-ui'">
+            <app-graph-mj (scoreEvent)="receiveScore($event)"></app-graph-mj>
+        </div>
         <div *ngIf="codeMinijeu==='trouver-ia'">
             <app-iagame (scoreEvent)="receiveScore($event)"></app-iagame>
         </div>

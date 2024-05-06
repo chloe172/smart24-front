@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col s12 m6 offset-m3 center-align">
+        <mat-card class="card-panel">
+            <h4>Déplacez les éléments pour rendre le graphe accessible</h4>
+            <div class="center-align">
+                <img src="../../../assets/graph.svg " alt="graph-accessibilité" height="300px" width="300px">
+            </div>
+            <h6>Légende : </h6>
+            <div class="legende">
+                <div class="dragable" cdkDrag><span id="A">Abricot:</span></div>
+                <div class="dragable" cdkDrag>31.6%</div>
+            </div>
+            <div class="legende">
+                <div class="dragable" cdkDrag><span id="B">Banane:</span></div>
+                <div class="dragable" cdkDrag>52.6%</div>
+            </div>
+            <div class="legende">
+                <div class="dragable" cdkDrag><span id="C">Cerise:</span></div>
+                <div class="dragable" cdkDrag>15.8%</div>
+            </div>
+            <div class="center-align">
+                <button mat-flat-button color="warn" style="width: 150px; margin: 10px;"
+                    (click)="valider()">Valider</button>
+            </div>
+        </mat-card>
+    </div>
+</div>

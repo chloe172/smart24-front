@@ -15,6 +15,7 @@ import { CyberGameComponent } from './minijeux/cyber-game/cyber-game.component';
 import { GestionProjetComponent } from './minijeux/gestion-projet/gestion-projet.component';
 import { IAGameComponent } from './minijeux/iagame/iagame.component';
 import { GreenITComponent } from './minijeux/green-it/green-it.component';
+import { GraphMJComponent } from './minijeux/graph-mj/graph-mj.component';
 
 export const routes: Routes = [
   {
@@ -85,6 +86,10 @@ export const routes: Routes = [
   {
     path: 'greenIT',
     component: GreenITComponent,
+  },
+  {
+    path: 'graph-mj',
+    component: GraphMJComponent,
   },
   {
     path: '**',
