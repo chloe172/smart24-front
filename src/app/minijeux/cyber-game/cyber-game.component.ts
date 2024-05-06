@@ -17,22 +17,22 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CyberGameComponent {
   password = new FormControl('', [Validators.required]);
-  message='';
+  message = '';
   score: number = 100;
   @Output() scoreEvent = new EventEmitter<number>();
 
-  constructor(private bar : MatSnackBar){}
+  constructor(private bar: MatSnackBar) { }
 
-  validerMiniJeu(){
-    if(this.password.value == "gribouille"){
+  validerMiniJeu() {
+    if (this.password.value?.toLocaleLowerCase() == "gribouille") {
       this.message = 'Félicitations ! Vous avez trouvé le bon mot de passe.';
       this.scoreEvent.emit(this.score);
 
     } else {
       this.message = 'Mauvaise Réponse. Réessayez !';
-      this.bar.open(this.message, "OK", {duration : 1000});
+      this.bar.open(this.message, "OK", { duration: 1000 });
     }
   }
-  
+
 
 }
