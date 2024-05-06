@@ -59,4 +59,8 @@ export class WaitingForPlayersComponent {
   isHost(): boolean {
     return this.service.isHost();
   }
+
+  getAvatarPath(avatar: string): string {
+    return "../assets/Avatar-pikisuperstar/"+avatar+".svg";
+  }
 }

@@ -163,7 +163,7 @@ export class QuestionPageComponent implements OnInit {
   openDialogMaitreDuJeu(): void {
     const dialogRef = this.dialog.open(ModalScoreComponent, {
       data: { equipes: this.equipes, nomPlateau: this.nomPlateau },
-      width: '70%',
+      width: '70%', 
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -201,5 +201,9 @@ export class QuestionPageComponent implements OnInit {
 
   terminerMinijeu() {
     this.service.envoyerTerminerMinijeu();
+  }
+
+  getAvatarPath(avatar: string): string {
+    return "../assets/Avatar-pikisuperstar/"+avatar+".svg";
   }
 }

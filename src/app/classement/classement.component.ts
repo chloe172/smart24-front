@@ -19,6 +19,10 @@ getColor(i: number) {
   const colors = ['#5ce1e6', '#ca5fe8', '#fbcd40', '#ff5353'];
   return colors[i % 4];
 }
+
+getAvatarPath(avatar: string): string {
+  return "../assets/Avatar-pikisuperstar/"+avatar+".svg";
+}
 }
 
 

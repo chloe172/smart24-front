@@ -17,6 +17,7 @@ export class QuestionPageService {
   idBonneProposition!: number;
   explication: string = "";
   score: number | null = null;
+  avatar: string ='';
   rang: string = "";
   finPlateau: boolean = true;
   bonneProposition!: Proposition;
@@ -115,6 +116,7 @@ export class QuestionPageService {
         (message): any => {
           this.etape = 'click';
           this.score = null;
+          this.avatar = '';
           this.rang = '';
           this.finPlateau = false;
           callbackLancementActivite(message);
@@ -126,6 +128,7 @@ export class QuestionPageService {
         (message): any => {
           console.log(message.data.equipe);
           this.score = message.data.equipe.score;
+          this.avatar = message.data.equipe.avatar;
           callbackReponseActiviteEquipe(message);
         }
       );
