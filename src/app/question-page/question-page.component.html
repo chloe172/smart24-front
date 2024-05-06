@@ -37,7 +37,7 @@
             </mat-card>
             <mat-card class="card-panel col s8 offset-s2" style="padding: 20px;">
                 <div class="col s8 offset-s2 center-align text-align black-text">
-                    <h5 style="font-weight: bold;">Equipes qui ont terminées le mini-jeu :</h5>
+                    <h5 style="font-weight: bold;">Equipes qui ont terminé le mini-jeu :</h5>
                 </div>
                 <h6 *ngIf="equipesFinMinijeu.length===0" class="col s4 offset-s4 center-align text-align black-text">
                     Aucune équipe</h6>
@@ -63,13 +63,15 @@
         <div class="col s12" style="margin-top: 10vh;">
             <div class="col s12 m6 offset-m3 center-align">
                 <div class="mat-card-container" *ngIf="messagePhishing===false">
-                    <mat-card class="card-panel center-align col s10 offset-s1" style="padding: 20px; margin:10px; background-color: rgba(28, 35, 93, 0.5);">
+                    <mat-card class="card-panel center-align col s10 offset-s1"
+                        style="padding: 20px; margin:10px; background-color: rgba(28, 35, 93, 0.5);">
                         <h5 class="center-align white-text">Mini jeu terminé !</h5>
                         <h5 class="center-align white-text">Préparez vous à la prochaine activité</h5>
                     </mat-card>
                 </div>
                 <div class="mat-card-container" *ngIf="messagePhishing===true">
-                    <mat-card class="card-panel center-align col s10 offset-s1" style="padding: 20px; background-color: rgba(28, 35, 93, 0.5);">
+                    <mat-card class="card-panel center-align col s10 offset-s1"
+                        style="padding: 20px; background-color: rgba(28, 35, 93, 0.5);">
                         <h5 class="center-align white-text">Dommage... </h5>
                         <h5 class="center-align white-text">Vous êtes tombés dans le piège.</h5>
                         <h5 class="center-align white-text">Préparez vous à la prochaine activité</h5>
@@ -81,7 +83,7 @@
 </div>
 
 <div class="row" *ngIf="typeActivite==='finMinijeu' &&isHost()">
-    <div class="col s12 valign-wrapper" style="height: 100vh;"  *ngIf="service.explication !== ''">
+    <div class="col s12 valign-wrapper" style="height: 100vh;" *ngIf="service.explication !== ''">
         <div class="col s12 m6 offset-m3 center-align">
             <div class="mat-card-container">
                 <mat-card class="card-panel center-align" style="margin: 10px; width: 90%;">
@@ -95,7 +97,7 @@
                             Classement
                             <mat-icon fontIcon="workspace_premium"></mat-icon>
                         </button>
-                        <button mat-flat-button style="width: 150px;"color="warn" (click)="activiteSuivante()">
+                        <button mat-flat-button style="width: 150px;" color="warn" (click)="activiteSuivante()">
                             Suivant
                             <mat-icon fontIcon="arrow_forward"></mat-icon>
                         </button>
@@ -151,9 +153,9 @@
                     <mat-card class="card-panel center-align col s10 offset-s1" style="padding: 20px;">
                         <h5 class="center-align">En attente du prochain plateau !</h5>
                         <div class="center-align">
-                            <button mat-flat-button color="warn" style="width: 150px"  (click)="openDialogEquipe()">
+                            <button mat-flat-button color="warn" style="width: 150px" (click)="openDialogEquipe()">
                                 Classement <mat-icon fontIcon="workspace_premium"></mat-icon>
-                                </button>
+                            </button>
                         </div>
                     </mat-card>
                 </div>
