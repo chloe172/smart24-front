@@ -43,7 +43,7 @@ export class WaitingForPlayersComponent {
     this.service.enleverEquipe((message) => {
       console.log('json reçu', message);
       let equipe = message.data.equipe as Equipe;
-      let index = this.listeEquipes.indexOf(equipe);
+      let index = this.getEquipeById(equipe.id);
       this.listeEquipes.splice(index, 1);
 
     });
@@ -60,6 +60,16 @@ export class WaitingForPlayersComponent {
 
   playersConnected(): boolean {
     return !(this.listeEquipes.length === 0);
+  }
+
+  getEquipeById(id: number): number {
+    let i = -1;
+    this.listeEquipes.forEach((element, index) => {
+      if (id === element.id) {
+        i = index;
+      }
+    });
+    return i;
   }
 
   isHost(): boolean {

@@ -74,12 +74,11 @@ export class WaitingForPlayersService {
       this.connexionService.getUserAuthentication() ||
       this.accessSessionService.getUserAccessed()
     ) {
-      console.log('passé dans ajouter équipe');
       this.webSocketService.removeAllSubscriptionsOfType(
-        'notificationInscrireEquipe'
+        'notificationDeconnexionEquipe'
       );
       this.webSocketService.subscribeToType(
-        'notificationInscrireEquipe',
+        'notificationDeconnexionEquipe',
         (message) => {
           console.log('Equipe reçue', message);
           this.partieService.setPartie(message.data.partie);
