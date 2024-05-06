@@ -20,6 +20,7 @@ export class AccessSessionService {
   validerCodePin(pin: string, callback: (message: any) => any) {
     let message = { codePin: pin };
     this.webservice.SendToType('validerCodePin', message);
+    this.webservice.removeAllSubscriptionsOfType('reponseValiderCodePin');
     this.webservice.subscribeToType('reponseValiderCodePin', (message): any => {
       callback(message);
     });

@@ -190,7 +190,7 @@ export class QuestionPageComponent implements OnInit {
   receiveScore($event: any) {
     console.log("score mj recu : ", $event)
     this.service.sendScoreMinijeu($event, this.idActiviteEnCours);
-    if (this.codeMinijeu === "phishing") {
+    if (this.codeMinijeu === "phishing" && $event!=0) {
       this.messagePhishing = true;
     }
     this.typeActivite = "finMinijeu";

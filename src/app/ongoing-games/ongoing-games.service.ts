@@ -16,6 +16,7 @@ export class OngoingGamesService {
   InitOngoingGames(callback: (message: any) => any) {
     if (this.connexionService.getUserAuthentication()) {
       this.webservice.SendToType('listerParties', {});
+      this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
       this.webservice.subscribeToType(
         'reponseListerParties',
         (message): any => {
@@ -32,5 +33,6 @@ export class OngoingGamesService {
     localStorage.removeItem('tokensession');
     localStorage.removeItem('partie');
     this.webservice.restartWebSocket();
+    this.router.navigate(['/login']);
   }
 }

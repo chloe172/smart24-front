@@ -26,6 +26,7 @@ export class TeamChoiceService {
       let idPartie = this.idPartieService.getPartie()?.id;
       this.webSocketService.SendToType('listerEquipes', { idPartie });
       console.log('idPartie', idPartie);
+      this.webSocketService.removeAllSubscriptionsOfType('reponseListerEquipes');
       this.webSocketService.subscribeToType(
         'reponseListerEquipes',
         (message) => {
@@ -45,6 +46,7 @@ export class TeamChoiceService {
         idEquipe,
         idPartie,
       });
+      this.webSocketService.removeAllSubscriptionsOfType('reponseRejoindrePartieEquipe');
       this.webSocketService.subscribeToType(
         'reponseRejoindrePartieEquipe',
         (message) => {

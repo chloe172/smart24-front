@@ -25,6 +25,7 @@ export class SelectionPlateauxService {
         this.webservice.SendToType('listerPlateauxPartie', {
           idPartie: partie.id,
         });
+        this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
         this.webservice.subscribeToType(
           'reponseListerPlateauxPartie',
           (message): any => {
@@ -44,21 +45,11 @@ export class SelectionPlateauxService {
     console.log("partie mise en pause");
     const idPartie = this.partieService.getPartie()?.id;
     this.webservice.SendToType("mettreEnPause", { idPartie });
+    this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
     this.webservice.subscribeToType('reponseMettreEnPausePartie', (message): any => {
       if (message.succes) {
         console.log("service deco");
         this.partieService.removePartie();
-        this.webservice.removeAllSubscriptionsOfType('reponseLancerActivite');
-        this.webservice.removeAllSubscriptionsOfType('notificationReponseActivite');
-        this.webservice.removeAllSubscriptionsOfType('reponseTerminerExplication');
-        this.webservice.removeAllSubscriptionsOfType('reponseMettreEnPausePartie');
-        this.webservice.removeAllSubscriptionsOfType('notificationSoumettreReponse');
-        this.webservice.removeAllSubscriptionsOfType('reponseChoisirPlateau');
-        this.webservice.removeAllSubscriptionsOfType('reponseListerParties');
-        this.webservice.removeAllSubscriptionsOfType('reponseListerPlateaux');
-        this.webservice.removeAllSubscriptionsOfType('reponseListerPlateauxPartie');
-        this.webservice.removeAllSubscriptionsOfType('notificationSoumettreScoreMinijeu');
-        this.webservice.removeAllSubscriptionsOfType('reponseObtenirClassementGeneral');
         this.router.navigate(['/ongoing-games']);
       } else {
         console.log(message.messageErreur);
